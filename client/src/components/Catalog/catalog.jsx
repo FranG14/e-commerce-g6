@@ -4,17 +4,19 @@ import { getAllProducts } from "../../redux/actions/products_actions";
 import "./catalog.css";
 import { useDispatch, useSelector } from "react-redux";
 import FilterBar from "../FilterBar/filterBar.jsx";
-import CategoryBar from "../CategoryBar/categoryBar";
+
 
 function Catalogo() {
   let productsArray = useSelector((state) => state.productsReducer.allProducts);
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
+ 
 
   useEffect(() => {
     dispatch(getAllProducts(page));
-  }, []);
-
+  }, [page]);
+ 
+  
   const next = () => {
     setPage(page + 1);
   };
@@ -27,7 +29,8 @@ function Catalogo() {
       <div class="flex-initial">
         <FilterBar />
         <div className="mt-32">
-          <CategoryBar />
+        {/*   <CategoryBar /> */}
+       
         </div>
       </div>
       <div class="flex-auto">
