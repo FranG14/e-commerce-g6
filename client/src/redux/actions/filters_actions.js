@@ -9,7 +9,7 @@ const { REACT_APP_API } = process.env;
 
 export const filterByName = (filterName,filter) => {
     return function (dispatch) {
-        return axios.get(`${REACT_APP_API}products/${filterName}?${filterName}=${filter}`)
+        return axios.get(`https://e-commerce-g6-back.herokuapp.com/products/${filterName}?${filterName}=${filter}`)
           .then((res) => {
             dispatch(
               {
@@ -25,7 +25,7 @@ export const filterByName = (filterName,filter) => {
 
 export const filterByPrice = (maxPrice,minPrice) => {
     return function (dispatch) {
-        return axios.get(`${REACT_APP_API}products/price?maxPrice=${maxPrice}&minPrice=${minPrice}`)
+        return axios.get(`https://e-commerce-g6-back.herokuapp.com/products/price?maxPrice=${maxPrice}&minPrice=${minPrice}`)
           .then((res) => {
             dispatch(
               {
@@ -40,7 +40,7 @@ export const filterByPrice = (maxPrice,minPrice) => {
 
 export const filterByCategory = (name) => {
     return function (dispatch) {
-        return axios.get(`${REACT_APP_API}products/category/${name}`)
+        return axios.get(`https://e-commerce-g6-back.herokuapp.com/products/category/${name}`)
           .then((res) => {
             dispatch(
               {
