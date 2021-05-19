@@ -14,7 +14,7 @@ const { REACT_APP_API } = process.env;
 
 export const getUsers = (page) => {
 	return function (dispatch) {
-		return axios.get(`https://e-commerce-g6-back.herokuapp.com/users?page=`+ page)
+		return axios.get(`${REACT_APP_API}users?page=`+ page)
 			.then((user) => {
 				dispatch(
 					{
@@ -34,7 +34,7 @@ export const getUsers = (page) => {
 
 export const searchUser = (payload) => {
 	return function (dispatch) {
-		return axios.get(`https://e-commerce-g6-back.herokuapp.com/users?keyword=`+ payload)
+		return axios.get(`${REACT_APP_API}users?keyword=`+ payload)
 			.then((user) => {
 				dispatch(
 					{
@@ -54,7 +54,7 @@ export const searchUser = (payload) => {
 
 export const getUserById = (id) => {
 	return function (dispatch) {
-		return axios.get(`https://e-commerce-g6-back.herokuapp.com/users/${id}`)
+		return axios.get(`${REACT_APP_API}users/${id}`)
 			.then((user) => {
 				dispatch(
 					{
@@ -73,7 +73,7 @@ export const getUserById = (id) => {
 }
 export const editUser = (payload) => {
 	return function (dispatch) {
-		return axios.put(`https://e-commerce-g6-back.herokuapp.com/users/${payload.id}`, payload)
+		return axios.put(`${REACT_APP_API}users/${payload.id}`, payload)
 			.then((userEdit) => {
 				dispatch(
 					{
@@ -93,7 +93,7 @@ export const editUser = (payload) => {
 
 export const deleteUser = (payload) => {
 	return function (dispatch) {
-		return axios.delete(`https://e-commerce-g6-back.herokuapp.com/users/${payload}`)
+		return axios.delete(`${REACT_APP_API}users/${payload}`)
 			.then((users) => {
 				dispatch(
 					{
@@ -113,7 +113,7 @@ export const deleteUser = (payload) => {
 
 export const toggleAdmin = (payload) => {
 	return function (dispatch) {
-		return axios.put(`https://e-commerce-g6-back.herokuapp.com/users/toggle/${payload}`)
+		return axios.put(`${REACT_APP_API}users/toggle/${payload}`)
 			.then((users) => {
 				dispatch(
 					{

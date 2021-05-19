@@ -11,7 +11,7 @@ const { REACT_APP_API } = process.env;
 
 export const filterByName = (filterName,filter) => {
     return function (dispatch) {
-        return axios.get(`https://e-commerce-g6-back.herokuapp.com/products/${filterName}?${filterName}=${filter}`)
+        return axios.get(`${REACT_APP_API}products/${filterName}?${filterName}=${filter}`)
           .then((res) => {
             dispatch(
               {
@@ -44,7 +44,7 @@ export const filterByBrand = (filter) => {
 
 export const filterByCategory = (name) => {
     return function (dispatch) {
-        return axios.get(`https://e-commerce-g6-back.herokuapp.com/products/category/${name}`)
+        return axios.get(`${REACT_APP_API}products/category/${name}`)
           .then((res) => {
             dispatch(
               {
