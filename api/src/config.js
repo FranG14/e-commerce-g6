@@ -2,7 +2,7 @@
 require("dotenv").config();
 
 const configurations = {   
-    MONGODB_URI: `mongodb+srv://mongo:${process.env.PASSWORD}@cluster0.58swq.mongodb.net/ecommercedb?retryWrites=true&w=majority`
+    MONGODB_URI: `mongodb+srv://mongo:mongoose@cluster0.58swq.mongodb.net/ecommercedb?retryWrites=true&w=majority`
 };
 
 
