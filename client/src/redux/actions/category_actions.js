@@ -14,7 +14,7 @@ const { REACT_APP_API } = process.env;
 
 export const getCategories = (page) => {
 	return function (dispatch) {
-		return axios.get(`https://e-commerce-g6-back.herokuapp.com/categories?pageNumber=`+page)
+		return axios.get(`${REACT_APP_API}categories?pageNumber=`+page)
 			.then((categories) => {
 				dispatch(
 					{
@@ -33,7 +33,7 @@ export const getCategories = (page) => {
 }
 export const searchCategory = (name) => {
 	return function (dispatch) {
-		return axios.get(`https://e-commerce-g6-back.herokuapp.com/categories?keyword=`+name)
+		return axios.get(`${REACT_APP_API}categories?keyword=`+name)
 			.then((categories) => {
 				dispatch(
 					{
@@ -53,7 +53,7 @@ export const searchCategory = (name) => {
 
 export const getCategoryById = (payload) => {
 	return function (dispatch) {
-		return axios.get(`https://e-commerce-g6-back.herokuapp.com/categories/productCategory/${payload}`)
+		return axios.get(`${REACT_APP_API}categories/productCategory/${payload}`)
 			.then((categories) => {
 				dispatch(
 					{
@@ -73,7 +73,7 @@ export const getCategoryById = (payload) => {
 
 export const addCategory = (payload) => {
 	return function (dispatch) {
-		return axios.post(`https://e-commerce-g6-back.herokuapp.com/categories`, payload)
+		return axios.post(`${REACT_APP_API}categories/`, payload)
 			.then((categories) => {
 				dispatch(
 					{
@@ -93,7 +93,7 @@ export const addCategory = (payload) => {
 
 export const editCategory = (payload) => {
 	return function (dispatch) {
-		return axios.put(`https://e-commerce-g6-back.herokuapp.com/categories/${payload.id}`, payload)
+		return axios.put(`${REACT_APP_API}categories/${payload.id}`, payload)
 			.then((categories) => {
 				dispatch(
 					{
@@ -114,7 +114,7 @@ export const editCategory = (payload) => {
 
 export const deleteCategory = (payload) => {
 	return function (dispatch) {
-		return axios.delete(`https://e-commerce-g6-back.herokuapp.com/categories/${payload}`)
+		return axios.delete(`${REACT_APP_API}categories/${payload}`)
 			.then((categories) => {
 				dispatch(
 					{

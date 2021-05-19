@@ -10,6 +10,8 @@ import './authform.css';
 
 import { login, register, googleLogIn } from '../../redux/actions/authentication_actions';
 import Footer from '../../containers/Footer/footer';
+import swal from 'sweetalert';
+
 
 const initialState = {
     username: '',
