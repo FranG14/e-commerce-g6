@@ -25,7 +25,7 @@ function Catalogo() {
   };
   console.log("ESTE ES EL ARRAY DE CATALOGO", productsArray)
   return (
-    <div class="flex mt-8">
+    <div class="flex pt-24 bg-gray-200">
       <div class="flex-initial">
         <FilterBar />
         <div className="mt-32">
@@ -34,8 +34,7 @@ function Catalogo() {
         </div>
       </div>
       <div class="flex-auto">
-        <div></div>
-        <div class="grid sm:grid-cols-3  sm:grid-rows-5 gap-4 grid-cols-1 justify-center justify-items-center content-center items-center">
+        <div class="grid sm:grid-cols-3  sm:grid-rows-5  grid-cols-1 justify-center justify-items-center content-center items-center">
           {productsArray?.products ? (
             productsArray.products.map((producto) => {
               return (
@@ -43,11 +42,11 @@ function Catalogo() {
                   style={{ textDecoration: "none", outline: "none" }}
                   to={`/product/${producto._id}`}
                 >
-                  <div className="card">
+                  <div className="card bg-white mb-3">
                     <img
                       src={`http://localhost:3001/products/image/${producto.img}`}
                       alt="https://i.stack.imgur.com/y9DpT.jpg"
-                      style={{ height: "200px", with: "150px" }}
+                      style={{ height: "400px", width: "420px" }}
                     />
                     <div
                       className="bg-gray-200"
@@ -55,6 +54,7 @@ function Catalogo() {
                     ></div>
                     <div className="p-4">
                       <p className="text-black">{producto.name}</p>
+                      {producto.stock === 0 &&  <h4 className="text-red-500">No Stock</h4>}
                       <p className="text-blue-300">${producto.price}</p>
                       <p className="text-blue-300">{producto.brand}</p>
                       <p className="text-blue-300">{producto.description}</p>

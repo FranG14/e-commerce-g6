@@ -53,7 +53,7 @@ function DetailProduct(props) {
                         <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
                             <h2 class="text-2xl title-font text-gray-500 tracking-widest">{productsArray.brand}</h2>
                             <h1 class="text-gray-900 text-3xl title-font font-medium mb-1">{productsArray.name}</h1>
-                            <h2 class="text-l title-font text-gray-500 tracking-widest">{productsArray.stock < 10 ? <h2>There is only {productsArray.stock} products left</h2> : <h2>In Stock.</h2>}</h2>
+                            <h2 class="text-l title-font text-gray-500 tracking-widest">{productsArray.stock === 0 ? <h2 className="text-red-500">No Stock</h2> : (productsArray.stock<10)? <h2>There is only {productsArray.stock} left</h2>:<h2>In Stock</h2>}</h2>
                             <div class="flex mb-4">
                                 <span class="flex items-center">
                                     <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 text-red-500" viewBox="0 0 24 24">
@@ -120,8 +120,16 @@ function DetailProduct(props) {
                             </div>
                             <div class="flex">
                                 <span class="title-font font-medium text-2xl text-gray-900">${productsArray.price}</span>
-                                <button class="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded" onClick={addProductToCart}>Add to Cart</button>
+                                {
+                                  ( productsArray.stock >= 1) ?
+                                    <button class="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded" onClick={addProductToCart}>Add to Cart</button>
+                                    : ""
+                                }
+                                 {
+                                  ( productsArray.stock >= 1) ?
                                 <button class="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">Buy Now</button>
+                                : ""
+                            }
                             </div>
                         </div>
                     </div>

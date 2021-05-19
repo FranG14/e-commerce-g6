@@ -11,10 +11,12 @@ export default function UserDetail() {
     // const {id} = match.params;
     const [user, setUser] =
         useState(JSON.parse(localStorage.getItem('profile')));
-    console.log(user.result)
+   
 
     const dispatch = useDispatch()
     const location = useLocation();
+    const history = useHistory();
+
 
     const userData = useSelector(
 
@@ -35,6 +37,13 @@ export default function UserDetail() {
         setUser(JSON.parse(localStorage.getItem('profile')));
     }, [location])
 
+    const logout = () => {
+        dispatch({ type: "LOGOUT" });
+
+        history.push("/shop")
+
+        setUser(null);
+    }
 
     // <h4>{user.result.username}</h4>
     return (
@@ -43,14 +52,14 @@ export default function UserDetail() {
                 <UniversalNavBar />
             </div>
             {user?.result &&
-                <div className="bg-gray-200">
+                <div className="bg-gray-200 pt-20 pb-10">
                     <div className="max-w-4xl flex items-center mt-4 mb-4 bg-gray-200 flex-wrap mx-auto lg:my-0">
 
                         {/* <!--Main Col--> */}
                         <div id="profile" className="w-full  rounded-lg lg:rounded-l-lg lg:rounded-r-none shadow-2xl bg-white opacity-75 mx-6 lg:mx-0">
 
 
-                            <div className="p-4 md:p-12 text-center lg:text-left">
+                            <div className="p-4 md:p-12  text-center lg:text-left">
                                 {/* <!-- Image for mobile view--> */}
                                 {/* <div class="block lg:hidden rounded-full shadow-xl mx-auto -mt-16 h-48 w-48 bg-cover bg-center"></div> */}
 
@@ -63,12 +72,25 @@ export default function UserDetail() {
                                 <p className="pt-4 text-base font-bold flex items-center justify-center lg:justify-start"><svg class="h-4 fill-current text-green-700 pr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"></svg>📍 State: {(userData) ? userData.state : ""}</p>
                                 <p className="pt-4 text-base font-bold flex items-center justify-center lg:justify-start"><svg class="h-4 fill-current text-green-700 pr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"></svg>📭 Zip Code: {(userData) ? userData.zipcode : ""}</p>
 
-                                <div className="pt-12 pb-8">
+                                <div className="pt-12 pb-8  text-center content-between">
                                     <Link to={"/MyProfile/Edit/" + user.result._id}>
-                                        <button className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-full">
+                                        <button className="mr-5  bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-full">
                                             Edit your profile 🖍
 				                </button>
+                            
                                     </Link>
+                                    {
+                                        userData?.isAdmin &&
+                                        <Link  to="/Admin/Actions" >
+                                            <button className="ml-10 bg-blue-700 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-full">
+                                                Admin Actions
+				                </button>
+                                        </Link>
+                                    }
+                                    
+                                     <button className="ml-10 bg-red-700 hover:bg-red-500 text-white font-bold py-2 px-4 rounded-full" onClick={logout}>
+                                                Logout
+				                         </button>
                                 </div>
                             </div>
                         </div>
