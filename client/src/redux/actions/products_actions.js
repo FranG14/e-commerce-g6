@@ -20,7 +20,7 @@ export const getAllProducts = (page) => async (dispatch) => {
     type: GET_ALL_PRODUCTS,
   });
   return await axios
-    .get(`${REACT_APP_API}products?page=${page}`)
+    .get(`https://e-commerce-g6-back.herokuapp.com/products?page=${page}`)
     .then((res) => {
       console.log("PRODUCT ACTION",res.data)
       dispatch({
@@ -38,7 +38,7 @@ export const getAllProducts = (page) => async (dispatch) => {
 
 export function searchProducts(name) {
   return function (dispatch) {
-    return axios.get(`${REACT_APP_API}products?keyword=`+name)
+    return axios.get(`https://e-commerce-g6-back.herokuapp.com/products?keyword=`+name)
       .then((res) => {
         dispatch({ type: SEARCH_PRODUCTS, payload: res.data });
       })
@@ -49,7 +49,7 @@ export function searchProducts(name) {
 
 export function detailProduct(id) {
   return function (dispatch) {
-    return axios.get(`${REACT_APP_API}products/detail/`+id)
+    return axios.get(`https://e-commerce-g6-back.herokuapp.com/products/detail/`+id)
       .then((res) => {
         dispatch({ type: DETAIL_PRODUCT, payload: res.data });
       })
@@ -67,7 +67,7 @@ export const addProducts = (body) => async (dispatch) => {
     type: ADD_PRODUCT,    
   });
   return await axios
-    .post(`${REACT_APP_API}products`, body)
+    .post(`https://e-commerce-g6-back.herokuapp.com/products`, body)
     .then((p) => {
       dispatch({
         type: ADD_PRODUCT_SUCCESS,
@@ -84,7 +84,7 @@ export const addProducts = (body) => async (dispatch) => {
 
 export const deleteProduct = (payload) => {
   return function (dispatch) {
-    return axios.delete(`${REACT_APP_API}products/${payload}`)
+    return axios.delete(`https://e-commerce-g6-back.herokuapp.com/products/${payload}`)
       .then(() => {
         dispatch(
           {
@@ -99,7 +99,7 @@ export const deleteProduct = (payload) => {
 
 export const editProduct = (payload) => {
   return function (dispatch) {
-    return axios.put(`${REACT_APP_API}products/${payload.id}`, payload.data)
+    return axios.put(`https://e-commerce-g6-back.herokuapp.com/products/${payload.id}`, payload.data)
       .then((product) => {
         dispatch(
           {
