@@ -6,8 +6,8 @@ import categoriesReducer from './reducer/category_reducer'
 import authenticationReducer from './reducer/authentication_reducer'
 import cartReducer from "./reducer/cart_reducer"
 import userReducer from "./reducer/user_reducer"
-
-
+import {persistStore,persistReducer} from "redux-persist"
+import storage from "redux-persist/lib/storage"
 
 const reducers = combineReducers({
     categoriesReducer,
@@ -17,9 +17,19 @@ const reducers = combineReducers({
     userReducer
 })
 
+const persistConfig = {
+    key:"root",
+    storage,
+    whitelist: ["cartReducer"]
+}
+
+const persistConfiguracion=persistReducer(persistConfig,reducers)
+
 const store = createStore(
-    reducers,
+    persistConfiguracion,
     composeWithDevTools(applyMiddleware(thunkMiddleware))
 )
 
-export default store;
+const persistor = persistStore(store)
+
+export  {store,persistor};
