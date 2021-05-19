@@ -80,7 +80,7 @@ const UsersTable = () => {
     return (
         <div>
             <UniversalNavBar />
-            <div className="mt-4 mb-4 flex justify-center">
+            <div className="mt-20 mb-4 flex justify-center">
                 <div class="relative mr-6 my-2 ml-2 -mt-0.5">
                     <input type="search" class="bg-purple-white shadow rounded border-0 p-3" value={input.email} onChange={(e) => handleChange(e)} placeholder="Search by email...   " />
                     <button className="bg-white" onClick={handleSubmit}>🔍</button>

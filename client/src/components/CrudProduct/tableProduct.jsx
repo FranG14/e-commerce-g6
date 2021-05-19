@@ -38,7 +38,7 @@ const TableProduct = () => {
   }
 
   return (
-    <div class="table w-full p-2">
+    <div class="table w-full pt-2">
       {products && products.length > 0 &&
         <table class="w-full border">
           <thead>
