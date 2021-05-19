@@ -5,7 +5,6 @@ const { isAuthenticated, isAdmin } = require('./../middlewares/customMiddlewares
 const {
   addProducts,
   getProductsFilter,
-  getProductsFilterByPrice,
   getProductsFilterByCategory,
   getProducts,
   updateProducts,
@@ -17,7 +16,6 @@ const {
 
 server.get("/", getProducts);
 server.get("/:filterName", getProductsFilter)
-server.get("/price", getProductsFilterByPrice)
 server.get("/category/:name", getProductsFilterByCategory)
 server.get("/:id", getProductsById)
 server.get("/detail/:id", getProductsById)

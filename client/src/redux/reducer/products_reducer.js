@@ -12,6 +12,8 @@ import {
   FILTER_BY_PRICE,
   FILTER_BY_CATEGORY,
   FILTER_BY_NAME,
+  FILTER_BY_BRAND,
+  FILTER_BY_SIZE
 } from "../constants";
 
 const initialState = {
@@ -62,6 +64,10 @@ const productsReducer = (state = initialState, action) => {
     case FILTER_BY_PRICE:
       return { ...state, allProducts: action.payload }
     case FILTER_BY_CATEGORY:
+      return { ...state, allProducts: action.payload }
+    case FILTER_BY_BRAND:
+      return { ...state, allProducts: action.payload }
+    case FILTER_BY_SIZE:
       return { ...state, allProducts: action.payload }
     default:
       return state;
