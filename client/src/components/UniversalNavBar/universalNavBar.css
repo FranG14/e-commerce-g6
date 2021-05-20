@@ -11,7 +11,7 @@ a {
 /* header */
 
 .header {
-  background-color: #FCD34D;
+  background-color: #000000;
   box-shadow: 1px 1px 4px 0 rgba(0,0,0,.1);
   position:absolute;
   width: 100%;
@@ -22,7 +22,7 @@ a {
 }
 
 .header ul {
-  background-color: #FCD34D;
+  background-color: #000000;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -31,7 +31,8 @@ a {
 }
 
 .header li a {
-  background-color: #FCD34D;
+  background-color: #000000;
+  color: white;
   display: block;
   padding: 20px 20px;
   border-right: 1px solid #f4f4f4;
@@ -40,7 +41,7 @@ a {
 
 .header li a:hover,
 .header .menu-btn:hover {
-  background-color: #fddb6a;
+  background-color: #2e2e2e;
  
 }
 
