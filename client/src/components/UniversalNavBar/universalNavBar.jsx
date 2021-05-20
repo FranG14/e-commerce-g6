@@ -5,6 +5,7 @@ import { Link, useLocation, useHistory } from "react-router-dom";
 import "./universalNavBar.css";
 import { useDispatch } from "react-redux";
 import home from '../../assets/home.png'
+
 import carroHome from '../../assets/carroHome.png'
 export default function UniversalNavBar(props) {
 
@@ -66,7 +67,7 @@ export default function UniversalNavBar(props) {
 
         }
         
-        <li><Link to="/Cart"><img class="mx-auto" src={carroHome}></img></Link></li>
+        <li><Link to="/Cart"><img class="mx-auto" width='24px' height="24px" src={carroHome}></img></Link></li>
 
       </ul>
 
