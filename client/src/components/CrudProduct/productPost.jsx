@@ -28,6 +28,7 @@ const ProductPostForm = () => {
     stock: "",
     img: "",
   };
+  const [categoryName,setCategoryName] = useState([]);
   const [product, setProduct] = useState(newProduct);
   const [selectedName, setSelectedName] = useState({ categoryName: [] });
 
@@ -37,6 +38,11 @@ const ProductPostForm = () => {
       [e.target.name]: e.target.value,
     });
   };
+ 
+  const getCategoriesSelected = (name) => {
+    console.log("SDFSDF",name)
+    setCategoryName(categoryName.concat(name))
+  }
 
   const handleSelect = () => {
     let select = document.getElementById("categoryId");
@@ -135,7 +141,6 @@ const ProductPostForm = () => {
     fd.append("size", product.size);
     fd.append("color", product.color);
     fd.append("stock", product.stock);
-
     dispatch(addProducts(fd, config));
     setProduct(newProduct);
     swal({
@@ -146,7 +151,7 @@ const ProductPostForm = () => {
       window.location.reload()
     });
   };
-  console.log(product)
+  console.log(categoryName)
   return (
     <div class="grid grid-cols-2 gap-2 bg-gray-200">
       <div class="flex items-center min-h-screen bg-gray-200 dark:bg-gray-900">
@@ -331,13 +336,15 @@ const ProductPostForm = () => {
                       {categoryArray && categoryArray.length > 0
                         ? categoryArray.map((c, id) => {
                           return (
-                            <option key={c.id} value={c._id}>
+                            <option onClick={() => setCategoryName(c.name)} key={c.id} value={c._id}>
                               {c.name}
                             </option>
                           );
                         })
                         : ""}
                     </select>
+                    {/* muestro las categorias que se eligio */}
+
                     <p className="text-sm mt-2 -mb-2">Can't find your Category? <Link to='/postCategory' className="underline text-sm text-blue-800">Add New One</Link></p>
                   </label>
                 </div>

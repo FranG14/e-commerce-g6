@@ -128,6 +128,8 @@ const addProducts = async (req, res) => {
   try {
     const { name, price, brand, description, stock, size, color, categories, genre } =
       req.body;
+    const categoriesArray = categories.split(",")
+      console.log("CATEGORIESSSS",categoriesArray)
     const product = Product({
       _id: new mongoose.Types.ObjectId(),
       name: name,
@@ -138,7 +140,7 @@ const addProducts = async (req, res) => {
       genre: genre,
       size: size,
       color: color,
-      categories: categories,
+      categories: categoriesArray,
     });
 
     if (req.file) {
