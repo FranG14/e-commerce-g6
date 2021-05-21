@@ -10,13 +10,13 @@ function Catalogo() {
   let productsArray = useSelector((state) => state.productsReducer.allProducts);
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
- 
+
 
   useEffect(() => {
     dispatch(getAllProducts(page));
   }, [page]);
- 
-  
+
+
   const next = () => {
     setPage(page + 1);
   };
@@ -29,8 +29,8 @@ function Catalogo() {
       <div class="flex-initial">
         <FilterBar />
         <div className="mt-32">
-        {/*   <CategoryBar /> */}
-       
+          {/*   <CategoryBar /> */}
+
         </div>
       </div>
       <div class="flex-auto">
@@ -44,7 +44,7 @@ function Catalogo() {
                 >
                   <div className="card bg-white mb-3">
                     <img
-                      src={`http://localhost:3001/products/image/${producto.img}`}
+                      src={`https://e-commerce-g6-back.herokuapp.com/products/${producto.img}`}
                       alt="https://i.stack.imgur.com/y9DpT.jpg"
                       style={{ height: "400px", width: "420px" }}
                     />
@@ -54,7 +54,7 @@ function Catalogo() {
                     ></div>
                     <div className="p-4">
                       <p className="text-black">{producto.name}</p>
-                      {producto.stock === 0 &&  <h4 className="text-red-500">No Stock</h4>}
+                      {producto.stock === 0 && <h4 className="text-red-500">No Stock</h4>}
                       <p className="text-blue-300">${producto.price}</p>
                       <p className="text-blue-300">{producto.brand}</p>
                       <p className="text-blue-300">{producto.description}</p>
