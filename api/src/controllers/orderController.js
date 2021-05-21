@@ -1,164 +1,266 @@
-const mongoose = require("mongoose");
-const Order = require("./../models/Order");
-const Product = require("./../models/Product");
+const Order = require('./../models/Order');
+const Product = require ('./../models/Product')
 
+//==========================================================================//
+const addCartItem = async(req, res) => {
+    const {userId} = req.params;
+    const { productId, quantity } = req.body;
 
-const getAllOrders = (req, res, next) => {
-  Order.find()
-    // .select("product quantity _id")
-    .populate("product")
-    .exec()
-    .then((docs) => {
-      res.status(200).json({
-        count: docs.length,
-        orders: docs.map((doc) => {
-          return {
-            _id: doc._id,
-            product: doc.product,
-            quantity: doc.quantity,
-            orderDate: doc.orderDate,
-            orderStatus: doc.orderStatus,
-            total: doc.total,
-            mercadopagoId: doc.mercadopagoId,
-            paymentLink: doc.paymentLink,
-            request: {
-              type: "GET",
-              url: "http://localhost:3001/orders/" + doc._id,
-            },
-          };
-        }),
-      });
-    })
-    .catch((err) => {
-      res.status(500).json({
-        error: err,
-      });
-    });
-};
+    try{
+        let order = await Order.findOne({$and:[{userId}, {state:'processing'}]});
 
-const addOrderNew = (req, res, next) => { 
-  Product.findById(req.body.id)
-    .then((product) => {
-      if (!product) {
-        return res.status(404).json({
-          message: "Product not found",
-        });
-      }
-      const order = new Order({
-        _id: mongoose.Types.ObjectId(),
-        quantity: req.body.quantity,
-        product: req.body.id,
-        orderDate: req.body.orderDate,
-        orderStatus: req.body.orderStatus,
-        total: req.body.total,
-        mercadopagoId: req.body.mercadopagoId,
-        paymentLink: req.body.paymentLink
-      });
-      return order.save();
-    })
-    .then((result) => {
-      res.status(201).json({
-        message: "Order stored",
-        createdOrder: {
-          _id: result._id,
-          product: result.product,
-          quantity: result.quantity,
-          orderDate: result.orderDate,
-          orderStatus: result.orderStatus,
-          total: result.total,
-          mercadopagoId: result.mercadopagoId,
-          paymentLink: result.paymentLink,
-        },
-        request: {
-          type: "GET",
-          url: "http://localhost:3001/orders/" + result._id,
-        },
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json({
-        error: err,
-      });
-    });
-};
+        let newItem = await Product.findOne({_id: productId})
+        
+        if(!newItem) return res.status(404).json({message:'Product not found'})
+        
+        const price = newItem.price;
+        const name = newItem.name;
 
-const getOrderById = (req, res, next) => {
-  console.log(req.params)
-  Order.findById(req.params.id)
-    .populate("product")
-    .exec()
-    .then((order) => {
-      if (!order) {
-        return res.status(404).json({
-          message: "Order not found",
-        });
-      }
-      res.status(200).json({
-        order: order,
-        request: {
-          type: "GET",
-          url: "http://localhost:3001/orders",
-        },
-      });
-    })
-    .catch((err) => {
-      res.status(500).json({
-        error: err,
-      });
-    });
-};
+        if(order){
+            let itemIndex = order.items.findIndex((i) => i.productId === productId);
+            console.log(itemIndex)
+            if(itemIndex > -1){
+                console.log("Found!")
+                let productItem = order.items[itemIndex]
+                productItem.quantity = quantity;
+                order.items[itemIndex] = productItem;
+            }
+            else {
+                console.log("Not found")
+                order.items.push({productId, name, quantity, price})
+            }
 
-// ruta para editar una orden
-
-const updateProducts = async (req, res, next) => {
-  Order.findOne({ _id: req.params.id }, (err, foundData) => {
-    if(err){
-      console.log(err)
-      res.status(500).send()
-    } else {
-      if(!foundData){
-        res.status(404).send()
-      } else {
-        if(req.body.orderStatus) {
-          foundData.orderStatus = req.body.orderStatus
+            order.totalAmount += quantity*price;
+            order = await order.save()
+            return res.status(201).json({order})
+        
         }
-        foundData.save((err, updateObject) => {
-          if(err) {
-            console.log(err)
-            res.status(500).send()
-          }
-        })
-      }
+        else {
+            const newOrder = await Order.create({
+                userId,
+                items: [{productId, name, quantity, price}],
+                totalAmount: quantity*price
+            });
+            return res.status(201).json({newOrder})
+        }
+    } catch(error){
+        console.log(error);
+        res.status(500).json({message:'There was and error'})
     }
-  })
-  .catch(err => res.send(err))
-}
 
-const deleteOrder = (req, res, next) => {
-  Order.remove({ _id: req.params.id })
-    .exec()
-    .then((result) => {
-      res.status(200).json({
-        message: "Order deleted",
-        request: {
-          type: "POST",
-          url: "http://localhost:3001/orders",
-          body: { productId: "ID", quantity: "Number" },
-        },
-      });
-    })
-    .catch((err) => {
-      res.status(500).json({
-        error: err,
-      });
-    });
-};
+}
+//==========================================================================//
+const stateChange = async(req, res) => {
+    const {userId} = req.params;
+    const { state } = req.body;
+
+    if(!req.body?.state) {
+        return res.status(400).json({message: 'New State not found'});
+    }
+    // const statesArray = ['processing', 'cancelled']
+  
+    try{
+        let order = await Order.findOne({userId});
+
+        if(order){
+            order.state = state; 
+            res.status(200).json({message:'Order updated'})           
+        } else {
+            res.status(400).json({message:'Order not found'})
+        }    
+    } catch(error){
+        res.status(500).json({message:'There was and error'})
+    }    
+}
+//==========================================================================//
+const getAllOrders = async(req, res) => {
+    return res.status(200).json({message:'ALL OK'})
+}
+//==========================================================================//
 
 module.exports = {
-  getAllOrders,
-  addOrderNew,
-  getOrderById,
-  deleteOrder,
-  updateProducts
-};
+    addCartItem,
+    stateChange,
+    getAllOrders
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//==========================================================================//
+module.exports = {
+    addCartItem,
+//  getAllOrders,
+//  getOrderById,
+//  addOrderlistToOrder,
+//  removeOrderlistFromOrder,
+//  updateOrder
+
+}
+
+
+
+// const getAllOrders = async(req,res) => {
+//     const pageSize = req.query.pageSize || 15;
+//     const page = req.query.page || 1;
+
+//     /*
+//         agregar keyword para usuario
+//     */
+
+//     const orders = await Order.find()
+//     .populate('orderlists')
+//     .limit(pageSize)
+//     .skip(pageSize * (page - 1));
+
+// res.json({ orders, page, pages: Math.ceil(count / pageSize)});
+
+// }
+// //==========================================================================//
+// const getOrderById = async(req,res) => {
+//     const {_id} = req.params;
+//     const orderFound = await Order.findOne({_id});
+//     if(!orderFound) return res.status(404).json({message:'Order not Found'});
+//     return res.status(200).json({orderFound});
+// }
+// //==========================================================================//
+
+// /*
+// Esta función debería ejecutarse en el momento en que se agregue la primera 
+// orden al carrito. En ese momento vamos a crear un nuevo Order con el id del 
+// usuario logueado (si es que hay), y la primera orden. 
+// Para agregar más ordenes a este carrito, vamos a usar el 
+// controller addOrderlistToOrder
+// */
+
+
+// const createOrder = async(req,res) => {
+//      const {
+//         user,
+//         mercadopagoId,
+//         discount,
+//         paymentMethod
+//     } = req.body
+
+//     if(!req.body) res.status(403).end()
+    
+//     try{
+//         const result = await Order.create({
+//             _id:new mongoose.Types.ObjectId(),
+//             user,
+//             mercadopagoId,
+//             discount,
+//             paymentMethod
+//             }
+//         )
+//         res.status(201).json(result)       
+//     } catch(error){
+//         console.log(error)
+//         res.status(500).json({message:"Something went wrong"}); 
+//     }
+
+
+// }
+// //==========================================================================//
+
+// /*
+// Cuando creo una orden, ademas de crearla hay que agregarla al carrito. Entonces necesitamos agregarla
+// */
+
+// const addOrderlistToOrder = async(req, res) => {
+//     const {_id} = req.params;
+//     const {newOrder} = req.body;
+
+//     const foundOrder = Order.findOne({_id}, function(error, orderUpdated){
+//         if(error){
+//             return res.status(400).json({message:'There was an error'})
+//         }
+//         if(!orderUpdated) return res.status(404).json({message:'Order Not Found'})
+
+//         orderUpdated.orders = [...orderUpdated.orders, newOrder]
+
+//         orderUpdated.save(function(error){
+//             if(error){
+//                 return res.status(400).json({message: 'There was an Error while adding a new order to the Order'})
+//             }
+//             res.status(200).json({orderUpdated})
+//         })
+//     })
+// }
+
+// //==========================================================================//
+
+// /*
+//  Que pasa si elimino una orden, pero su id sigue en el carrito? Entonces no solo elimino la orden con el controller de la order, sino que también debería sacar el id del Order
+// */
+// const removeOrderlistFromOrder = async(req, res) =>{
+//     const {_id} = req.params;
+//     const {orderid} = req.body;
+
+//     const foundOrder = Order.findOne({_id}, function(error, orderUpdated){
+//         if(error){
+//             return res.status(400).json({
+//                 message: 'There was an error'
+//             })
+//         }
+//         if(!orderUpdated) return res.status(404).json({message:'Order Not Found'})
+
+//         orderUpdated.orders = orderUpdated.orders.filter((order)=>order._id !== orderid)
+
+//         orderUpdated.save(function(error){
+//             if(error){
+//                 return res.status(400).json({
+//                     message: "There was an Error while removing the order id of the removed order"
+//                 })
+//             }
+//             res.status(200).json({orderUpdated})
+//         })
+//     })
+// }
+// //==========================================================================//
+// const statesArray = ["created", "pending", "cancel", "process", "completed"];
+
+// const updateOrder = async(req, res) => {
+//     const {_id} = req.params;
+//     const {newState} = req.body;
+
+//     if(!statesArray.includes(newState)) return res.status(400).json({message:'State not valid'})
+
+//     const foundOrder = Order.findOne({_id}, function(error, orderUpdated){
+//         if(error) return res.status(400).json({message:'There was an error'});
+//         if(!orderUpdated) return res.status(404).json({message:'Order Not Found'})
+
+//         orderUpdated.state = newState
+
+//         orderUpdated.save(function(error){
+//             if(error){return res.status(400).json({message: 'There was and Error while cancelling the Order'})}
+//             return res.status(200).json({orderUpdated})
+//             })
+//         }
+//     )
+// }
+
+
+
