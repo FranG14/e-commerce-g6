@@ -11,7 +11,7 @@ import { login, register, googleLogIn } from '../../redux/actions/authentication
 import Footer from '../../containers/Footer/footer';
 import swal from 'sweetalert';
 
-const {FRONT_URL}= process.env
+const { FRONT_URL } = process.env
 
 const initialState = {
     username: '',
@@ -69,7 +69,7 @@ const AuthForm = () => {
                     text: 'Welcome!',
                     icon: "success"
                 }).then(function () {
-                    window.location.replace(`http://localhost:3000/`)
+                    window.location.replace(`https://e-commerce-g6.netlify.app/`)
                 });
                 dispatch(register(formData, history))
                 // setOutcome(currentMessage)
@@ -81,7 +81,7 @@ const AuthForm = () => {
                 text: 'Welcome Back!',
                 icon: "success"
             }).then(function () {
-                window.location.replace(`http://localhost:3000/`)
+                window.location.replace(`https://e-commerce-g6.netlify.app/`)
             });
             dispatch(login(formData, history));
             // setOutcome(currentMessage)
@@ -110,7 +110,7 @@ const AuthForm = () => {
                 text: 'Welcome Back!',
                 icon: "success"
             }).then(function () {
-                window.location.replace(`http://localhost:3000/`)
+                window.location.replace(`https://e-commerce-g6.netlify.app/`)
             });
             dispatch(googleLogIn(formData, history))
 
@@ -131,7 +131,7 @@ const AuthForm = () => {
             <div>
                 <UniversalNavBar />
             </div>
-            <div class="grid min-h-screen place-items-center bg-gray-200">
+            <div class="grid min-h-screen mt-20 place-items-center bg-gray-200">
                 <div class="w-11/12 p-12 sm:w-8/12 md:w-6/12 lg:w-5/12 2xl:w-4/12 
             px-6 py-10 sm:px-10 sm:py-6 
             bg-white rounded-lg shadow-md lg:shadow-lg mt-10 mb-10">

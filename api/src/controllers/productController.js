@@ -159,9 +159,9 @@ const imagaUpaload = (req, res) => {
   const { name } = req.params;
   let pathImage = path.join(__dirname, "../");
   try {
-    getImage = fs.readFileSync(`${pathImage}uploads\\${name}`);
+    getImage = fs.readFileSync(`${pathImage}uploads/${name}`);
   } catch (error) {
-    getImage = fs.readFileSync(`${pathImage}uploads\\noImage.png`);
+    getImage = fs.readFileSync(`${pathImage}uploads/noImage.png`);
   }
   res.set({ "Content-Type": "image/png" });
   res.send(getImage);
