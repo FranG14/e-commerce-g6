@@ -17,6 +17,7 @@ import UserTableEdit from "./components/UserEdit/usersTableEdit";
 import UserEdit from "./components/UserEdit/userEdit";
 import UsersTable from "./components/UsersTable/usersTable";
 import AdminAction from "./components/AdminAction/adminAction";
+import UserPassword from "./components/UserEdit/userPassword";
 
 
 
@@ -83,6 +84,9 @@ export default function Routes() {
       </Route>
       <Route exact path="/users/edit/:id">
         <UserTableEdit />
+      </Route>
+      <Route exact path="/users/password/:_id">
+        <UserPassword />
       </Route>
     </Switch>
   );

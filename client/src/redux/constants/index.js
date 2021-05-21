@@ -21,6 +21,7 @@ export const GET_ERROR_USER = "GET_ERROR_USER";
 export const SEARCH_USER = "SEARCH_USER";
 export const GET_ERROR_ADMIN = "GET_ERROR_ADMIN"
 export const ADMIN_USER = "ADMIN_USER"
+export const EDIT_PASSWORD= "EDIT_PASSWORD"
 
 //CATEGORIES
 export const GET_CATEGORIES = 'GET_CATEGORIES';
