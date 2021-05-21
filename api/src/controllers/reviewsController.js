@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const Review = require("../models/Review");
-const Product = require("../models/Product");
 
 const getReviews = (req, res) => {
     Review.find().select('username rating review _id').populate('product', 'name', 'prouctReview').exec()
@@ -17,37 +16,22 @@ const getReviews = (req, res) => {
         })
 };
 
-const addReviews = (req, res) => {
-    Product.findById(req.body.produtId)
-    .then(product => {
-        if(!product) {
-            console.log('ESTOY ACA!!!', product);
-            return res.status(404).json({message: "Product not found"})
-        }
-        const reviews = new Review({
-            id: new mongoose.Types.ObjectId(),
-            username: req.body.username,
-            review: req.body.review,
-            rating: req.body.rating 
+const addReviews = async (req, res) => {
+    try {
+        const{ productReview, username, review, rating } = req.body;
+        const reviews = Review({
+            _id: new mongoose.Types.ObjectId(),
+            productReview: productReview,
+            username: username,
+            review: review,
+            rating: rating 
         });
-        return reviews.save();
-    })
-    .then(answer => {
-        console.log('¡ACÁ ESTOY!', answer);
-        res.status(200).json({
-            message: 'Review crated!',
-            cratedReview: {
-                _id: answer.id,
-                username: answer.username,
-                review: answer.review,
-                rating: answer.rating
-            }
-        })
-        .catch(err => {
-            console.log('SOY UN ERROR: ', err);
-            res.status(500).json({message: 'An error has ocurred', err: err})
-        })
-    })
-};
+        const answer = await reviews.save();
+        res.status(200).send({answer})
+    }
+    catch(err) {
+        res.status(400).send(err)
+    }
+}
 
 module.exports = { getReviews, addReviews }
