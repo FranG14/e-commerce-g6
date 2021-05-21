@@ -10,7 +10,9 @@ import {
 	GET_ERROR_ADMIN
 } from '../constants';
 
-const { REACT_APP_API } = process.env;
+//const { REACT_APP_API } = 'https://e-commerce-g6-back.herokuapp.com/'; // En local comentar esta linea
+const { REACT_APP_API } = process.env; // En deploy comentar esta linea
+
 
 export const getUsers = (page) => {
 	return function (dispatch) {
