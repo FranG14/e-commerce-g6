@@ -1,12 +1,12 @@
 import React from 'react'
 import CategoryTable from '../../components/CategoryTable/categoryTable'
+import UniversalNavBar from '../../components/UniversalNavBar/universalNavBar'
 import Footer from '../Footer/footer'
-import NavBar from '../NavBarAdmin/navBarAdmin'
 
 const AllCategory = () => {
     return (
         <div>
-            <NavBar />
+            <UniversalNavBar />
             <CategoryTable />
             <Footer />
         </div>

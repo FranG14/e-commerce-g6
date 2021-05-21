@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './filterBar.css';
 import { filterByBrand, filterByName, filterByPrice, filterBySize } from "../../redux/actions/filters_actions";
 import { getCategories } from '../../redux/actions/category_actions';
@@ -7,10 +7,10 @@ import { getCategories } from '../../redux/actions/category_actions';
 
 function FilterBar() {
   const dispatch = useDispatch();
-  const [filterName, setFilterName] = React.useState({ brand: "", size: "", genre: "", price:"", category: ""});
+  const [filterName, setFilterName] = React.useState({ brand: "", size: "", genre: "", price: "", category: "" });
   const [filter, setFilter] = React.useState(null);
   const [applyFilter, setApplyFilter] = React.useState(false);
- 
+
   const categoryArray = useSelector(
     (state) => state.categoriesReducer.categories.list.categories
   );
@@ -19,27 +19,27 @@ function FilterBar() {
   useEffect(() => {
     dispatch(getCategories())
   }, [filterName])
-  
+
 
   function handleOnClick(e) {
-      setFilterName({ ...filterName, [e.target.id]: e.target.innerText });
-      setFilter(e.target.id);
-    
+    setFilterName({ ...filterName, [e.target.id]: e.target.innerText });
+    setFilter(e.target.id);
+
     console.log(filterName)
   }
-  
+
 
   function handleSubmit() {
     dispatch(filterByBrand(filterName))
-    
+
   }
 
   return (
-    <div>
-      <button onClick={handleSubmit} className="outline-none focus:outline-none border px-3 py-1 bg-white rounded-sm flex items-center min-w-32">Apply Filter</button>
-      <div className="group inline-block">
+    <div className="flex w-80 bg-gray-200 pt-4 pb-4 gap-4 justify-center">
+
+      < div className="group inline-block " >
         <button
-          className="outline-none focus:outline-none border px-3 py-1 bg-white rounded-sm flex items-center min-w-32"
+          className="outline-none focus:outline-none border px-3 py-1  bg-white rounded-sm flex items-center min-w-32"
         >
           <span className="pr-1 font-semibold flex-1">Filters</span>
           <span>
@@ -211,7 +211,7 @@ function FilterBar() {
   min-w-32
   "
             >
-                <li onClick={handleOnClick} id="price" name="price" className="px-3 py-1 hover:bg-gray-100">ASC</li>
+              <li onClick={handleOnClick} id="price" name="price" className="px-3 py-1 hover:bg-gray-100">ASC</li>
               <li onClick={handleOnClick} id="price" name="price" className="px-3 py-1 hover:bg-gray-100">DESC</li>
               {/* <li className="rounded-sm relative px-3 py-1 hover:bg-gray-100">
           <button
@@ -224,7 +224,7 @@ function FilterBar() {
           </a>
           </button>
         </li> */}
-            
+
             </ul>
           </li>
           <li className="rounded-sm relative px-3 py-1 hover:bg-gray-100">
@@ -258,22 +258,24 @@ function FilterBar() {
 
                   <span className="mr-auto">
                   </span>
-              </button>
+                </button>
               </li>
-                {(categoryArray && categoryArray.length > 0) ?
-                  categoryArray.map(category => {
-                    return <li onClick={handleOnClick} id="category" className="cursor-pointer px-3 py-1 hover:bg-gray-100">{category.name}</li>
-                  }) : ""}
-            
+              {(categoryArray && categoryArray.length > 0) ?
+                categoryArray.map(category => {
+                  return <li onClick={handleOnClick} id="category" className="cursor-pointer px-3 py-1 hover:bg-gray-100">{category.name}</li>
+                }) : ""}
+
             </ul>
           </li>
 
 
         </ul>
 
+      </div >
+      <div>
+        <button onClick={handleSubmit} className="outline-none focus:outline-none border px-3 py-1 bg-white rounded-sm flex items-center min-w-32">Apply Filter</button>
       </div>
-
-    </div>
+    </div >
   )
 }
 
