@@ -50,49 +50,54 @@ export default function UniversalNavBar(props) {
   //------------SEARCH BAR--------------------
   const [input, setInput] = useState({
     name: "",
-})
+  })
 
-function handleChange(e) {
+  function handleChange(e) {
     setInput({
-        name: e.target.value
+      name: e.target.value
     })
-};
+  };
 
-const handleKeyPress = (event) => {
-  if(event.key === 'Enter'){
-    handleSubmit(event)
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      handleSubmit(event)
+    }
   }
-}
 
-function handleSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault()
 
     if (input.name) {
-        dispatch(searchProducts(input.name))
-    } else if (!input.name) {
-        swal({
-            title: "Search Not Valid",
-            icon: "warning",
-            button: true,
-        });
+      dispatch(searchProducts(input.name))
+
+    } else if (input.name === "") {
+      swal({
+        title: "Search Not Valid",
+        icon: "warning",
+        button: true
+      }).then(function () {
+        window.location.reload()
+      });
+
     }
 
 
-}
+  }
+
 
   return (
 
     <header class="header text-center">
 
       <Link to="/" class="logo"> <img src={home}></img> </Link>
-      
+
       <input class="menu-btn" type="checkbox" id="menu-btn" />
 
       <label class="menu-icon" for="menu-btn"><span class="navicon"></span></label>
 
-     
-      <input onKeyPress={handleKeyPress} class="mt-3 mb-3 border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none " type="search" name="search" autoComplete="true" placeholder="Search"  autoComplete='on' value={input.name} onChange={(e) => handleChange(e)}/>
-      <button onClick={(e) => handleSubmit(e)}>hola</button>
+
+      <input onKeyPress={handleKeyPress} class="mt-3 mb-3 border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none " type="search" name="search" autoComplete="true" placeholder="Search" autoComplete='on' value={input.name} onChange={(e) => handleChange(e)} />
+
 
       <ul class="menu">
         <li><Link to="/">Home</Link></li>
@@ -101,7 +106,7 @@ function handleSubmit(e) {
           (user?.result?.username) ? <li><Link to="/myProfile">{user.result.username}</Link></li> : <li><Link to="/auth">Log In</Link></li>
 
         }
-        
+
         <li><Link to="/Cart"><img class="mx-auto" width='24px' height="24px" src={carroHome}></img></Link></li>
 
       </ul>

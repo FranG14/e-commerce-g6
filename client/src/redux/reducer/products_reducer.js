@@ -25,16 +25,22 @@ const initialState = {
 
 const productsReducer = (state = initialState, action) => {
   switch (action.type) {
+
     case GET_ALL_PRODUCTS:
       return { ...state, allProducts: [], isLoading: true, error: null };
+
     case GET_PRODUCTS_SUCCESS:
       return { ...state, allProducts: action.payload, isLoading: false, error: null };
+
     case GET_PRODUCTS_ERROR:
       return { ...state, allProducts: [], isLoading: false, error: true };
+
     case ADD_PRODUCT:
       return { ...state, addProduct: null, isLoading: true, error: null };
+      
     case ADD_PRODUCT_SUCCESS:
       return { ...state, addProduct: action.payload, isLoading: false, error: false };
+      
     case ADD_PRODUCT_ERROR:
       return { ...state, addProduct: null, isLoading: false, error: true }
     case EDIT_PRODUCT:

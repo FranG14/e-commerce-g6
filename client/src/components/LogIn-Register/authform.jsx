@@ -69,7 +69,8 @@ const AuthForm = () => {
                     text: 'Welcome!',
                     icon: "success"
                 }).then(function () {
-                    window.location.replace(`https://e-commerce-g6.netlify.app/`)
+                    // window.location.replace(`https://e-commerce-g6.netlify.app/`)
+window.location.replace(`http://localhost:3000/`)
                 });
                 dispatch(register(formData, history))
                 // setOutcome(currentMessage)
@@ -81,7 +82,8 @@ const AuthForm = () => {
                 text: 'Welcome Back!',
                 icon: "success"
             }).then(function () {
-                window.location.replace(`https://e-commerce-g6.netlify.app/`)
+                // window.location.replace(`https://e-commerce-g6.netlify.app/`)
+window.location.replace(`http://localhost:3000/`)
             });
             dispatch(login(formData, history));
             // setOutcome(currentMessage)
@@ -110,7 +112,8 @@ const AuthForm = () => {
                 text: 'Welcome Back!',
                 icon: "success"
             }).then(function () {
-                window.location.replace(`https://e-commerce-g6.netlify.app/`)
+                // window.location.replace(`https://e-commerce-g6.netlify.app/`)
+                window.location.replace(`http://localhost:3000/`)
             });
             dispatch(googleLogIn(formData, history))
 

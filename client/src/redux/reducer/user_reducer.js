@@ -1,4 +1,4 @@
-import { GET_USER_ID ,EDIT_USER, GET_USERS, DELETE_USER, SEARCH_USER, ADMIN_USER} from './../constants';
+import { GET_USER_ID ,EDIT_USER, GET_USERS, DELETE_USER, SEARCH_USER, ADMIN_USER,EDIT_PASSWORD} from './../constants';
 
 const initialState = {
 	user: {
@@ -79,6 +79,17 @@ const userReducer = (state = initialState, action) => {
 				user: {
 					...state.user,
 					list: (state.user.list.id === action.payload.id)? action.payload
+						:" "
+					
+				}
+			}
+			case EDIT_PASSWORD:
+			console.log(action.payload)	
+			return {
+				...state,
+				user: {
+					...state.user,
+					list: (state.user.list.userFound.id === action.payload.id)? action.payload
 						:" "
 					
 				}

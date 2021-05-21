@@ -82,11 +82,13 @@ export const googleLogIn = (formData, history) => async(dispatch) => {
 }
 //=====================================================================================//
 export const changePassword = (passwords, history) => async(dispatch) => {
+    console.log("entreee!!")
     dispatch({
         type: CHANGE_PASSWORD
     });
     return await api.changePassword(passwords)
     .then((p)=>{
+        console.log("pppppapapapa",p.data)
         dispatch({
             type: CHANGE_PASSWORD_SUCCESS,
             payload: p.data
