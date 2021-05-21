@@ -3,55 +3,50 @@ const Order = require('./../models/Order');
 
 
 const {
-    addCartItem,
+    getActiveOrderFromUser,
+    getAllOrders,
+    getOrdersByUser,
+    addItem,
     stateChange,
-    getAllOrders
+    removeProductFromOrder,
+    incrementProductUnit,
+    decrementProductUnit
 } = require('../controllers/orderController')
 
-// ------------------- ROUTES Order ------------------
-
-//Ruta para obtener todos los orders
-server.get('/', async(req,res)=>{
-
-});
-//Ruta para obtener un order por id
-//server.get('/:_id', getOrderById);
-
-//Ruta para crear un order
-server.post('/:userId', addCartItem);
-
-//Ruta para cambiar estado de la order
-server.patch('/:userId', async(req, res) => {
-    const {userId} = req.params;
-    const { state } = req.body;
-
-    if(!req.body?.state) {
-        return res.status(400).json({message: 'New State not found'});
-    }
-    // const statesArray = ['processing', 'cancelled']
-  
-    try{
-        let order = await Order.findOne({userId});
-
-        if(order){
-            order.state = state; 
-            res.status(200).json({message:'Order updated'})           
-        } else {
-            res.status(400).json({message:'Order not found'})
-        }    
-    } catch(error){
-        console.log(error)
-        res.status(500).json({message:'There was and error'})
-    }    
-})
-
-//Ruta para agregar orden al order
-//server.post('/:_id', addOrderlistToOrder)
-//Ruta para quitar orden al order
-//server.patch('/:_id', removeOrderlistFromOrder)
-//Ruta para cancelar order
-//server.patch('/state/:_id', updateOrder);
-//Ruta para agregar usuario al order
+// ------------------------------ ROUTES Order ---------------------------- //
+//==========================================================================//
+                //Ruta para obtener todos los orders
+//==========================================================================//
+server.get('/', getAllOrders)
+//==========================================================================//
+                //Ruta para obtener un order por id
+//==========================================================================//
+server.get('/:userId', getOrdersByUser);
+//==========================================================================//
+                //Ruta para obtener order activa del user (o crearla)
+//==========================================================================//
+server.get('/active/:userId', getActiveOrderFromUser)
+//==========================================================================//
+                //Ruta para agregar item (producto) a la orden
+//==========================================================================//
+server.post('/:userId', addItem);
+//==========================================================================//
+                //Ruta para cambiar estado de la order
+//==========================================================================//
+server.patch('/:userId', stateChange)
+//==========================================================================//
+                //Ruta para quitar producto a la order (PENDIENTE)
+//==========================================================================//
+server.patch('/remove/:userId', removeProductFromOrder)
+//==========================================================================//
+                //Ruta para quitar una unidad a un producto de la order
+//==========================================================================//
+server.patch('/decrement/:userId', decrementProductUnit)
+//==========================================================================//
+                //Ruta para aumentar una unidad a un producto de la order
+//==========================================================================//
+server.patch('/increment/:userId', incrementProductUnit)
+//==========================================================================//
 
 
 module.exports = server;

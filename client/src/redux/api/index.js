@@ -11,9 +11,58 @@ API.interceptors.request.use((req)=> {
 
     return req;
 })
-
+//AUTHENTICATION
 export const getUserById = () => API.get('/users/:id');
 export const login = (formData) => API.post('/users/login', formData);
 export const register = (formData) => API.post('/users/register', formData);
 export const googleLogIn = (formData) => API.post('users/google',formData);
 export const changePassword = (passwords) => API.patch('/users/password/:_id', passwords);
+
+//ORDER
+/* Escrito por Germán
+Acá agregamos todas las actions para las orders(relativo al carrito, 
+pasa que no le quise poner carrito para no pisar variables/funciones)
+
+En este módulo se pueden ir agregando todas las actions que se comunican con el back, 
+cosa de tener todo bien modularizado. Lo usé para las rutas de autenticación y ahora sumamos las rutas de order.
+
+Por hoy (21/05) el esquema de order sólo tiene los componentes "básicos" del mismo. Eso es porque queríamos primero
+testear las acciones básicas del CRUD de la order: 
+
+    -userId: Cada order guardada en el back tiene un id equivalente al usuario al cual pertenece. En caso de que 
+    el usuario no esté logueado la orden puede guardarse en localStorage, como bien señaló Mati. 
+    Yo en su momento programé la parte que guarda el usuario logueado en el localStorage, 
+    así que de última podemos ver eso por Discord en el finde. En el momento de cargar el primer elemento en la order,
+    el código debería comprobar que haya un usuario logueado en el localStorage (propiedad 'profile') o en el store.
+    Si no lo hay, debería ir guardándose en el localStorage la order. Antes de poder finalizar la compra, el usuario
+    debería poder loguearse, y ahí toda la order pasa al back.
+
+    -items: array con todos los productos de la orden, traídos por el id de los productos. 
+    También tiene el nombre, el precio y la cantidad de cada producto en la order.
+
+    -totalAmount: Precio total (todavía no estoy sumando descuento, eso lo vemos mañana, con el tema de mercado pago)
+
+    -state: estado de la orden. Por ahora hay tres: active, completed y cancelled. Me parece que no son necesarias más, 
+    pero ustedes me dicen. Cada usuario sólo puede tener una sola order activa. 
+
+*/
+
+//Trae la order activa de un usuario particular
+export const getActiveOrderFromUser = () => API.get('/active/:userId');
+//Trae todas las orders de todos los usuarios
+export const getAllOrders = () => API.get('/orders/');
+//Trae todo el historial de orders de un usuario
+export const getOrdersByUser = () => API.get('/orders/userId');
+//Agrega un item a la order activa de un usuario. Ejemplo de body: 
+//{"productId":"60a0896ee2e38c2fa0b2fe74","quantity": "5"}
+//En caso de ingresarse un productId que ya esté en la order, se reemplaza la cantidad vieja por la nueva 
+//(diganme si prefieren que se sumen)
+export const addItem = (product) => API.post('/orders/:userId', product)
+//Remueve un producto por completo de la order de un usuario. Ejemplo de body : {"productId": "60a0896ee2e38c2fa0b2fe74"}
+export const removeProductFromOrder = (product) => API.patch('/orders/remove/:userId',product);
+//Cambia el estado de una order de un usuario. Ejemplo de body: {"state": "cancelled"}
+export const changeOrderState = (state) => API.patch('/orders/:userId', state);
+//Decrementa por uno la cantidad de un producto de la order. Ejemplo de body:  {"productId": "60a0896ee2e38c2fa0b2fe74"}
+export const decrementProductUnit = (product) => API.patch('/orders/decrement/:userId',product);
+//Incrementa por uno la cantidad de un producto de la order. Ejemplo de body:  {"productId": "60a0896ee2e38c2fa0b2fe74"}
+export const incrementProductUnit = (product) => API.patch('/orders/increment/:userId',product)

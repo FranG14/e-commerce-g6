@@ -10,7 +10,7 @@ const orderSchema = new Schema({
     quantity: { type:Number, required: true, min:[1], default: 1 },
     price: Float
   }],
-  state:{ type: String, default: 'processing' },
+  state:{ type: String, default: 'active' },
   totalAmount:{ type: Float }     
 
 })
