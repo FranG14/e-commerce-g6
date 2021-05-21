@@ -49,9 +49,9 @@ testear las acciones básicas del CRUD de la order:
 
 //Trae la order activa de un usuario particular
 export const getActiveOrderFromUser = () => API.get('/active/:userId');
-//Trae todas las orders de todos los usuarios
+//Trae todas las orders de todos los usuarios (Con paginado por query)
 export const getAllOrders = () => API.get('/orders/');
-//Trae todo el historial de orders de un usuario
+//Trae todo el historial de orders de un usuario (Con paginado por query)
 export const getOrdersByUser = () => API.get('/orders/userId');
 //Agrega un item a la order activa de un usuario. Ejemplo de body: 
 //{"productId":"60a0896ee2e38c2fa0b2fe74","quantity": "5"}
