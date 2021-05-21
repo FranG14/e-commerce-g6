@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const { REACT_APP_API } = process.env;
+//const { REACT_APP_API } = 'https://e-commerce-g6-back.herokuapp.com/'; // En local comentar esta linea
+const { REACT_APP_API } = process.env; // En deploy comentar esta linea
 
 const API = axios.create( { baseURL: REACT_APP_API} ) 
 
