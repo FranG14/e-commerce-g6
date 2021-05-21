@@ -64,6 +64,8 @@ export const removeProductFromOrder = (product) => API.patch('/orders/remove/:us
 //Cambia el estado de una order de un usuario. Ejemplo de body: {"state": "cancelled"}
 export const changeOrderState = (state) => API.patch('/orders/:userId', state);
 //Decrementa por uno la cantidad de un producto de la order. Ejemplo de body:  {"productId": "60a0896ee2e38c2fa0b2fe74"}
+//No se puede decrementar por debajo de 0
 export const decrementProductUnit = (product) => API.patch('/orders/decrement/:userId',product);
 //Incrementa por uno la cantidad de un producto de la order. Ejemplo de body:  {"productId": "60a0896ee2e38c2fa0b2fe74"}
+//No se puede aumentar por encima del stock
 export const incrementProductUnit = (product) => API.patch('/orders/increment/:userId',product)
