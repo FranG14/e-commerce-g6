@@ -12,6 +12,8 @@ import {
   FILTER_BY_PRICE,
   FILTER_BY_CATEGORY,
   FILTER_BY_NAME,
+  FILTER_BY_BRAND,
+  FILTER_BY_SIZE
 } from "../constants";
 
 const initialState = {
@@ -23,16 +25,22 @@ const initialState = {
 
 const productsReducer = (state = initialState, action) => {
   switch (action.type) {
+
     case GET_ALL_PRODUCTS:
       return { ...state, allProducts: [], isLoading: true, error: null };
+
     case GET_PRODUCTS_SUCCESS:
       return { ...state, allProducts: action.payload, isLoading: false, error: null };
+
     case GET_PRODUCTS_ERROR:
       return { ...state, allProducts: [], isLoading: false, error: true };
+
     case ADD_PRODUCT:
       return { ...state, addProduct: null, isLoading: true, error: null };
+      
     case ADD_PRODUCT_SUCCESS:
       return { ...state, addProduct: action.payload, isLoading: false, error: false };
+      
     case ADD_PRODUCT_ERROR:
       return { ...state, addProduct: null, isLoading: false, error: true }
     case EDIT_PRODUCT:
@@ -62,6 +70,10 @@ const productsReducer = (state = initialState, action) => {
     case FILTER_BY_PRICE:
       return { ...state, allProducts: action.payload }
     case FILTER_BY_CATEGORY:
+      return { ...state, allProducts: action.payload }
+    case FILTER_BY_BRAND:
+      return { ...state, allProducts: action.payload }
+    case FILTER_BY_SIZE:
       return { ...state, allProducts: action.payload }
     default:
       return state;

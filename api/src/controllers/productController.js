@@ -3,6 +3,8 @@ const asyncHandler = require("express-async-handler");
 const mongoose = require("mongoose");
 const path = require("path");
 const fs = require("fs");
+const { where } = require("../models/Order");
+
 
 // @desc    Fetch all products
 // @route   GET localhost:3001/products
@@ -13,11 +15,11 @@ const getProducts = asyncHandler(async (req, res, next) => {
   console.log(page);
   const keyword = req.query.keyword
     ? {
-        name: {
-          $regex: req.query.keyword,
-          $options: "i",
-        },
-      }
+      name: {
+        $regex: req.query.keyword,
+        $options: "i", 
+      },
+    }
     : {};
 
   const count = await Product.countDocuments({ ...keyword });
@@ -43,93 +45,84 @@ const getProductsById = (req, res) => {
 };
 
 //filtra por brand, size,color,genre
-const getProductsFilter = (req, res,next) => {
-  if(req.query.minPrice || req.query.maxPrice){
-    return next();
+const getProductsFilter = (req, res, next) => {
+  let filter = req.query.brand || req.query.size || req.query.genre || req.query.price;
+  let keyword;
+  let filterPrice
+  if (filter == "price") {
+    filterPrice = {
+      field: req.query.price
+    }
   }
-  const filterName = req.params.filterName
-  let filter = req.query.brand || req.query.size || req.query.color || req.query.genre;
+  if (filter !== "") {
+    keyword = {
+      brand: {
+        $regex: req.query.brand,
+        $options: "i",
+      }, size: {
+        $regex: req.query.size,
+        $options: "i",
+      },
+      genre: {
+        $regex: req.query.genre,
+        $options: "i",
+      },
+    }
+  } else {
 
-  const keyword = filter
-    ? {
-        [filterName]: {
-          $regex: filter,
-          $options: "i",
-        },
+    keyword = {}
+  }
+  Product.find({...keyword}).sort({price:req.query.price})
+    .populate("categories")
+    .then(answer => {
+      console.log("ANSWER", answer)
+      if (req.query.category) {
+        let productsCategories = [];
+        if (answer && answer.length > 0) {
+          for (let i = 0; i < answer.length; i++) {
+            if (answer[i].categories.find(cat => cat.name === req.query.category)) {
+              productsCategories.push(answer[i]);
+            }
+          }
+        }
+
+
+        return res.status(200).json({ products: productsCategories });
       }
-    : {};
-  Product.find({ ...keyword }).exec()
-      .then(answer => {
-        // if(answer.length === 0){
-        //   return res.sendStatus(404);
-        // }
-        res.status(200).json({products:answer});
-      })
-      .catch(err => {
-        res.status(404).json( {messege: "Product doesn't exist", err: err} );
-      })
+
+      res.status(200).json({ products: answer });
+    })
+    .catch(err => {
+      res.status(404).json({ messege: "Product doesn't exist", err: err });
+    })
+
 }
+
 
 //filtrado por categoria
 const getProductsFilterByCategory = (req, res) => {
   const name = req.params.name;
 
   Product.find({})
-  .populate("categories")
-      .then(answer => {
-        let productsCategories = [];
-        if(answer && answer.length > 0){
-          for(let i = 0; i<answer.length; i++){
-              if(answer[i].categories.find(cat => cat.name === name)){
-                productsCategories.push(answer[i]);
-              }
+    .populate("categories")
+    .then(answer => {
+      let productsCategories = [];
+      if (answer && answer.length > 0) {
+        for (let i = 0; i < answer.length; i++) {
+          if (answer[i].categories.find(cat => cat.name === name)) {
+            productsCategories.push(answer[i]);
           }
         }
-        res.status(200).json({products:productsCategories});
-      })
-      .catch(err => {
-        res.status(404).json( {messege: "Product doesn't exist", err: err} );
-      })
+      }
+      res.status(200).json({ products: productsCategories });
+    })
+    .catch(err => {
+      res.status(404).json({ messege: "Product doesn't exist", err: err });
+    })
 }
 
 
-const getProductsFilterByPrice = (req, res,next) => {
-  var minPrice = req.query.minPrice;
-  var maxPrice = req.query.maxPrice;
-
-  if(maxPrice && minPrice)
-  var keyword = {
-    price: {
-      $gte: minPrice,
-      $lte: maxPrice,
-    }
-  }
-
-  if(minPrice && !maxPrice){
-    //me trae los precios mayores al pasado por query
-    var keyword = {
-      price: {
-        $gte: minPrice,
-      }
-    };
-  }
-  if(maxPrice && !minPrice){
-    //me trae los precios menores al pasado por query
-    var keyword = {
-      price: {
-        $lte: maxPrice,
-      }
-    }
-  }
-  Product.find({ ...keyword }).exec()
-      .then(answer => {
-        res.status(200).json({products:answer});
-      })
-      .catch(err => {
-        res.status(404).json( {messege: "Product doesn't exist", err: err} );
-      })
-}
-
+/*  */
 
 
 // @desc    Create a product
@@ -138,7 +131,7 @@ const getProductsFilterByPrice = (req, res,next) => {
 
 const addProducts = async (req, res) => {
   try {
-    const { name, price, brand, description, stock, size, color, categories,genre } =
+    const { name, price, brand, description, stock, size, color, categories, genre } =
       req.body;
     const product = Product({
       _id: new mongoose.Types.ObjectId(),
@@ -171,9 +164,9 @@ const imagaUpaload = (req, res) => {
   const { name } = req.params;
   let pathImage = path.join(__dirname, "../");
   try {
-    getImage = fs.readFileSync(`${pathImage}uploads\\${name}`);
+    getImage = fs.readFileSync(`${pathImage}uploads/${name}`);
   } catch (error) {
-    getImage = fs.readFileSync(`${pathImage}uploads\\noImage.png`);
+    getImage = fs.readFileSync(`${pathImage}uploads/noImage.png`);
   }
   res.set({ "Content-Type": "image/png" });
   res.send(getImage);
@@ -209,11 +202,11 @@ const updateProducts = asyncHandler(async (req, res) => {
       (product.genre = genre),
       (product.color = color);
 
-      if (req.file) {
-        const { filename } = req.file;
-        console.log("archivo img",filename)
-        product.setImgUrl(filename, name);
-      }
+    if (req.file) {
+      const { filename } = req.file;
+      console.log("archivo img", filename)
+      product.setImgUrl(filename, name);
+    }
     const updateProduct = await product.save();
     res.json(updateProduct);
   } else {
@@ -239,7 +232,6 @@ const deleteProducts = asyncHandler(async (req, res) => {
 module.exports = {
   getProducts,
   getProductsFilter,
-  getProductsFilterByPrice,
   getProductsFilterByCategory,
   addProducts,
   updateProducts,

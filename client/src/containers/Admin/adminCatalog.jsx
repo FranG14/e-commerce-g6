@@ -1,12 +1,14 @@
 import React from 'react'
 import TableProduct from './../../components/CrudProduct/tableProduct'
-import NavBarAdmin from '../NavBarAdmin/navBarAdmin'
+import UniversalNavBar from '../../components/UniversalNavBar/universalNavBar'
+import Footer from '../Footer/footer'
 
 const AdminCatalog = () => {
     return (
         <div>
-            <NavBarAdmin />
+            <UniversalNavBar />
             <TableProduct />
+            <Footer />
         </div>
     )
 }

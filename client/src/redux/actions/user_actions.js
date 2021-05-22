@@ -7,10 +7,13 @@ import {
 	GET_ERROR_USER,
 	SEARCH_USER,
 	ADMIN_USER,
-	GET_ERROR_ADMIN
+	GET_ERROR_ADMIN,
+	EDIT_PASSWORD
 } from '../constants';
 
-const { REACT_APP_API } = process.env;
+//const { REACT_APP_API } = 'https://e-commerce-g6-back.herokuapp.com/'; // En local comentar esta linea
+const { REACT_APP_API } = process.env; // En deploy comentar esta linea
+
 
 export const getUsers = (page) => {
 	return function (dispatch) {
@@ -133,4 +136,22 @@ export const toggleAdmin = (payload) => {
 
 
 
-
+export const editPassword = (payload) => {
+	return function (dispatch) {
+		return axios.put(`${REACT_APP_API}users/${payload.id}`, payload)
+			.then((edit) => {
+				dispatch(
+					{
+						type: EDIT_PASSWORD,
+						payload: edit.data
+					}
+				)
+			})
+			.catch((err) => {
+				dispatch({
+					type: EDIT_PASSWORD,
+                    payload: err.response,
+				})
+			})
+	}
+}

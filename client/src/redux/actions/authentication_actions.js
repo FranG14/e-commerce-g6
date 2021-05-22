@@ -21,7 +21,7 @@ export const login = (formData, history) => async (dispatch) => {
         })
         localStorage.setItem('profile', JSON.stringify(u.data))
     })
-    .then(history.push('/'))
+    // .then(history.push('/'))
     .catch ((error) => {
         dispatch({
             type:LOGIN_ERROR,
@@ -42,7 +42,7 @@ export const register = (formData, history) => async (dispatch) => {
         })
         localStorage.setItem('profile', JSON.stringify(u.data))
     })
-    .then(history.push('/'))
+    // .then(history.push('/'))
     .catch((error)=> {
         dispatch({
             type:REGISTER_ERROR,
@@ -72,7 +72,7 @@ export const googleLogIn = (formData, history) => async(dispatch) => {
         })
         localStorage.setItem('profile', JSON.stringify(u.data))
     })
-    .then(history.push('/'))
+    // .then(history.push('/'))
     .catch((error)=>{
         dispatch({
             type:GOOGLE_LOGIN_ERROR,
@@ -82,11 +82,13 @@ export const googleLogIn = (formData, history) => async(dispatch) => {
 }
 //=====================================================================================//
 export const changePassword = (passwords, history) => async(dispatch) => {
+    console.log("entreee!!")
     dispatch({
         type: CHANGE_PASSWORD
     });
     return await api.changePassword(passwords)
     .then((p)=>{
+        console.log("pppppapapapa",p.data)
         dispatch({
             type: CHANGE_PASSWORD_SUCCESS,
             payload: p.data

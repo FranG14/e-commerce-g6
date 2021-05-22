@@ -61,7 +61,7 @@ const CategoryTable = () => {
     }
     return (
         <div>
-            <div className="mt-4 mb-4 flex justify-center">
+            <div className="mt-4 pt-20 mb-4 flex justify-center">
                 <button
                     class="inline-block px-6 h-11 py-2 text-xs font-medium leading-6 text-center text-white uppercase transition bg-green-500 rounded shadow ripple hover:shadow-lg hover:bg-green-600 focus:outline-none">
                     <a href="/postCategory">
