@@ -5,6 +5,7 @@ import {
   GET_ALL_REVIEWS,
   GET_REVIEW_ERROR,
   GET_REVIEW_SUCCESS,
+  GET_REVIEWS_ID,
 } from "../constants";
 
 const initialState = {
@@ -18,7 +19,8 @@ const reviewsReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_ALL_REVIEWS:
       return { ...state, allReviews: [], isLoading: true, error: null };
-
+    case GET_REVIEWS_ID:
+      return { ...state, allReviews: [], isLoading: true, error: null };
     case GET_REVIEW_SUCCESS:
       return {
         ...state,

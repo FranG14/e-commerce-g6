@@ -18,6 +18,7 @@ import UserEdit from "./components/UserEdit/userEdit";
 import UsersTable from "./components/UsersTable/usersTable";
 import AdminAction from "./components/AdminAction/adminAction";
 import UserPassword from "./components/UserEdit/userPassword";
+import Reviews from "./components/ProductReviews/reviews";
 
 
 
@@ -44,7 +45,9 @@ export default function Routes() {
       <Route exact path="/cart">
         <Cart/>
       </Route>
-      
+      <Route exact path="/reviews/:id">
+        <Reviews />
+      </Route>
     {/*>>>>>>>>>>>>>>> ADMIN ROUTES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/}
       <Route exact path="/admin">
         <AdminCatalog />

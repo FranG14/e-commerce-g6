@@ -5,7 +5,8 @@ import {
   ADD_REVIEW_SUCCESS, 
   GET_ALL_REVIEWS, 
   GET_REVIEW_ERROR, 
-  GET_REVIEW_SUCCESS 
+  GET_REVIEW_SUCCESS,
+  GET_REVIEWS_ID
 } from '../constants';
 
 //const { REACT_APP_API } = 'https://e-commerce-g6-back.herokuapp.com/'; // En local comentar esta linea
@@ -17,6 +18,27 @@ export const getAllReviews = (page) => async (dispatch) => {
     });
     return await axios
     .get(`${REACT_APP_API}reviews?page=${page}`)
+    .then((res) => {
+      console.log("REVIEW ACTION",res.data)
+      dispatch({
+        type: GET_REVIEW_SUCCESS,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: GET_REVIEW_ERROR,
+        payload: err.response,
+      });
+    });
+};
+
+export const getReviewsById = (id) => async (dispatch) => {
+    dispatch({
+      type: GET_REVIEWS_ID
+    });
+    return await axios
+    .get(`${REACT_APP_API}reviews/${id}`)
     .then((res) => {
       console.log("REVIEW ACTION",res.data)
       dispatch({
