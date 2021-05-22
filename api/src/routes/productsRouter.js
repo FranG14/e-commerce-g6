@@ -19,8 +19,8 @@ server.get("/:filterName", getProductsFilter)
 server.get("/category/:name", getProductsFilterByCategory)
 server.get("/:id", getProductsById)
 server.get("/detail/:id", getProductsById)
-server.post("/",upload.single("img"), addProducts);
-server.put("/:id",upload.single("img"),updateProducts);
+server.post("/",upload.array("img"), addProducts);
+server.put("/:id",upload.array("img"),updateProducts);
 server.delete("/:id",deleteProducts);
 server.get('/image/:name', imagaUpaload)
 

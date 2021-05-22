@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams,Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { getCategories, getCategoryById } from "./../../redux/actions/category_actions";
 import { detailProduct, editProduct } from "./../../redux/actions/products_actions";
 import "../Catalog/catalog.css";
@@ -72,12 +72,19 @@ const EditProduct = () => {
     }
 
   };
+  //TERMINAR ESTA WEAAA!
+  const deleteCateg = (e) => {
+    console.log({ ...selectedName, categoryName: selectedName.categoryName.find((cate) => cate === 'prueba') })
+
+    setSelectedName({ ...selectedName, categoryName: selectedName.categoryName.filter((cate) => console.log("asd", cate)) });
+    // e.target.remove()
+  }
 
   const [selectedFile, setSelectedFile] = useState(null);
   const [imgUrl, setImgUrl] = useState(null);
 
   const handleFileInputChange = (event) => {
-    setSelectedFile(event.target.files[0]);
+    setSelectedFile(event.target.files);
     setImgUrl(URL.createObjectURL(event.target.files[0]));
   };
   // console.log("idddddd",product)
@@ -133,18 +140,23 @@ const EditProduct = () => {
       dangerMode: true,
     })
     //--------------------------------------------------------
-    const extension = selectedFile.name.split(".");
-    fd.append(
-      "img",
-      selectedFile,
-      product.name + "." + extension[extension.length - 1]
-    );
+    let extension;
+    if (selectedFile.length > 0) {
+      for (let i = 0; i < selectedFile.length; i++) {
+        extension = selectedFile[i].name.split(".");
+        fd.append(
+          "img",
+          selectedFile[i],
+          product.name + "." + extension[1]
+        );
+      }
+    }
     const config = {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     };
-    fd.append("id",product.id);
+    fd.append("id", product.id);
     fd.append("name", product.name);
     fd.append("genre", product.genre);
     fd.append("brand", product.brand);
@@ -155,10 +167,10 @@ const EditProduct = () => {
     fd.append("color", product.color);
     fd.append("stock", product.stock);
 
-    const payload = {id:product.id,data:fd}
+    const payload = { id: product.id, data: fd }
 
     dispatch(editProduct(payload, config));
-    alert("Activity successfullty created");
+    alert("Activity successfullty edited");
   };
   return (
     <div>
@@ -342,7 +354,7 @@ const EditProduct = () => {
                       Category
                     </label>
                     <label className="label-select">
-                      <select id="categoryId" onChange={handleSelect}>
+                      <select id="categoryId" onChange={handleSelect} className ="mb-2">
                         <option value="">--- category ---</option>
                         {categoryArray && categoryArray.length > 0
                           ? categoryArray.map((c, id) => {
@@ -353,7 +365,12 @@ const EditProduct = () => {
                             );
                           })
                           : ""}
-                      </select>
+                      </select><br/>
+                      {selectedName.categoryName.length > 0 ? selectedName.categoryName.map((cate, key) => {
+                        return <p onClick={deleteCateg} key={key} className="inline-block mr-2 rounded round bg-gray-200 mb-2 w-20 text-center">
+                          {cate}
+                        </p>
+                      }) : ""}
                       <p className="text-sm mt-2 -mb-2">Can't find your Category? <Link to='/postCategory' className="underline text-sm text-blue-800">Add New One</Link></p>
                     </label>
                   </div>
@@ -365,7 +382,7 @@ const EditProduct = () => {
                       Images
                     </label>
                     <label className="label-select">
-                      <input type="file" onChange={handleFileInputChange} />
+                      <input type="file" onChange={handleFileInputChange} multiple />
                     </label>
                   </div>
 

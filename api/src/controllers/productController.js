@@ -128,8 +128,13 @@ const addProducts = async (req, res) => {
   try {
     const { name, price, brand, description, stock, size, color, categories, genre } =
       req.body;
+    let images = [];
     const categoriesArray = categories.split(",")
-      console.log("CATEGORIESSSS",categoriesArray)
+    if(req.files){
+      for(let i = 0; i<req.files.length; i++ ){
+        images.push(req.files[i].filename);
+      }
+    }
     const product = Product({
       _id: new mongoose.Types.ObjectId(),
       name: name,
@@ -141,12 +146,8 @@ const addProducts = async (req, res) => {
       size: size,
       color: color,
       categories: categoriesArray,
+      img: images
     });
-
-    if (req.file) {
-      const { filename } = req.file;
-      product.setImgUrl(filename, name);
-    }
 
     const productStored = await product.save();
 
@@ -159,9 +160,15 @@ const addProducts = async (req, res) => {
 const imagaUpaload = (req, res) => {
   let getImage;
   const { name } = req.params;
+  const images = name.split(",")
   let pathImage = path.join(__dirname, "../");
   try {
-    getImage = fs.readFileSync(`${pathImage}uploads\\${name}`);
+    if(images.length>0){
+      getImage = fs.readFileSync(`${pathImage}uploads\\${images[0]}`);
+    }
+    else{
+      getImage = fs.readFileSync(`${pathImage}uploads\\${name}`);
+    }
   } catch (error) {
     getImage = fs.readFileSync(`${pathImage}uploads\\noImage.png`);
   }
@@ -176,7 +183,7 @@ const updateProducts = asyncHandler(async (req, res) => {
   const {
     name,
     brand,
-    category,
+    categories,
     description,
     price,
     genre,
@@ -185,25 +192,27 @@ const updateProducts = asyncHandler(async (req, res) => {
     size,
     color,
   } = req.body;
-
+  const categoryArray = categories.split(",")
+  let images = [];
+  if(req.files){
+    for(let i = 0; i<req.files.length; i++ ){
+      images.push(req.files[i].filename);
+    }
+  }
   const product = await Product.findById(req.params.id);
   if (product) {
     (product.name = name),
       (product.brand = brand),
-      (product.category = category),
+      (product.categories = categoryArray),
       (product.description = description),
       (product.price = price),
       (product.stock = stock),
       (product.rating = rating),
       (product.size = size),
       (product.genre = genre),
+      (product.img = images),
       (product.color = color);
 
-    if (req.file) {
-      const { filename } = req.file;
-      console.log("archivo img", filename)
-      product.setImgUrl(filename, name);
-    }
     const updateProduct = await product.save();
     res.json(updateProduct);
   } else {

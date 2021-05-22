@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { detailProduct } from '../../redux/actions/products_actions'
 import { useDispatch, useSelector, connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -20,15 +20,15 @@ function DetailProduct(props) {
     const productsArray = useSelector(
         (state) => state.productsReducer.allProducts
     );
-    console.log("!!!!!!!,", productsArray)
+    console.log("!!!!!!!,", productsArray.img)
     const productsSize = useSelector(
         (state) => state.productsReducer.allProducts.size
     );
     const dispatch = useDispatch()
-    console.log(productsSize)
+    const [imagePos,setImagePos] = useState(0);
+    // console.log(productsSize)
 
     useEffect(() => {
-        console.log("USE EFFECT")
         dispatch(detailProduct(id))
     }, [])
 
@@ -42,14 +42,15 @@ function DetailProduct(props) {
             dangerMode: true,
         })
     }
-
+console.log(imagePos)
     return (
         <div>
             <UniversalNavBar />
             <section class="text-gray-700 body-font overflow-hidden bg-gray-200">
                 <div class="container px-5 py-24 mx-auto">
                     <div class="lg:w-4/5 mx-auto flex flex-wrap bg-gray-100 pr-5 rounded-2xl">
-                        <img alt="ecommerce" class="lg:w-1/2 w-full object-cover object-center rounded border border-gray-200" src={`http://localhost:3001/products/image/${productsArray.img}`}></img>
+                        {productsArray.img && productsArray.img.length > 0 &&
+                        <img alt="ecommerce" class="lg:w-1/2 w-full object-cover object-center rounded border border-gray-200" onClick = {() => (imagePos < productsArray.img.length-1)?setImagePos(imagePos + 1):""} src={`http://localhost:3001/products/image/${productsArray.img[imagePos]}`}/>}
                         <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
                             <h2 class="text-2xl title-font text-gray-500 tracking-widest">{productsArray.brand}</h2>
                             <h1 class="text-gray-900 text-3xl title-font font-medium mb-1">{productsArray.name}</h1>
