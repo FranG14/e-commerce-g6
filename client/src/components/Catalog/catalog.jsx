@@ -53,7 +53,7 @@ function Catalogo() {
                       {/* {producto.img.length > 0 && */}
                       {/* {/* src para localhost  {`http://localhost:3001/products/image/${producto.img}`} */}
                       <img
-                        src={`http://e-commerce-g6-back.herokuapp.com/products/image/${producto.img}`}
+                        src={`http://localhost:3001/products/image/${producto.img}`}
                         alt="https://i.stack.imgur.com/y9DpT.jpg"
                         style={{ height: "400px", width: "420px" }}
                       />
