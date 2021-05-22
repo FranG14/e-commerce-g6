@@ -13,6 +13,15 @@ const getReviews = asyncHandler(async (req, res) => {
         
 });
 
+const getReviewsById = (req, res) => {
+    Review.find({ productReview:  req.params.id }).populate('user').then((review) => {
+    if (!review) {
+      return res.status(404).end();
+    }
+    return res.status(200).json(review);
+  });
+};
+
 const addReviews = async (req, res) => {
     try {
         const{ productReview, username, review, rating } = req.body;
@@ -31,4 +40,4 @@ const addReviews = async (req, res) => {
     }
 }
 
-module.exports = { getReviews, addReviews }
+module.exports = { getReviews, addReviews, getReviewsById }

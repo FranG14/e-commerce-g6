@@ -69,7 +69,8 @@ export const ADD_REVIEW = "ADD_REVIEW";
 export const GET_REVIEW_SUCCESS = "GET_REVIEW_SUCCES";
 export const GET_REVIEW_ERROR = "GET_REVIEW_ERROR";
 export const ADD_REVIEW_SUCCESS = "ADD_REVIEW_SUCCESS";
-export const ADD_REVIEW_ERROR = "ADD_REVIEW_ERROR"
+export const ADD_REVIEW_ERROR = "ADD_REVIEW_ERROR";
+export const GET_REVIEWS_ID = "GET_REVIEWS_ID"
 
 //URL
 export const URL = "http://localhost:3001/"
