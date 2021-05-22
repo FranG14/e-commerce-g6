@@ -1,12 +1,12 @@
 import React from 'react'
 import Footer from '../Footer/footer'
-import NavBar from '../NavBar/navBar'
+import UniversalNavBar from '../../components/UniversalNavBar/universalNavBar'
 import ProductPostForm from '../../components/CrudProduct/productPost'
 
 const AdminPost = () => {
     return (
         <div>
-            <NavBar />
+            <UniversalNavBar />
             <ProductPostForm />
             <Footer />
         </div>

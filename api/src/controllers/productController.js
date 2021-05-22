@@ -17,7 +17,7 @@ const getProducts = asyncHandler(async (req, res, next) => {
     ? {
       name: {
         $regex: req.query.keyword,
-        $options: "i",
+        $options: "i", 
       },
     }
     : {};
@@ -170,7 +170,7 @@ const imagaUpaload = (req, res) => {
       getImage = fs.readFileSync(`${pathImage}uploads\\${name}`);
     }
   } catch (error) {
-    getImage = fs.readFileSync(`${pathImage}uploads\\noImage.png`);
+    getImage = fs.readFileSync(`${pathImage}uploads/noImage.png`);
   }
   res.set({ "Content-Type": "image/png" });
   res.send(getImage);

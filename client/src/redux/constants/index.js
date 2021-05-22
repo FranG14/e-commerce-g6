@@ -21,6 +21,7 @@ export const GET_ERROR_USER = "GET_ERROR_USER";
 export const SEARCH_USER = "SEARCH_USER";
 export const GET_ERROR_ADMIN = "GET_ERROR_ADMIN"
 export const ADMIN_USER = "ADMIN_USER"
+export const EDIT_PASSWORD= "EDIT_PASSWORD"
 
 //CATEGORIES
 export const GET_CATEGORIES = 'GET_CATEGORIES';
@@ -60,6 +61,14 @@ export const FILTER_BY_NAME = "FILTER_BY_NAME";
 export const ADD_TO_CART = "ADD_TO_CART";
 export const DEL_FROM_CART = "DEL_FROM_CART"
 export const BUY = "BUY"
+
+//REVIEWS
+export const GET_ALL_REVIEWS = "GET_ALL_REIEWS";
+export const ADD_REVIEW = "ADD_REVIEW";
+export const GET_REVIEW_SUCCESS = "GET_REVIEW_SUCCES";
+export const GET_REVIEW_ERROR = "GET_REVIEW_ERROR";
+export const ADD_REVIEW_SUCCESS = "ADD_REVIEW_SUCCESS";
+export const ADD_REVIEW_ERROR = "ADD_REVIEW_ERROR"
 
 //URL
 export const URL = "http://localhost:3001/"
