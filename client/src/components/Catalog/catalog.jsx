@@ -11,11 +11,9 @@ function Catalogo() {
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
 
-
   useEffect(() => {
     dispatch(getAllProducts(page));
   }, [page]);
-
 
   const next = () => {
     setPage(page + 1);
