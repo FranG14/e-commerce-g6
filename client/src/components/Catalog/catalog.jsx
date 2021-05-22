@@ -21,7 +21,11 @@ function Catalogo() {
   const prev = () => {
     setPage(page - 1);
   };
-  console.log("ESTE ES EL ARRAY DE CATALOGO", productsArray)
+  // console.log("ESTE ES EL ARRAY DE CATALOGO", productsArray)
+  // CAMBIAR EL ALERT POR UN SWAL PD: DIEGO NO ESTUVO AQUI
+  if(productsArray.keyword === true && productsArray.products.length === 0){
+    alert("producto no encontrado")
+  }
   return (
     <div className=" mt-20 ">
       <div className="flex justify-center bg-transparent">
