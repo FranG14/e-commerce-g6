@@ -1,7 +1,7 @@
 import {
     ADD_TO_CART,
     DEL_FROM_CART,
-    BUY
+    BUY,
 } from "../constants";
 //{name:"test",price:100,brand:"a"},{name:"test2",price:100,brand:"a"}
 const initialState = {
@@ -24,6 +24,7 @@ const cartReducer = (state = initialState, action) => {
         return {
           cart:action.payload
         }
+
       default:
         return state;
     }

@@ -61,6 +61,7 @@ export const FILTER_BY_NAME = "FILTER_BY_NAME";
 export const ADD_TO_CART = "ADD_TO_CART";
 export const DEL_FROM_CART = "DEL_FROM_CART"
 export const BUY = "BUY"
+export const POST_CART = "POST_CART"
 
 //REVIEWS
 export const GET_ALL_REVIEWS = "GET_ALL_REIEWS";
