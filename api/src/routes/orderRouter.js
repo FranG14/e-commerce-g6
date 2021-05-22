@@ -1,19 +1,52 @@
-const server = require("express").Router();
-const { isAuthenticated, isAdmin } = require('./../middlewares/customMiddlewares');
+const server = require('express').Router();
+const Order = require('./../models/Order');
+
 
 const {
-  getAllOrders,
-  addOrderNew,
-  getOrderById,
-  deleteOrder,
-  updateProducts
-} = require("./../controllers/orderController");
+    getActiveOrderFromUser,
+    getAllOrders,
+    getOrdersByUser,
+    addItem,
+    stateChange,
+    removeProductFromOrder,
+    incrementProductUnit,
+    decrementProductUnit
+} = require('../controllers/orderController')
 
-server.get("/", getAllOrders);
-server.post("/", addOrderNew);
-server.get("/:id", getOrderById);
+// ------------------------------ ROUTES Order ---------------------------- //
+//==========================================================================//
+                //Ruta para obtener todos los orders
+//==========================================================================//
+server.get('/', getAllOrders)
+//==========================================================================//
+                //Ruta para obtener un order por id
+//==========================================================================//
+server.get('/:userId', getOrdersByUser);
+//==========================================================================//
+                //Ruta para obtener order activa del user (o crearla)
+//==========================================================================//
+server.get('/active/:userId', getActiveOrderFromUser)
+//==========================================================================//
+                //Ruta para agregar item (producto) a la orden
+//==========================================================================//
+server.post('/:userId', addItem);
+//==========================================================================//
+                //Ruta para cambiar estado de la order
+//==========================================================================//
+server.patch('/:userId', stateChange)
+//==========================================================================//
+                //Ruta para quitar producto a la order (PENDIENTE)
+//==========================================================================//
+server.patch('/remove/:userId', removeProductFromOrder)
+//==========================================================================//
+                //Ruta para quitar una unidad a un producto de la order
+//==========================================================================//
+server.patch('/decrement/:userId', decrementProductUnit)
+//==========================================================================//
+                //Ruta para aumentar una unidad a un producto de la order
+//==========================================================================//
+server.patch('/increment/:userId', incrementProductUnit)
+//==========================================================================//
 
-server.put('/:id', updateProducts);
-server.delete("/:id", deleteOrder);
 
 module.exports = server;

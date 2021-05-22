@@ -111,7 +111,7 @@ const googleLogin = async(req, res) => {
 const getUsers = async(req, res, next) => {
     const pageSize = req.query.pageSize || 15;
     const page = req.query.page || 1;
-    //console.log(page)
+
     const keyword = req.query.keyword
     ?{
         email:{
