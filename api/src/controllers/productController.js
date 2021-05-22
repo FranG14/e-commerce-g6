@@ -164,10 +164,10 @@ const imagaUpaload = (req, res) => {
   let pathImage = path.join(__dirname, "../");
   try {
     if(images.length>0){
-      getImage = fs.readFileSync(`${pathImage}uploads\\${images[0]}`);
+      getImage = fs.readFileSync(`${pathImage}uploads/${images[0]}`);
     }
     else{
-      getImage = fs.readFileSync(`${pathImage}uploads\\${name}`);
+      getImage = fs.readFileSync(`${pathImage}uploads/${images[0]}`);
     }
   } catch (error) {
     getImage = fs.readFileSync(`${pathImage}uploads/noImage.png`);
