@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
 import swal from 'sweetalert';
-import { searchProducts } from '../../redux/actions/products_actions'
+import {searchProducts } from '../../redux/actions/products_actions';
+import { useDispatch, useSelector } from "react-redux";
 
-function SearchBar(props) {
+function SearchBar() {
+    const dispatch = useDispatch();
+    let productsArray = useSelector((state) => state.productsReducer.allProducts.products);
     const [input, setInput] = useState({
         name: "",
     })
@@ -18,7 +20,7 @@ function SearchBar(props) {
         e.preventDefault()
 
         if (input.name) {
-            props.searchProducts(input.name)
+            dispatch(searchProducts(input.name));
         } else if (!input.name) {
             swal({
                 title: "Search Not Valid",
@@ -26,8 +28,6 @@ function SearchBar(props) {
                 button: true,
             });
         }
-
-
     }
     return (
         <div class="relative text-lg bg-transparent text-gray-800">
@@ -46,17 +46,5 @@ function SearchBar(props) {
     )
 }
 
-function mapStateToProps(state) {
-    return {
-        products: state.allProducts
-    }
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        searchProducts: name => dispatch(searchProducts(name))
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(SearchBar)
+export default (SearchBar)
 

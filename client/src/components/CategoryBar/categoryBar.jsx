@@ -18,7 +18,7 @@ function CategoryBar() {
     function handleOnClick(e) {
         setFilterName(e.target.innerText);
     }
-    console.log(categoryArray)
+    // console.log(categoryArray)
     function handleSubmit() {
         dispatch(filterByCategory(filterName));
     }

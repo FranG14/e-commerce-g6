@@ -25,7 +25,12 @@ const getProducts = asyncHandler(async (req, res, next) => {
     .populate("categories")
     .limit(pageSize)
     .skip(pageSize * (page - 1));
-  res.json({ products, current: page, pages: Math.ceil(count / pageSize) });
+    if(req.query.keyword){
+      res.json({ products, current: page, pages: Math.ceil(count / pageSize),keyword:true });
+    }
+    else{
+      res.json({ products, current: page, pages: Math.ceil(count / pageSize),keyword:false });
+    }
 });
 
 const getProductsById = (req, res) => {
