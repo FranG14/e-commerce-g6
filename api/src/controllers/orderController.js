@@ -1,16 +1,32 @@
+const asyncHandler = require("express-async-handler");
 const mongoose = require("mongoose");
 const Order = require("./../models/Order");
 const Product = require("./../models/Product");
 
 
-const getAllOrders = (req, res, next) => {
-  Order.find()
+const getAllOrders = asyncHandler(async(req, res, next) => {
+  const pageSize = req.query.pageSize || 15;
+  const page = req.query.page || 1;
+
+  const keyword = req.query.keyword
+  ? {
+    name: {
+      $regex: req.query.keyword,
+      $options: "i",
+    },
+  }
+  : {};
+  const count = await Order.countDocuments({ ...keyword });
+  Order.find({...keyword})
     // .select("product quantity _id")
     .populate("product")
-    .exec()
+    .limit(pageSize)
+    .skip(pageSize * (page - 1))
     .then((docs) => {
       res.status(200).json({
         count: docs.length,
+        pages: Math.ceil(count / pageSize),
+        current: page,
         orders: docs.map((doc) => {
           return {
             _id: doc._id,
@@ -34,7 +50,7 @@ const getAllOrders = (req, res, next) => {
         error: err,
       });
     });
-};
+});
 
 const addOrderNew = (req, res, next) => { 
   Product.findById(req.body.id)

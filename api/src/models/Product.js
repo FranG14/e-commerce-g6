@@ -8,10 +8,12 @@ const productSchema = new Schema(
       type: String,
       required: "Name is required",
     },
-    img: {
-      type: String,
-      // require: "Image is required",
-    },
+    img: [
+      {
+        type: String,
+        // require: "Image is required",
+      }
+    ],
     brand: {
       type: String,
       required: "Brand is required",
@@ -34,7 +36,7 @@ const productSchema = new Schema(
       type: Number,
       // required: "Price is required",
       validate: {
-        validator: function(v) {
+        validator: function (v) {
           return /^[+-]?\d+(\.\d+)?$/.test(v);
         },
         message: props => `${props.value} is not a valid number!`
@@ -45,7 +47,7 @@ const productSchema = new Schema(
       type: Number,
       required: "Stock is required",
       validate: {
-        validator: function(v) {
+        validator: function (v) {
           return /^[+-]?\d+(\.\d+)?$/.test(v);
         },
         message: props => `${props.value} is not a valid number!`
@@ -71,7 +73,7 @@ const productSchema = new Schema(
 );
 
 
-productSchema.methods.setImgUrl = function setImgUrl (filename, name) {
+productSchema.methods.setImgUrl = function setImgUrl(filename, name) {
   this.img = filename
 }
 

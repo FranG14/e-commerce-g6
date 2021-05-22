@@ -53,13 +53,20 @@ const ProductPostForm = () => {
       setProduct({ ...product, category: selectCategory });
     }
   };
-
-  const [selectedFile, setSelectedFile] = useState(null);
+  //TERMINAR ESTA WEAAA!
+  const deleteCateg = (e) => {
+    // console.log({...selectedName, categoryName:selectedName.categoryName.find((cate) => cate === 'prueba')})
+    let prueba = e.target.innerText //xD
+    setSelectedName({ ...selectedName, categoryName: selectedName.categoryName.splice()});
+    // e.target.remove()
+  }
+  const [selectedFile, setSelectedFile] = useState([]);
   const [imgUrl, setImgUrl] = useState(null);
 
   const handleFileInputChange = (event) => {
-    setSelectedFile(event.target.files[0]);
+    setSelectedFile(event.target.files);
     setImgUrl(URL.createObjectURL(event.target.files[0]));
+    // console.log("IMAGENES",selectedFile)
   };
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -115,12 +122,18 @@ const ProductPostForm = () => {
       dangerMode: true,
     })
     //--------------------------------------------------------
-    const extension = selectedFile.name.split(".")
-    fd.append(
-      "img",
-      selectedFile,
-      product.name + "." + extension[extension.length - 1]
-    );
+    let extension;
+    if(selectedFile.length > 0){
+      for(let i = 0; i<selectedFile.length; i++) {
+         extension = selectedFile[i].name.split(".");
+         fd.append(
+          "img",
+          selectedFile[i],
+          product.name + "." + extension[1]
+        );
+      }
+    }
+
     const config = {
       headers: {
         "Content-Type": "multipart/form-data",
@@ -135,7 +148,6 @@ const ProductPostForm = () => {
     fd.append("size", product.size);
     fd.append("color", product.color);
     fd.append("stock", product.stock);
-
     dispatch(addProducts(fd, config));
     setProduct(newProduct);
     swal({
@@ -146,7 +158,7 @@ const ProductPostForm = () => {
       window.location.reload()
     });
   };
-  console.log(product)
+
   return (
     <div class="grid grid-cols-2 gap-2 pt-20 bg-gray-200">
       <div class="flex items-center min-h-screen bg-gray-200 dark:bg-gray-900">
@@ -326,8 +338,8 @@ const ProductPostForm = () => {
                     Category
                   </label>
                   <label className="label-select">
-                    <select id="categoryId" onChange={handleSelect}>
-                      <option value="">--- category ---</option>
+                    <select id="categoryId" onChange={handleSelect} className ="mb-2">
+                      <option  value="">--- category ---</option>
                       {categoryArray && categoryArray.length > 0
                         ? categoryArray.map((c, id) => {
                           return (
@@ -337,7 +349,12 @@ const ProductPostForm = () => {
                           );
                         })
                         : ""}
-                    </select>
+                    </select><br/>
+                    {/* muestro las categorias que se eligio */}
+                       { selectedName.categoryName.length > 0 ? selectedName.categoryName.map((cate,key) => {
+                         return<p onClick = {deleteCateg} key = {key} className = "inline-block mr-2 rounded round bg-gray-200 mb-2 w-20 text-center">
+                           {cate}
+                           </p>}):""}
                     <p className="text-sm mt-2 -mb-2">Can't find your Category? <Link to='/postCategory' className="underline text-sm text-blue-800">Add New One</Link></p>
                   </label>
                 </div>
@@ -349,7 +366,7 @@ const ProductPostForm = () => {
                     Images
                   </label>
                   <label className="label-select" >
-                    <input type="file" onChange={handleFileInputChange} required />
+                    <input type="file" onChange={handleFileInputChange} required multiple/>
                   </label>
                 </div>
 

@@ -80,10 +80,7 @@ export default function UniversalNavBar(props) {
       });
 
     }
-
-
   }
-
 
   return (
 
