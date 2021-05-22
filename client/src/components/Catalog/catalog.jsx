@@ -26,32 +26,36 @@ function Catalogo() {
   console.log("ESTE ES EL ARRAY DE CATALOGO", productsArray)
   return (
     <div className=" mt-20 ">
-      <div class="flex justify-center bg-transparent">
+      <div className="flex justify-center bg-transparent">
         <FilterBar />
 
       </div>
-      <div class="flex bg-gray-200">
-        <div class="flex-initial">
+      <div className="flex bg-gray-200">
+        <div className="flex-initial">
           <div className="mt-32">
             {/*   <CategoryBar /> */}
 
           </div>
         </div>
-        <div class="flex-auto">
-          <div class="grid sm:grid-cols-3  sm:grid-rows-5  grid-cols-1 justify-center justify-items-center content-center items-center">
+        <div className="flex-auto">
+          <div className="grid sm:grid-cols-3  sm:grid-rows-5  grid-cols-1 justify-center justify-items-center content-center items-center">
             {productsArray?.products ? (
-              productsArray.products.map((producto) => {
+              productsArray.products.map((producto,key) => {
+                console.log("MAPEO", producto.img)
                 return (
-                  <Link
+                  <Link key = {key}
                     style={{ textDecoration: "none", outline: "none" }}
                     to={`/product/${producto._id}`}
                   >
-                    <div className="card bg-white mb-5">
+                    <div key = {key} className="card bg-white mb-5">
+                      {/* {producto.img.length > 0 && */}
+                      {/* {/* src para localhost  {`http://localhost:3001/products/image/${producto.img}`} */}
                       <img
-                        src={`https://e-commerce-g6-back.herokuapp.com/products/image/${producto.img}`}
+                        src={`http://e-commerce-g6-back.herokuapp.com/products/image/${producto.img}`}
                         alt="https://i.stack.imgur.com/y9DpT.jpg"
                         style={{ height: "400px", width: "420px" }}
                       />
+                      {/* } */}
                       <div
                         className="bg-gray-200"
                         style={{ height: "1px" }}
@@ -72,14 +76,14 @@ function Catalogo() {
             )}
           </div>
           <div>
-            <div class="flex justify-center">
+            <div className="flex justify-center">
               <button
                 onClick={prev}
                 disabled={page === 1}
                 className="border border-teal-500 bg-teal-500 text-black block rounded-sm font-bold py-4 px-6 ml-2 flex items-center"
               >
                 <svg
-                  class="h-5 w-5 mr-2 fill-current"
+                  className="h-5 w-5 mr-2 fill-current"
                   version="1.1"
                   id="Layer_1"
                   xmlns="http://www.w3.org/2000/svg"

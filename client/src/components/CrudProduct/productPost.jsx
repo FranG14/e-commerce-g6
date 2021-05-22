@@ -55,9 +55,9 @@ const ProductPostForm = () => {
   };
   //TERMINAR ESTA WEAAA!
   const deleteCateg = (e) => {
-    console.log({...selectedName, categoryName:selectedName.categoryName.find((cate) => cate === 'prueba')})
-    
-    setSelectedName({ ...selectedName, categoryName: selectedName.categoryName.filter((cate) => console.log("asd",cate)) });
+    // console.log({...selectedName, categoryName:selectedName.categoryName.find((cate) => cate === 'prueba')})
+    let prueba = e.target.innerText //xD
+    setSelectedName({ ...selectedName, categoryName: selectedName.categoryName.splice()});
     // e.target.remove()
   }
   const [selectedFile, setSelectedFile] = useState([]);
