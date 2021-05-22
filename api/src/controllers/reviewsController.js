@@ -1,25 +1,22 @@
 const mongoose = require("mongoose");
+const asyncHandler = require("express-async-handler");
 const Review = require("../models/Review");
 
-const getReviews = (req, res) => {
-    Review.find().select('username rating review _id').populate('product', 'name', 'prouctReview').exec()
-        .then(docs=> {
-            res.status(200).json({
-                count: docs.length,
-                reviews: docs.map(doc => {
-                    return { _id: doc._id, usernme: doc.username, review: doc.review, rating:doc.rating }
-                })
-            })
-        })
-        .catch(err => {
-            res.status(400).json({error: err})
-        })
-};
+const getReviews = asyncHandler(async (req, res) => {
+    const pageSize = req.query.pageSize || 15;
+    const page = req.query.page || 1;
+
+    const count = await Review.countDocuments();
+    const reviews = await Review.find().populate( "products")
+        .limit(pageSize).skip(pageSize * (page - 1));
+        res.json({ reviews, current: page, pages: Math.ceil(count / pageSize) });
+        
+});
 
 const addReviews = async (req, res) => {
     try {
         const{ productReview, username, review, rating } = req.body;
-        const reviews = Review({
+        const reviews = new Review({
             _id: new mongoose.Types.ObjectId(),
             productReview: productReview,
             username: username,
