@@ -1,4 +1,4 @@
-const Order = require('./../models/Order.js');
+const Cart = require('./../models/Cart.js');
 const server = require('express').Router();
 
 // SDK de Mercado Pago
@@ -12,27 +12,25 @@ mercadopago.configure({
 });
 
 //Ruta que genera la URL de MercadoPago
-server.get("/:_id", async(req, res, next) => {
+server.get("/:userId", async(req, res, next) => {
 
-  const {_id} = req.params;
-  const foundOrder = await Order.find({_id},); 
+  const {userId} = req.params;
+  const foundCart = await Cart.find({userId},); 
  
+  if(!foundCart) return res.status(404).json({message:"Cart Not Found"});
   
-  if(!foundOrder) return res.status(404).json({message:"Order Not Found"});
-  return res.status(200).json(foundOrder);
-  
-  const items_ml = foundOrder.map ((i) => ({
+  const items_ml = foundOrder.items.map ((i) => ({
     title: i.product.name,
     unit_price: i.product.price,
     quantity: i.quantity,
   }))
 
-  return res.status(200).json(items_ml)
+  //return res.status(200).json(items_ml)
 
   // Crea un objeto de preferencia
   let preference = {
     items: items_ml,
-    external_reference : `${_id}`,
+    external_reference : `${userId}`,
     payment_methods: {
       excluded_payment_types: [
         {
@@ -72,27 +70,27 @@ server.get("/pagos", (req, res) => {
   console.log("EXTERNAL REFERENCE ", external_reference)
 
   //Aquí edito el status de mi orden
-  Order.findById(external_reference)
-  .then((order) => {
-    order.payment_id= payment_id
-    order.payment_status= payment_status
-    order.merchant_order_id = merchant_order_id
-    order.status = "completed"
+  Cart.findById(external_reference)
+  .then((cart) => {
+    cart.payment_id= payment_id
+    cart.payment_status= payment_status
+    cart.merchant_order_id = merchant_order_id
+    cart.status = "completed"
     console.info('Salvando order')
-    order.save()
+    cart.save()
     .then((_) => {
       console.info('redirect success')
       
-      return res.redirect("http://localhost:3000")
+      return res.redirect(process.env.FRONT_URL)
     })
     .catch((err) =>{
       console.error('error al salvar', err)
-      return res.redirect(`http://localhost:3000/?error=${err}&where=al+salvar`)
+      return res.redirect(`${process.env.FRONT_URL}/?error=${err}&where=al+salvar`)
     })
   })
   .catch(err =>{
     console.error('error al buscar', err)
-    return res.redirect(`http://localhost:3000/?error=${err}&where=al+buscar`)
+    return res.redirect(`${process.env.FRONT_URL}/?error=${err}&where=al+buscar`)
   })
 
   //proceso los datos del pago 
@@ -103,7 +101,7 @@ server.get("/pagos", (req, res) => {
 //Busco información de una orden de pago
 server.get("/pagos/:id", (req, res)=>{
   const mp = new mercadopago(ACCESS_TOKEN)
-  const id = req.params.id
+  const {id} = req.params
   console.info("Buscando el id", id)
   mp.get(`/v1/payments/search`, {'status': 'pending'}) //{"external_reference":id})
   .then(resultado  => {
