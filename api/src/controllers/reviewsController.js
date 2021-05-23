@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const asyncHandler = require("express-async-handler");
 const Review = require("../models/Review");
+const Product = require("./../models/Product");
 
 const getReviews = asyncHandler(async (req, res) => {
     const pageSize = req.query.pageSize || 15;
@@ -14,7 +15,7 @@ const getReviews = asyncHandler(async (req, res) => {
 });
 
 const getReviewsById = (req, res) => {
-    Review.find({ productReview:  req.params.id }).populate('user').then((review) => {
+    Review.find({ productReview:  req.params.id }).populate('username').then((review) => {
     if (!review) {
       return res.status(404).end();
     }
@@ -33,6 +34,10 @@ const addReviews = async (req, res) => {
             rating: rating 
         });
         const answer = await reviews.save();
+        const product = await Product.findById(productReview)
+        if (product) product.productReview = [...product.productReview, reviews._id]
+        const updateProduct = await product.save();
+        console.log(product)
         res.status(200).send({answer})
     }
     catch(err) {

@@ -25,9 +25,12 @@ const getProducts = asyncHandler(async (req, res, next) => {
   const count = await Product.countDocuments({ ...keyword });
   const products = await Product.find({ ...keyword })
     .populate("categories")
+    .populate("productReview")
+    
     .limit(pageSize)
     .skip(pageSize * (page - 1));
-    if(req.query.keyword){
+    
+  if (req.query.keyword) {
       res.json({ products, current: page, pages: Math.ceil(count / pageSize),keyword:true });
     }
     else{
@@ -36,7 +39,7 @@ const getProducts = asyncHandler(async (req, res, next) => {
 });
 
 const getProductsById = (req, res) => {
-  Product.findById(req.params.id).then((product) => {
+  Product.findById(req.params.id).populate("productReview").then((product) => {
     if (!product) {
       return res.status(404).end();
     }
@@ -131,7 +134,7 @@ const getProductsFilterByCategory = (req, res) => {
 
 const addProducts = async (req, res) => {
   try {
-    const { name, price, brand, description, stock, size, color, categories, genre } =
+    const { name, price, brand, description, stock, size, color, categories, genre, productReview} =
       req.body;
     let images = [];
     const categoriesArray = categories.split(",")
@@ -151,7 +154,8 @@ const addProducts = async (req, res) => {
       size: size,
       color: color,
       categories: categoriesArray,
-      img: images
+      img: images,
+      productReview: Product._id
     });
 
     const productStored = await product.save();

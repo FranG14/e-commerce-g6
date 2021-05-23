@@ -54,13 +54,15 @@ const productSchema = new Schema(
       },
       required: [true, 'Insert a number required']
     },
-    productReview: {
-      type: Schema.Types.ObjectId,
-      ref: "Review",
-    },
+    productReview: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Review",
+      }
+      ],
     size: {
       type: Array,
-      required: "Size is required",
+      //required: "Size is required",
     },
     color: {
       type: Array,
