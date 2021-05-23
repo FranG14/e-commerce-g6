@@ -6,7 +6,7 @@ import "../Catalog/catalog.css"
 import UniversalNavBar from "../UniversalNavBar/universalNavBar";
 import Footer from "../../containers/Footer/footer";
 import { useParams, useHistory } from 'react-router-dom';
-import swal from 'sweetalert'; 
+import swal from 'sweetalert';
 
 const CategoryEdit = () => {
     const dispatch = useDispatch();
@@ -21,6 +21,7 @@ const CategoryEdit = () => {
     };
     console.log(id)
     const [category, setProduct] = useState(newCategory);
+    console.log(newCategory)
 
     const categoryArray = useSelector(
         (state) => state.categoriesReducer.categories.list.categories
@@ -43,13 +44,13 @@ const CategoryEdit = () => {
             description: category.description
 
         };
-        if(category.name === '') return swal({
+        if (category.name === '') return swal({
             title: "Name Field Cannot Be Empty",
             icon: "warning",
             button: true,
             dangerMode: true,
         })
-          if(category.description === '') return  swal({
+        if (category.description === '') return swal({
             title: "Description Field Cannot Be Empty",
             icon: "warning",
             button: true,
@@ -57,8 +58,8 @@ const CategoryEdit = () => {
         })
         dispatch(editCategory(categorySend));
         setProduct(newCategory)
-            
-            swal("Good job!", "Well done!", "success",{ buttons: false} )
+
+        swal("Good job!", "Well done!", "success", { buttons: false })
         history.goBack()
     };
     // console.log(product)

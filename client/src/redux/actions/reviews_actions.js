@@ -59,7 +59,7 @@ export const addReviews = (body) => async (dispatch) => {
     type: ADD_REVIEW,    
   });
   return await axios
-    .post(`${REACT_APP_API}products`, body)
+    .post(`${REACT_APP_API}reviews`, body)
     .then((p) => {
       dispatch({
         type: ADD_REVIEW_SUCCESS,
