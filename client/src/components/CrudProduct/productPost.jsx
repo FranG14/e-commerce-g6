@@ -56,10 +56,10 @@ const ProductPostForm = () => {
   //TERMINAR ESTA WEAAA!
   const deleteCateg = (e) => {
     // console.log({...selectedName, categoryName:selectedName.categoryName.find((cate) => cate === 'prueba')})
-    let prueba = e.target.innerText //xD
-    setSelectedName({ ...selectedName, categoryName: selectedName.categoryName.splice()});
+    setSelectedName({ ...selectedName, categoryName: selectedName.categoryName.splice(0, e.target.id) });
     // e.target.remove()
   }
+  console.log(selectedName.categoryName)
   const [selectedFile, setSelectedFile] = useState([]);
   const [imgUrl, setImgUrl] = useState(null);
 
@@ -123,10 +123,10 @@ const ProductPostForm = () => {
     })
     //--------------------------------------------------------
     let extension;
-    if(selectedFile.length > 0){
-      for(let i = 0; i<selectedFile.length; i++) {
-         extension = selectedFile[i].name.split(".");
-         fd.append(
+    if (selectedFile.length > 0) {
+      for (let i = 0; i < selectedFile.length; i++) {
+        extension = selectedFile[i].name.split(".");
+        fd.append(
           "img",
           selectedFile[i],
           product.name + "." + extension[1]
@@ -338,8 +338,8 @@ const ProductPostForm = () => {
                     Category
                   </label>
                   <label className="label-select">
-                    <select id="categoryId" onChange={handleSelect} className ="mb-2">
-                      <option  value="">--- category ---</option>
+                    <select id="categoryId" onChange={handleSelect} className="mb-2">
+                      <option value="">--- category ---</option>
                       {categoryArray && categoryArray.length > 0
                         ? categoryArray.map((c, id) => {
                           return (
@@ -349,12 +349,13 @@ const ProductPostForm = () => {
                           );
                         })
                         : ""}
-                    </select><br/>
+                    </select><br />
                     {/* muestro las categorias que se eligio */}
-                       { selectedName.categoryName.length > 0 ? selectedName.categoryName.map((cate,key) => {
-                         return<p onClick = {deleteCateg} key = {key} className = "inline-block mr-2 rounded round bg-gray-200 mb-2 w-20 text-center">
-                           {cate}
-                           </p>}):""}
+                    {selectedName.categoryName.length > 0 ? selectedName.categoryName.map((cate, key) => {
+                      return <p onClick={deleteCateg} key={key} id={key} className="inline-block mr-2 rounded round bg-gray-200 mb-2 w-20 text-center">
+                        {cate}
+                      </p>
+                    }) : ""}
                     <p className="text-sm mt-2 -mb-2">Can't find your Category? <Link to='/postCategory' className="underline text-sm text-blue-800">Add New One</Link></p>
                   </label>
                 </div>
@@ -366,7 +367,7 @@ const ProductPostForm = () => {
                     Images
                   </label>
                   <label className="label-select" >
-                    <input type="file" onChange={handleFileInputChange} required multiple/>
+                    <input type="file" onChange={handleFileInputChange} required multiple />
                   </label>
                 </div>
 

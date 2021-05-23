@@ -136,9 +136,9 @@ export const toggleAdmin = (payload) => {
 
 
 
-export const editPassword = (payload) => {
+export const editPassword = (id, payload) => {
 	return function (dispatch) {
-		return axios.put(`${REACT_APP_API}users/${payload.id}`, payload)
+		return axios.put(`${REACT_APP_API}users/password/${id}`, payload)
 			.then((edit) => {
 				dispatch(
 					{

@@ -89,7 +89,7 @@ const userReducer = (state = initialState, action) => {
 				...state,
 				user: {
 					...state.user,
-					list: (state.user.list.userFound.id === action.payload.id)? action.payload
+					list: (state.user.list.userFound._id === action.payload._id)? action.payload
 						:" "
 					
 				}

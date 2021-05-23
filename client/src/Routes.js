@@ -19,6 +19,7 @@ import UsersTable from "./components/UsersTable/usersTable";
 import AdminAction from "./components/AdminAction/adminAction";
 import UserPassword from "./components/UserEdit/userPassword";
 import Reviews from "./components/ProductReviews/reviews";
+import AddReview from "./components/ProductReviews/addReview";
 
 
 
@@ -47,6 +48,9 @@ export default function Routes() {
       </Route>
       <Route exact path="/reviews/:id">
         <Reviews />
+      </Route>
+      <Route exact path="/reviews/add/:id">
+        <AddReview />
       </Route>
     {/*>>>>>>>>>>>>>>> ADMIN ROUTES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/}
       <Route exact path="/admin">
@@ -88,7 +92,7 @@ export default function Routes() {
       <Route exact path="/users/edit/:id">
         <UserTableEdit />
       </Route>
-      <Route exact path="/users/password/:_id">
+      <Route exact path="/users/password/:id">
         <UserPassword />
       </Route>
     </Switch>

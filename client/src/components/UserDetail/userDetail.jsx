@@ -11,7 +11,7 @@ export default function UserDetail() {
     // const {id} = match.params;
     const [user, setUser] =
         useState(JSON.parse(localStorage.getItem('profile')));
-   
+
 
     const dispatch = useDispatch()
     const location = useLocation();
@@ -77,19 +77,27 @@ export default function UserDetail() {
                                         <button className="mr-5  bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-full">
                                             Edit your profile 🖍
 				                </button>
-                            
+
                                     </Link>
                                     {
                                         userData?.isAdmin &&
-                                        <Link  to="/Admin/Actions" >
+                                        <Link to="/Admin/Actions" >
                                             <button className="ml-10 bg-blue-700 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-full">
                                                 Admin Actions
 				                </button>
                                         </Link>
                                     }
-                                    
-                                     <button className="ml-10 bg-red-700 hover:bg-red-500 text-white font-bold py-2 px-4 rounded-full" onClick={logout}>
-                                                Logout
+                                    {
+                                        userData?.username &&
+                                        <Link to={"/users/password/" + user.result._id}  >
+                                            <button className="ml-10 bg-blue-700 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-full">
+                                                Change Password
+				                </button>
+                                        </Link>
+                                    }
+
+                                    <button className="ml-10 bg-red-700 hover:bg-red-500 text-white font-bold py-2 px-4 rounded-full" onClick={logout}>
+                                        Logout
 				                         </button>
                                 </div>
                             </div>

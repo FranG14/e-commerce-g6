@@ -12,7 +12,7 @@ const Reviews = () => {
     var { id } = useParams()
     const dispatch = useDispatch();
     const reviewsArray = useSelector(
-        (state) => state.reviewReducer.allReviews
+        (state) => state.reviewReducer.allReviews.reviews
     );
     console.log(reviewsArray)
     const [page, setPage] = useState(1)
@@ -27,8 +27,8 @@ const Reviews = () => {
     console.log("!!!!!!!!!", reviewsArray);
 
     useEffect(() => {
-        dispatch(getReviewsById(id));
-    }, [id]);
+        dispatch(getReviewsById(id, page));
+    }, [id, page]);
 
 
 
@@ -48,7 +48,7 @@ const Reviews = () => {
                     {reviewsArray && reviewsArray.length > 0 ? reviewsArray.map((c, id) => {
                         return <tr key={id} class="bg-white lg:hover:bg-gray-100 flex lg:table-row flex-row lg:flex-row flex-wrap lg:flex-no-wrap mb-10 lg:mb-0">
                             <td class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static">
-                                {c.username}
+                                {c.username[0].username}
                             </td>
                             <td class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static">
                                 {c.review}

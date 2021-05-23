@@ -33,12 +33,12 @@ export const getAllReviews = (page) => async (dispatch) => {
     });
 };
 
-export const getReviewsById = (id) => async (dispatch) => {
+export const getReviewsById = (id, page) => async (dispatch) => {
     dispatch({
       type: GET_REVIEWS_ID
     });
     return await axios
-    .get(`${REACT_APP_API}reviews/${id}`)
+    .get(`${REACT_APP_API}reviews/${id}?page=${page}`)
     .then((res) => {
       console.log("REVIEW ACTION",res.data)
       dispatch({
@@ -59,7 +59,7 @@ export const addReviews = (body) => async (dispatch) => {
     type: ADD_REVIEW,    
   });
   return await axios
-    .post(`${REACT_APP_API}products`, body)
+    .post(`${REACT_APP_API}reviews`, body)
     .then((p) => {
       dispatch({
         type: ADD_REVIEW_SUCCESS,

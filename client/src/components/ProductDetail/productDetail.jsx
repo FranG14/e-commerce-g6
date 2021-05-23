@@ -7,6 +7,9 @@ import UniversalNavBar from "../UniversalNavBar/universalNavBar";
 import Footer from '../../containers/Footer/footer';
 import swal from 'sweetalert';
 import carro from '../../assets/carro.png'
+import StarRatingComponent from 'react-star-rating-component';
+
+
 function mapStateToProps(state) {
     return {
         cart: state.cart
@@ -20,12 +23,19 @@ function DetailProduct(props) {
     const productsArray = useSelector(
         (state) => state.productsReducer.allProducts
     );
-    console.log("!!!!!!!,", productsArray.img)
     const productsSize = useSelector(
         (state) => state.productsReducer.allProducts.size
     );
+    const colorArray = useSelector(
+        (state) => state.productsReducer.allProducts.color
+    );
+    const reviewsRating = useSelector(
+        (state) => state.productsReducer.allProducts.productReview
+    );
+    //console.log("!!!!!!!,", reviewsRating)
     const dispatch = useDispatch()
     const [imagePos, setImagePos] = useState(0);
+    const [average, setAverage] = useState(0)
     // console.log(productsSize)
 
     const changeImage = () => {
@@ -34,7 +44,6 @@ function DetailProduct(props) {
         }
         if (imagePos === productsArray.img.length - 1) setImagePos(0)
     }
-
     useEffect(() => {
         dispatch(detailProduct(id))
     }, [])
@@ -49,7 +58,24 @@ function DetailProduct(props) {
             dangerMode: true,
         })
     }
-    console.log(imagePos)
+    const averageRating = () => {
+        let sum = 0
+        if (reviewsRating && reviewsRating.length > 0) {
+            for (var i = 0; i < reviewsRating.length; i++) {
+                sum = sum + reviewsRating[i].rating
+            }
+            sum = sum / reviewsRating.length
+            setAverage(sum)
+            console.log(average)
+            return sum
+        }
+    }
+    useEffect(() => {
+        averageRating()
+
+    })
+
+    console.log("+++++", average)
     return (
         <div>
             <UniversalNavBar />
@@ -61,46 +87,53 @@ function DetailProduct(props) {
                         <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
                             <h2 class="text-2xl title-font text-gray-500 tracking-widest">{productsArray.brand}</h2>
                             <h1 class="text-gray-900 text-3xl title-font font-medium mb-1">{productsArray.name}</h1>
-                            <h2 class="text-l title-font text-gray-500 tracking-widest">{productsArray.stock === 0 ? <h2 className="text-red-500">No Stock</h2> : (productsArray.stock < 10) ? <h2>There is only {productsArray.stock} left</h2> : <h2>In Stock</h2>}</h2>
+                            <h2 class="text-l title-font text-gray-500 tracking-widest">{productsArray.stock === 0 ? <h2 className="text-red-500">No Stock</h2> : (productsArray.stock < 10) ? <h2>There is only {productsArray.stock} left</h2> : <h2>In Stock.</h2>}</h2>
                             <div class="flex mb-4">
                                 <span class="flex items-center">
-                                    <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 text-red-500" viewBox="0 0 24 24">
-                                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-                                    </svg>
-                                    <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 text-red-500" viewBox="0 0 24 24">
-                                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-                                    </svg>
-                                    <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 text-red-500" viewBox="0 0 24 24">
-                                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-                                    </svg>
-                                    <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 text-red-500" viewBox="0 0 24 24">
-                                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-                                    </svg>
-                                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 text-red-500" viewBox="0 0 24 24">
-                                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-                                    </svg>
-                                    <Link to={"/reviews/" + productsArray._id}><span class="text-gray-600 ml-3">Reviews</span></Link>
+                                    {productsArray.productReview && productsArray.productReview.length === 0 ? <h2>No reviews</h2> :
+                                        <StarRatingComponent
+                                            name="rate2"
+                                            editing={false}
+                                            renderStarIcon={() => <span className="text-xl">★</span>}
+                                            starCount={5}
+                                            value={average}
+                                        />
+                                    }
+                                    {productsArray.productReview && productsArray.productReview.length === 0 ? '' : <Link to={"/reviews/" + productsArray._id}><span class="text-gray-600 ml-3 text-lg">Reviews</span></Link>}
                                 </span>
                                 <span class="flex ml-3 pl-3 -mr-3 py-2 border-l-2 border-gray-200"></span>
-                                <Link to={"/addReview/" + productsArray._id}><span class="text-gray-600 ml-3">Add Review</span></Link>
+                                <Link to={"/reviews/add/" + productsArray._id}><span class="text-gray-600 ml-3 text-lg">Add Review</span></Link>
                             </div>
                             <p class="leading-relaxed">{productsArray.description}</p>
                             <div class="flex mt-6 items-center pb-5 border-b-2 border-gray-200 mb-5">
-                                <div class="flex">
+                                <div class="flex items-center">
                                     <span class="mr-3">Color</span>
-                                    <button class="border-2 border-gray-300 rounded-full w-6 h-6 focus:outline-none"></button>
-                                    <button class="border-2 border-gray-300 ml-1 bg-gray-700 rounded-full w-6 h-6 focus:outline-none"></button>
-                                    <button class="border-2 border-gray-300 ml-1 bg-red-500 rounded-full w-6 h-6 focus:outline-none"></button>
+                                    <select class="rounded border appearance-none border-gray-400 py-2 focus:outline-none focus:border-red-500 text-base pl-3 pr-10">
+                                        {colorArray && colorArray.length > 0
+                                            ? colorArray.map((c, id) => {
+                                                return (
+                                                    <option key={id} value={c}>
+                                                        {c}
+                                                    </option>
+                                                );
+                                            })
+                                            : ""}
+
+                                    </select>
                                 </div>
                                 <div class="flex ml-6 items-center">
                                     <span class="mr-3">Size</span>
                                     <div class="relative">
                                         <select class="rounded border appearance-none border-gray-400 py-2 focus:outline-none focus:border-red-500 text-base pl-3 pr-10">
-                                            <option>XS</option>
-                                            <option>S</option>
-                                            <option>M</option>
-                                            <option>L</option>
-                                            <option>XL</option>
+                                            {productsSize && productsSize.length > 0
+                                                ? productsSize.map((c, id) => {
+                                                    return (
+                                                        <option key={id} value={c}>
+                                                            {c}
+                                                        </option>
+                                                    );
+                                                })
+                                                : ""}
 
                                         </select>
                                         <span class="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
