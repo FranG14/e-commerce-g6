@@ -12,7 +12,7 @@ const Reviews = () => {
     var { id } = useParams()
     const dispatch = useDispatch();
     const reviewsArray = useSelector(
-        (state) => state.reviewReducer.allReviews
+        (state) => state.reviewReducer.allReviews.reviews
     );
     console.log(reviewsArray)
     const [page, setPage] = useState(1)
@@ -27,8 +27,8 @@ const Reviews = () => {
     console.log("!!!!!!!!!", reviewsArray);
 
     useEffect(() => {
-        dispatch(getReviewsById(id));
-    }, [id]);
+        dispatch(getReviewsById(id, page));
+    }, [id, page]);
 
 
 

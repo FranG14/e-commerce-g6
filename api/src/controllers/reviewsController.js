@@ -14,13 +14,20 @@ const getReviews = asyncHandler(async (req, res) => {
         
 });
 
-const getReviewsById = (req, res) => {
-    Review.find({ productReview:  req.params.id }).populate('username').then((review) => {
-    if (!review) {
-      return res.status(404).end();
-    }
-    return res.status(200).json(review);
-  });
+const getReviewsById = async (req, res) => {
+    const pageSize = req.query.pageSize || 15;
+    const page = req.query.page || 1;
+
+    const count = await Review.countDocuments();
+    const reviews = await Review.find({ productReview: req.params.id }).populate('username')
+    .limit(pageSize).skip(pageSize * (page - 1));
+    res.json({ reviews, current: page, pages: Math.ceil(count / pageSize) });
+// .then((review) => {
+//     if (!review) {
+//       return res.status(404).end();
+//     }
+//     return res.status(200).json(review);
+//   });
 };
 
 const addReviews = async (req, res) => {
