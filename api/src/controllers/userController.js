@@ -237,6 +237,7 @@ const changePassword = async(req,res) => {
                         {message:"There was an Error while saving the changes"}
                     )
                 }
+                //console.log(userUpdated)
                 res.status(200).json(userUpdated)
             })
         }           
