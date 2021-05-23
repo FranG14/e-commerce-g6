@@ -92,7 +92,7 @@ export default function Routes() {
       <Route exact path="/users/edit/:id">
         <UserTableEdit />
       </Route>
-      <Route exact path="/users/password/:_id">
+      <Route exact path="/users/password/:id">
         <UserPassword />
       </Route>
     </Switch>

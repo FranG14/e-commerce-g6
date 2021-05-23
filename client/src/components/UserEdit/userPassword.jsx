@@ -1,12 +1,13 @@
-import axios from "axios";
+// import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {changePassword } from "../../redux/actions/authentication_actions";
+// import { changePassword } from "../../redux/actions/authentication_actions";
+import { editPassword } from "../../redux/actions/user_actions";
 import "../Catalog/catalog.css"
 import UniversalNavBar from "../UniversalNavBar/universalNavBar";
 import Footer from "../../containers/Footer/footer";
-import { useParams, useHistory } from 'react-router-dom';
-import swal from 'sweetalert'; 
+import { useParams, useHistory, Redirect } from 'react-router-dom';
+import swal from 'sweetalert';
 
 const UserPassword = () => {
     const dispatch = useDispatch();
@@ -19,14 +20,14 @@ const UserPassword = () => {
         newPassword: "",
 
     };
-    console.log(id)
     const [password, setPassword] = useState(newPassword);
 
+    console.log("aaaaaaaaaaaaaa", password._id)
     const passwordArray = useSelector(
         (state) => state.authenticationReducer
-        );
-        
-        console.log(passwordArray)
+    );
+
+    console.log(passwordArray)
 
 
     const handleInputChange = (e) => {
@@ -38,36 +39,40 @@ const UserPassword = () => {
 
     const handleSubmit = (e) => {
 
-        e.preventDefault();
+        //e.preventDefault();
         const passwordSend = {
             id: password._id,
             oldPassword: password.oldPassword,
             newPassword: password.newPassword
 
         };
-       /*  if(password.name === '') return swal({
-            title: "Name Field Cannot Be Empty",
-            icon: "warning",
-            button: true,
-            dangerMode: true,
-        })
-          if(password.description === '') return  swal({
-            title: "Description Field Cannot Be Empty",
-            icon: "warning",
-            button: true,
-            dangerMode: true, */
-       /*  }) */
-        dispatch(changePassword(passwordSend));
+        /*  if(password.name === '') return swal({
+             title: "Name Field Cannot Be Empty",
+             icon: "warning",
+             button: true,
+             dangerMode: true,
+         })
+           if(password.description === '') return  swal({
+             title: "Description Field Cannot Be Empty",
+             icon: "warning",
+             button: true,
+             dangerMode: true, */
+        /*  }) */
+        dispatch(editPassword(password._id, passwordSend));
         setPassword(newPassword)
-            
-            swal("Good job!", "Well done!", "success",{ buttons: false} )
-        /* history.goBack() */
+        dispatch({ type: "LOGOUT" })
+        history.push('/auth')
+
+        swal("Password Changed!", "Well done!", "success", { button: true }).then(function () {
+            // window.location.replace(`https://e-commerce-g6.netlify.app/`)
+            history.push(`/auth`)
+        });
     };
     // console.log(product)
     return (
         <div class="  bg-gray-200">
             <UniversalNavBar />
-            <form onSubmit={handleSubmit}>
+            <form>
                 <div class="flex items-center min-h-screen bg-gray-200 dark:bg-gray-900">
                     <div class="container mx-auto">
                         <div class="max-w-md mx-auto my-10 bg-white p-5 rounded-md shadow-sm">
@@ -86,7 +91,7 @@ const UserPassword = () => {
                                             value={password.oldPassword}
                                             onChange={handleInputChange}
                                             placeholder="Current"
-                                            required
+
                                             class="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500" />
                                     </div>
 
@@ -104,12 +109,12 @@ const UserPassword = () => {
                                 focus:border-indigo-300 dark:bg-gray-700 
                                 dark:text-white dark:placeholder-gray-500 
                                 dark:border-gray-600 dark:focus:ring-gray-900 
-                                dark:focus:border-gray-500" required
+                                dark:focus:border-gray-500"
                                         />
 
                                     </div>
                                     <div class="mb-6">
-                                        <button type="submit"  class="w-full px-3 py-4 text-white bg-indigo-500 rounded-md focus:bg-indigo-600 focus:outline-none">Edit</button>
+                                        <button type="submit" onClick={handleSubmit} class="w-full px-3 py-4 text-white bg-indigo-500 rounded-md focus:bg-indigo-600 focus:outline-none">Edit</button>
                                     </div>
                                 </form>
                             </div>

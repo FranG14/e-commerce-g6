@@ -87,17 +87,19 @@ function DetailProduct(props) {
                         <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
                             <h2 class="text-2xl title-font text-gray-500 tracking-widest">{productsArray.brand}</h2>
                             <h1 class="text-gray-900 text-3xl title-font font-medium mb-1">{productsArray.name}</h1>
-                            <h2 class="text-l title-font text-gray-500 tracking-widest">{productsArray.stock === 0 ? <h2 className="text-red-500">No Stock</h2> : (productsArray.stock < 10) ? <h2>There is only {productsArray.stock} left</h2> : <h2>In Stock</h2>}</h2>
+                            <h2 class="text-l title-font text-gray-500 tracking-widest">{productsArray.stock === 0 ? <h2 className="text-red-500">No Stock</h2> : (productsArray.stock < 10) ? <h2>There is only {productsArray.stock} left</h2> : <h2>In Stock.</h2>}</h2>
                             <div class="flex mb-4">
                                 <span class="flex items-center">
-                                    <StarRatingComponent
-                                        name="rate2"
-                                        editing={false}
-                                        renderStarIcon={() => <span className="text-xl">★</span>}
-                                        starCount={5}
-                                        value={average}
-                                    />
-                                    <Link to={"/reviews/" + productsArray._id}><span class="text-gray-600 ml-3 text-lg">Reviews</span></Link>
+                                    {productsArray.productReview && productsArray.productReview.length === 0 ? <h2>No reviews</h2> :
+                                        <StarRatingComponent
+                                            name="rate2"
+                                            editing={false}
+                                            renderStarIcon={() => <span className="text-xl">★</span>}
+                                            starCount={5}
+                                            value={average}
+                                        />
+                                    }
+                                    {productsArray.productReview && productsArray.productReview.length === 0 ? '' : <Link to={"/reviews/" + productsArray._id}><span class="text-gray-600 ml-3 text-lg">Reviews</span></Link>}
                                 </span>
                                 <span class="flex ml-3 pl-3 -mr-3 py-2 border-l-2 border-gray-200"></span>
                                 <Link to={"/reviews/add/" + productsArray._id}><span class="text-gray-600 ml-3 text-lg">Add Review</span></Link>
