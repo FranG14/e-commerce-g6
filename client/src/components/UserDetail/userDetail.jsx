@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import decode from 'jwt-decode'
-// import SearchBar from '../SearchBar/searchBar'
 import { Link, useLocation, useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import UniversalNavBar from '../UniversalNavBar/universalNavBar'
 import Footer from '../../containers/Footer/footer'
 import { getUserById } from '../../redux/actions/user_actions'
+//import {  }
 
 export default function UserDetail() {
     // const {id} = match.params;

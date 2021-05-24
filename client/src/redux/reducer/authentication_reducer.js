@@ -3,7 +3,8 @@ import {
     LOGIN, LOGIN_SUCCESS, LOGIN_ERROR, LOGOUT, 
     GET_USER_BY_ID, 
     GOOGLE_LOGIN, GOOGLE_LOGIN_SUCCESS, GOOGLE_LOGIN_ERROR,
-    CHANGE_PASSWORD, CHANGE_PASSWORD_SUCCESS, CHANGE_PASSWORD_ERROR
+    CHANGE_PASSWORD, CHANGE_PASSWORD_SUCCESS, CHANGE_PASSWORD_ERROR,
+    UPDATE_USER, UPDATE_USER_SUCCESS, UPDATE_USER_ERROR
 } from '../constants/';
 
 const initialState = {
@@ -42,8 +43,16 @@ const authenticationReducer = (state = initialState, action) => {
             return{...state, authData: null, isLoading: true, error: null}
         case CHANGE_PASSWORD_SUCCESS:
             return{...state, authData: action.payload, isLoading: false, error: null}
-        case CHANGE_PASSWORD_ERROR:
-            return {...state, authData: action.payload, isLoading:false , error: true}
+        case CHANGE_PASSWORD_ERROR: //Acá habría que volver a agarrar al usuario del localStorage
+            let profileFromStorage =  JSON.parse(localStorage.getItem('profile'));
+            return {...state, authData: profileFromStorage, isLoading:false , error: action.payload}
+        case UPDATE_USER:
+            return {...state, authData: null, isLoading: true, error: null}
+        case UPDATE_USER_SUCCESS:
+            return {...state, authDate: action.payload, isLoading: false, error: false}
+        case UPDATE_USER_ERROR:
+            profileFromStorage =  JSON.parse(localStorage.getItem('profile'));
+            return {...state, authData: profileFromStorage, isLoading: false, error: action.payload}
         default:
             return state;
     }
