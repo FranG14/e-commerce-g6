@@ -27,7 +27,7 @@ export default function UniversalNavBar(props) {
       //if (decodedToken.exp * 1000 < new Date().getTime()) console.log("Session expired!")
     }
 
-  }, [user, location])
+  }, [location])
 
   const logout = () => {
     dispatch({ type: "LOGOUT" });
