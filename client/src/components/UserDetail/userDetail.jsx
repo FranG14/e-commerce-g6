@@ -18,12 +18,10 @@ export default function UserDetail() {
     const history = useHistory();
 
 
-    // const user.result = useSelector(
-
-    //     (state) => state.userReducer.user.list.userFound
-
-    // );
-    //console.log("USER DATAA", userData)
+    const userData = useSelector(
+        (state) => state.userReducer.user.list.userFound
+    );
+    console.log("USER DATAA", userData)
     useEffect(() => {
         //Por ahora traigo el user guardado en el localStorage.
         //Después traigo un Usuario por params
@@ -63,14 +61,14 @@ export default function UserDetail() {
                                 {/* <!-- Image for mobile view--> */}
                                 {/* <div class="block lg:hidden rounded-full shadow-xl mx-auto -mt-16 h-48 w-48 bg-cover bg-center"></div> */}
 
-                                <h1 className="text-3xl font-bold pt-8 lg:pt-0">  {(user.result) ? user.result.username : ""}'s Profile</h1>
+                                <h1 className="text-3xl font-bold pt-8 lg:pt-0">  {(userData) ? userData?.username : ""}'s Profile</h1>
                                 <div className="mx-auto lg:mx-0 w-5/5 pt-3 border-b-2 border-green-500 opacity-25"></div>
-                                <p className="pt-4 text-base font-bold flex items-center justify-center lg:justify-start"><svg class="h-4 fill-current text-green-700 pr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"></svg>👤 Name: {(user.result) ? user.result.firstname : ""}</p>
-                                <p className="pt-4 text-base font-bold flex items-center justify-center lg:justify-start"><svg class="h-4 fill-current text-green-700 pr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"></svg>👤 Surname: {(user.result) ? user.result.lastname : ""}</p>
-                                <p className="pt-4 text-base font-bold flex items-center justify-center lg:justify-start"><svg class="h-4 fill-current text-green-700 pr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"></svg>📧 E-Mail: {(user.result) ? user.result.email : ""}</p>
-                                <p className="pt-4 text-base font-bold flex items-center justify-center lg:justify-start"><svg class="h-4 fill-current text-green-700 pr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"></svg>📌 Street: {(user.result) ? user.result.street : ""} {(user.result) ? user.result.streetNumber : ""}</p>
-                                <p className="pt-4 text-base font-bold flex items-center justify-center lg:justify-start"><svg class="h-4 fill-current text-green-700 pr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"></svg>📍 State: {(user.result) ? user.result.state : ""}</p>
-                                <p className="pt-4 text-base font-bold flex items-center justify-center lg:justify-start"><svg class="h-4 fill-current text-green-700 pr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"></svg>📭 Zip Code: {(user.result) ? user.result.zipcode : ""}</p>
+                                <p className="pt-4 text-base font-bold flex items-center justify-center lg:justify-start"><svg class="h-4 fill-current text-green-700 pr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"></svg>👤 Name: {(userData) ? userData?.firstname : ""}</p>
+                                <p className="pt-4 text-base font-bold flex items-center justify-center lg:justify-start"><svg class="h-4 fill-current text-green-700 pr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"></svg>👤 Surname: {(userData) ? userData?.lastname : ""}</p>
+                                <p className="pt-4 text-base font-bold flex items-center justify-center lg:justify-start"><svg class="h-4 fill-current text-green-700 pr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"></svg>📧 E-Mail: {(userData) ? userData?.email : ""}</p>
+                                <p className="pt-4 text-base font-bold flex items-center justify-center lg:justify-start"><svg class="h-4 fill-current text-green-700 pr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"></svg>📌 Street: {(userData) ? userData?.street : ""} {(userData) ? userData?.streetNumber : ""}</p>
+                                <p className="pt-4 text-base font-bold flex items-center justify-center lg:justify-start"><svg class="h-4 fill-current text-green-700 pr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"></svg>📍 State: {(userData) ? userData?.state : ""}</p>
+                                <p className="pt-4 text-base font-bold flex items-center justify-center lg:justify-start"><svg class="h-4 fill-current text-green-700 pr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"></svg>📭 Zip Code: {(userData) ? userData?.zipcode : ""}</p>
 
                                 <div className="pt-12 pb-8  text-center content-between">
                                     <Link to={"/MyProfile/Edit/" + user.result._id}>

@@ -102,7 +102,6 @@ const NewCart = () => {
                         })
                         }
                         {/* <!-- End classic add -->
-
                         {/* <!-- Total Item --> */}
                         <div class="flex justify-center items-center text-center">
                             <div class="text-xl font-semibold">

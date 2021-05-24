@@ -13,7 +13,7 @@ API.interceptors.request.use((req)=> {
     return req;
 })
 //AUTHENTICATION
-export const getUserById = (_id) => API.get(`/users/${_id}`);
+//export const getUserById = (_id) => API.get(`/users/:${_id}`);
 export const login = (formData) => API.post('/users/login', formData);
 export const register = (formData) => API.post('/users/register', formData);
 export const googleLogIn = (formData) => API.post('users/google',formData);
@@ -42,4 +42,39 @@ export const changeCartState = (state, userId) => API.patch(`/carts/${userId}`, 
 export const decrementProductUnit = (product, userId) => API.patch(`/carts/decrement/${userId}`,product);
 //Incrementa por uno la cantidad de un producto del cart. Ejemplo de body:  {"productId": "60a0896ee2e38c2fa0b2fe74"}
 //No se puede aumentar por encima del stock
-export const incrementProductUnit = (product, userId) => API.patch(`/carts/increment/${userId}`,product)
+export const incrementProductUnit = (product, userId) => API.patch(`/carts/increment/:${userId}`,product)
+
+//PRODUCT
+export const getAllProducts = (page) => API.get(`/products?page=${page}`);
+export const searchProducts = (name) => API.get(`/products?keyword=${name}`);
+export const detailProduct = (id) => API.get(`/products/detail/${id}`);
+export const addProducts = (body) => API.post('/products', body);
+export const deleteProduct = (payload) => API.delete(`/products/${payload}`)
+export const editProduct = (payload) => API.put(`/products/${payload.id}`, payload.data)
+
+//USER
+export const getUsers = (page) => API.get(`/users?page=${page}`);
+export const searchUser = (payload) => API.get(`/users?keyword=${payload}`);
+export const getUserById = (id) => API.get(`/users/${id}`);
+export const editUser = (payload) => API.put(`/users/${payload.id}`, payload);
+export const delUser = (payload) => API.delete(`/users/${payload}`);
+export const toggleAdmin = (payload) => API.put(`/users/toggle/${payload}`)
+export const editPassword = (id, payload) => API.put(`/users/password/${id}`, payload);
+
+//FILTERS
+export const filterByName = (filterName, filter) => API.get(`/products/${filterName}?${filterName}=${filter}`) //return await axios.get(`${REACT_APP_API}products/${filterName}?${filterName}=${filter}`)
+export const filterByBrand = (filter) => API.get(`/products/brand?=${filter.brand}&size=${filter.size}&genre=${filter.genre}&price=${filter.price}&category=${filter.category}`)
+export const filterByCategory = (name) => API.get(`/products/category/${name}`);
+
+//REVIEWS
+export const getAllReviews = (page) => API.get(`/reviews?page=${page}`);
+export const getReviewsById = (id,page) => API.get(`/reviews/${id}?page=${page}`);
+export const addReviews = (body) => API.post(`/reviews`, body);
+
+//CATEGORIES
+export const getCategories = (page) => API.get(`/categories?pageNumber=${page}`)
+export const searchCategory = (name) => API.get(`/categories?keyword=${name}`);
+export const getCategoryById = (payload) => API.get(`/categories/productCategory/${payload}`);
+export const addCategory = (payload) => API.post(`/categories`, payload);
+export const editCategory = (payload) => API.put(`/categories/${payload.id}`,payload)
+export const deleteCategory = (payload) => API.delete(`/categories/${payload}`)

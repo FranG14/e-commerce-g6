@@ -46,7 +46,7 @@ const addItem = async(req, res) => {
 
             if(itemIndex > -1){
                 let productItem = cart.items[itemIndex]
-                productItem.quantity = quantity;
+                productItem.quantity += quantity;
                 cart.items[itemIndex] = productItem;
             }
             else {
