@@ -86,6 +86,7 @@ export const deleteItem = (product, userId) => async(dispatch) =>{
         })
         localStorage.setItem('cart', JSON.stringify(cart.data))
     }).catch((error) => {
+        console.log("ERROR",error)
         dispatch({
             type: DELETE_ITEM_ERROR,
             payload: error.response.data
