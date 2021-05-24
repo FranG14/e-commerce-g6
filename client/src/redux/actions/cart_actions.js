@@ -1,10 +1,10 @@
 import { 
     GET_ACTIVE_CART_FROM_USER, GET_ALL_CARTS, GET_CARTS_BY_USER,
     ADD_TO_CART, REMOVE_PRODUCT_FROM_CART,
-    CHANGE_CART_STATE,
+    CHANGE_CART_STATE,GET_ACTIVE_CART_FROM_USER_SUCCESS,
     DECREMENT_PRODUCT_UNIT, INCREMENT_PRODUCT_UNIT, ADD_ITEM,
     ADD_ITEM_ERROR, ADD_ITEM_SUCCESS,
-    GET_CART_FROM_USER, DELETE_ITEM, GET_ERROR_ITEM_DELETE
+    GET_CART_FROM_USER, DELETE_ITEM, GET_ERROR_ITEM_DELETE,GET_ACTIVE_CART_FROM_USER_ERROR
 } from '../constants/';
 import * as api from '../api/index.js';
 import axios from 'axios';
@@ -32,6 +32,7 @@ export function buy(){
 
 //=============================================//
 export const getActiveCartFromUser = (userId) => async(dispatch) => {
+    console.log("entro a la primera")
     dispatch({
         type: GET_ACTIVE_CART_FROM_USER
     });
@@ -53,7 +54,7 @@ export const getActiveCartFromUser = (userId) => async(dispatch) => {
 
 //=============================================//
 export const addItem = (productBody, userId) => async (dispatch) => {
-    console.log(productBody)
+    // console.log("DENTRO DEL ACTION",productBody)
     dispatch({
         type: ADD_ITEM
     })
@@ -73,12 +74,13 @@ export const addItem = (productBody, userId) => async (dispatch) => {
 }
 //=============================================//
 export const getCartFromUser = (id) => {
+// console.log("entra al action,",id)
 	return function (dispatch) {
-		return axios.get(`http://localhost:3000/carts/`+ id)
+		return axios.get(`http://localhost:3000/carts/active/`+ id)
 			.then((cart) => {
 				dispatch(
 					{
-						type: GET_CART_FROM_USER,
+						type: GET_ACTIVE_CART_FROM_USER_SUCCESS,
 						payload: cart.data
 					}
 				)
@@ -97,7 +99,7 @@ export const deleteItem = (id, productId) => {
 	return function (dispatch) {
 		return axios.put(`http://localhost:3000/carts/remove/`+ id + '/'+ productId)
             .then((cart) => {
-                console.log("+++++++",cart)
+                // console.log("+++++++",cart)
 				dispatch(
 					{
 						type: DELETE_ITEM,

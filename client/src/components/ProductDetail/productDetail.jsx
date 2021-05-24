@@ -50,10 +50,9 @@ function DetailProduct(props) {
         dispatch(detailProduct(id))
     }, [])
 
-    let idProduct = productsArray._id
-    console.log(productsArray._id)
+    // console.log(productsArray._id)
     const [addCart, setAddCart] = useState({
-        productId: idProduct,
+        productId: id,
         quantity: 1
     })
 
@@ -75,8 +74,6 @@ function DetailProduct(props) {
             }
             sum = sum / reviewsRating.length
             setAverage(sum)
-            console.log(average)
-            return sum
         }
     }
     useEffect(() => {
@@ -84,7 +81,7 @@ function DetailProduct(props) {
 
     })
 
-    console.log("+++++", average)
+    // console.log("+++++", average)
     return (
         <div>
             <UniversalNavBar />
