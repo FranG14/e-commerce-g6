@@ -104,7 +104,7 @@ export default function UniversalNavBar(props) {
 
         }
 
-        <li><Link to={"/cart/" + user.result._id}><img class="mx-auto" width='24px' height="24px" src={carroHome}></img></Link></li>
+        <li><Link to={"/cart/" + user?.result._id}><img class="mx-auto" width='24px' height="24px" src={carroHome}></img></Link></li>
 
       </ul>
 
