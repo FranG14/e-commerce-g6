@@ -8,6 +8,7 @@ import Footer from '../../containers/Footer/footer';
 import swal from 'sweetalert';
 import carro from '../../assets/carro.png'
 import StarRatingComponent from 'react-star-rating-component';
+import { filterById } from '../../redux/actions/reviews_actions';
 
 
 function mapStateToProps(state) {
@@ -32,6 +33,8 @@ function DetailProduct(props) {
     const reviewsRating = useSelector(
         (state) => state.productsReducer.allProducts.productReview
     );
+    // console.log("aaaaaaa", reviewsRating)
+
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
 
     //console.log("!!!!!!!,", reviewsRating)
@@ -46,8 +49,16 @@ function DetailProduct(props) {
         }
         if (imagePos === productsArray.img.length - 1) setImagePos(0)
     }
+    let reviewsFilter = reviewsRating
+    if (reviewsRating && reviewsRating.length > 15) {
+         reviewsFilter = reviewsRating.slice(-15)
+        // console.log("AAaaa", reviewsFilter)
+    }
+
+
     useEffect(() => {
         dispatch(detailProduct(id))
+        /*   dispatch(filterById(id)) */
     }, [])
 
     // console.log(productsArray._id)
@@ -58,25 +69,26 @@ function DetailProduct(props) {
 
     function addProductToCart() {
         //props.addToCart({id:id,img:productsArray.img,brand:productsArray.brand,name:productsArray.name,stock:productsArray.stock,price:productsArray.price})
-        if(user){
-        swal({
-            title: "Your Product Was Added to Cart!",
-            icon: carro,
-            button: true,
-            dangerMode: true,
-        })
-        dispatch(addItem(addCart, user?.result._id))
+        if (user) {
+            swal({
+                title: "Your Product Was Added to Cart!",
+                icon: carro,
+                button: true,
+                dangerMode: true,
+            })
+            dispatch(addItem(addCart, user?.result._id))
+        }
     }
-}
-
     const averageRating = () => {
         let sum = 0
-        if (reviewsRating && reviewsRating.length > 0) {
-            for (var i = 0; i < reviewsRating.length; i++) {
-                sum = sum + reviewsRating[i].rating
+        if (reviewsFilter && reviewsFilter.length > 0) {
+            for (var i = 0; i < reviewsFilter.length; i++) {
+                sum = sum + reviewsFilter[i].rating
             }
-            sum = sum / reviewsRating.length
+            sum = sum / reviewsFilter.length
             setAverage(sum)
+            console.log("aAAAAAAA",reviewsFilter)
+            console.log("promedio", average)
         }
     }
     useEffect(() => {
