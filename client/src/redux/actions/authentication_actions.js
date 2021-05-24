@@ -16,13 +16,13 @@ export const login = (formData, history) => async (dispatch) => {
     });
     return await api.login(formData)
     .then((u)=>{
+        localStorage.setItem('profile', JSON.stringify(u.data))
         dispatch({
             type: LOGIN_SUCCESS,
             payload: u.data
         })
-        localStorage.setItem('profile', JSON.stringify(u.data))
     })
-    // .then(history.push('/'))
+    .then(history.push('/'))
     .catch ((error) => {
         dispatch({
             type:LOGIN_ERROR,
@@ -37,18 +37,24 @@ export const register = (formData, history) => async (dispatch) => {
     });
     return await api.register(formData)
     .then((u)=>{
+        localStorage.setItem('profile', JSON.stringify(u.data))
         dispatch({
             type: REGISTER_SUCCESS,
             payload: u.data
         })
-        localStorage.setItem('profile', JSON.stringify(u.data))
     })
-    // .then(history.push('/'))
+    .then(history.push('/'))
     .catch((error)=> {
         dispatch({
             type:REGISTER_ERROR,
             payload: error.response.data
         })
+    })
+}
+//=====================================================================================//
+export const logout = () => async(dispatch) => {
+    dispatch({
+        type: LOGOUT
     })
 }
 //=====================================================================================//
@@ -67,13 +73,13 @@ export const googleLogIn = (formData, history) => async(dispatch) => {
     });
     return await api.googleLogIn(formData)
     .then((u)=>{
+        localStorage.setItem('profile', JSON.stringify(u.data))
         dispatch({
             type: GOOGLE_LOGIN_SUCCESS,
             payload: u.data
         })
-        localStorage.setItem('profile', JSON.stringify(u.data))
     })
-    // .then(history.push('/'))
+    .then(history.push('/'))
     .catch((error)=>{
         dispatch({
             type:GOOGLE_LOGIN_ERROR,
@@ -122,3 +128,4 @@ export const updateUser = (userBody, _id) => async(dispatch) => {
         })
     })
 }
+//=====================================================================================//

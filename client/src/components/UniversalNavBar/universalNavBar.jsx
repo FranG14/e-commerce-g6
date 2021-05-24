@@ -23,11 +23,11 @@ export default function UniversalNavBar(props) {
 
     if (token) {
       const decodedToken = decode(token);
-      if (decodedToken.exp * 1000 < new Date().getTime()) console.log("Session expired!")
+      setUser(JSON.parse(localStorage.getItem('profile')));
+      //if (decodedToken.exp * 1000 < new Date().getTime()) console.log("Session expired!")
     }
 
-    setUser(JSON.parse(localStorage.getItem('profile')));
-  }, [location])
+  }, [user, location])
 
   const logout = () => {
     dispatch({ type: "LOGOUT" });

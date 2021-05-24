@@ -44,15 +44,15 @@ const authenticationReducer = (state = initialState, action) => {
         case CHANGE_PASSWORD_SUCCESS:
             return{...state, authData: action.payload, isLoading: false, error: null}
         case CHANGE_PASSWORD_ERROR: //Acá habría que volver a agarrar al usuario del localStorage
-            let profile =  useState(JSON.parse(localStorage.getItem('profile')));
-            return {...state, authData: profile, isLoading:false , error: action.payload}
+            let profileFromStorage =  JSON.parse(localStorage.getItem('profile'));
+            return {...state, authData: profileFromStorage, isLoading:false , error: action.payload}
         case UPDATE_USER:
             return {...state, authData: null, isLoading: true, error: null}
         case UPDATE_USER_SUCCESS:
             return {...state, authDate: action.payload, isLoading: false, error: false}
         case UPDATE_USER_ERROR:
-            let profile =  useState(JSON.parse(localStorage.getItem('profile')));
-            return {...state, authData: profile, isLoading: false, error: action.payload}
+            profileFromStorage =  JSON.parse(localStorage.getItem('profile'));
+            return {...state, authData: profileFromStorage, isLoading: false, error: action.payload}
         default:
             return state;
     }
