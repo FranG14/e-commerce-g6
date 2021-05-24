@@ -15,12 +15,11 @@ server.use(morgan("dev"));
 server.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", '*'); // update to match the domain you will make the request from
   res.header("Access-Control-Allow-Credentials", "true");
-  //Germán:Tuve que agregar un par de parámetros a CORS para que me deje registrar usuarios
   res.header(
     "Access-Control-Allow-Headers",
     "Access-Control-Allow-Headers, Origin, X-Requested-With, Content-Type, Accept, Authorization"
   );
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS");
   next();
 });
 
