@@ -43,30 +43,33 @@ const ProductPostForm = () => {
 
     if (select) {
       let selectValue = select.options[select.selectedIndex].value;
-      let selectedCategoryNames =
-        select.options[select.selectedIndex].innerText;
-      let selectCategoryName = selectedName.categoryName.concat(
-        selectedCategoryNames + " "
-      );
-      setSelectedName({ ...selectedName, categoryName: selectCategoryName });
+      let selectedCategoryNames = select.options[select.selectedIndex].innerText;
+
+      setSelectedName({ ...selectedName,
+         categoryName: selectedName.categoryName.concat(selectedCategoryNames) });
+
       let selectCategory = product.category.concat(selectValue);
       setProduct({ ...product, category: selectCategory });
+
     }
   };
-  //TERMINAR ESTA WEAAA!
+
   const deleteCateg = (e) => {
-    // console.log({...selectedName, categoryName:selectedName.categoryName.find((cate) => cate === 'prueba')})
-    setSelectedName({ ...selectedName, categoryName: selectedName.categoryName.splice(0, e.target.id) });
-    // e.target.remove()
+    let filterCategory = []
+    selectedName.categoryName.map(cate => {
+      if(cate !== e.target.innerText){
+        filterCategory.push(cate);
+      }
+    });
+    setSelectedName({categoryName: filterCategory})
   }
-  console.log(selectedName.categoryName)
   const [selectedFile, setSelectedFile] = useState([]);
   const [imgUrl, setImgUrl] = useState(null);
 
   const handleFileInputChange = (event) => {
     setSelectedFile(event.target.files);
     setImgUrl(URL.createObjectURL(event.target.files[0]));
-    // console.log("IMAGENES",selectedFile)
+
   };
   const handleSubmit = (e) => {
     e.preventDefault();

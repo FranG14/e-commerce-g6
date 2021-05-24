@@ -15,14 +15,14 @@ const initialState = {
 };
 
 const cartReducer = (state = initialState, action) => {
-    switch (action.type) {
-      case ADD_ITEM:
-        return { ...state, cart: null, isLoading:true, error:null}
+  switch (action.type) {
+    case ADD_ITEM:
+      return { ...state, cart: null, isLoading:true, error:null}
       case ADD_ITEM_SUCCESS:
         return {...state, cart: action.payload, isLoading: false, error:null}
-      case ADD_ITEM_ERROR:
-        return {...state, cart: action.payload, isLoading: false, error:true}
-      case GET_ACTIVE_CART_FROM_USER:
+        case ADD_ITEM_ERROR:
+          return {...state, cart: action.payload, isLoading: false, error:true}
+          case GET_ACTIVE_CART_FROM_USER:
         return {...state, cart: null, isLoading: true, error:null}
       case GET_ACTIVE_CART_FROM_USER_SUCCESS:
         return {...state, cart: action.payload, isLoading: false, error:false}
@@ -32,14 +32,10 @@ const cartReducer = (state = initialState, action) => {
       //======REDUCER VIEJO (A DEPRECAR)======// 
       case ADD_TO_CART:
         return { cart: [...state.cart,action.payload] };
-      case DEL_FROM_CART:
-        return { cart: state.cart.filter((producto)=>{
-            if(producto.name===action.payload.name){
-                return false;
-            }else{
-                return true;
-            }
-        })}
+      case DELETE_ITEM:
+        console.log("entra al delete")
+			return {...state,
+         cart:action.payload, isLoading: false, error:false}
       case BUY:
         return {
           cart:action.payload

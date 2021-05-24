@@ -1,14 +1,14 @@
 import { 
     GET_ACTIVE_CART_FROM_USER, GET_ACTIVE_CART_FROM_USER_SUCCESS, GET_ACTIVE_CART_FROM_USER_ERROR,
     GET_ALL_CARTS, GET_CARTS_BY_USER,
-    ADD_TO_CART, 
-    REMOVE_ITEM, REMOVE_ITEM_SUCCESS, REMOVE_ITEM_ERROR,
+    DELETE_ITEM, DELETE_ITEM_SUCCESS, DELETE_ITEM_ERROR,
     CHANGE_CART_STATE, CHANGE_CART_STATE_SUCCESS, CHANGE_CART_STATE_ERROR,
     DECREMENT_PRODUCT_UNIT, DECREMENT_PRODUCT_UNIT_SUCCESS, DECREMENT_PRODUCT_UNIT_ERROR,
     INCREMENT_PRODUCT_UNIT, INCREMENT_PRODUCT_UNIT_SUCCESS, INCREMENT_PRODUCT_UNIT_ERROR,
     ADD_ITEM, ADD_ITEM_SUCCESS, ADD_ITEM_ERROR
 } from '../constants/';
 import * as api from '../api/index.js';
+import axios from 'axios';
 
 export function addToCart(obj) {
     return {
@@ -32,7 +32,8 @@ export function buy(){
 }
 
 //=============================================//
-export const getActiveCartFromUser = (userId) => async(dispatch) => {
+export const getCartFromUser = (userId) => async(dispatch) => {
+    console.log("entro a la primera")
     dispatch({
         type: GET_ACTIVE_CART_FROM_USER
     });
@@ -51,8 +52,10 @@ export const getActiveCartFromUser = (userId) => async(dispatch) => {
         })
     })
 }
+
 //=============================================//
-export const addItem = (productBody, userId) => async(dispatch) => {
+export const addItem = (productBody, userId) => async (dispatch) => {
+    // console.log("DENTRO DEL ACTION",productBody)
     dispatch({
         type: ADD_ITEM
     })
@@ -71,20 +74,20 @@ export const addItem = (productBody, userId) => async(dispatch) => {
     })
 }
 //=============================================//
-export const removeProductFromCart = (product, userId) => async(dispatch) =>{
+export const deleteItem = (product, userId) => async(dispatch) =>{
     dispatch({
-        type: REMOVE_ITEM
+        type: DELETE_ITEM
     })
     return await api.removeProductFromCart(product,userId)
     .then((cart) => {
         dispatch({
-            type: REMOVE_ITEM_SUCCESS,
+            type: DELETE_ITEM_SUCCESS,
             payload: cart.data
         })
         localStorage.setItem('cart', JSON.stringify(cart.data))
     }).catch((error) => {
         dispatch({
-            type: REMOVE_ITEM_ERROR,
+            type: DELETE_ITEM_ERROR,
             payload: error.response.data
         })
     })
@@ -146,4 +149,9 @@ export const incrementProductUnit = (product, userId) => async(dispatch) => {
         })
     })
 }
+
+//=============================================//
+
+//=============================================//
+
 //=============================================//
