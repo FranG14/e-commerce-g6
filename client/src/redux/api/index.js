@@ -53,7 +53,7 @@ Las propiedades del esquema Cart en el Back son:
 */
 
 //Trae el cart activo de un usuario particular
-export const getActiveCartFromUser = (userId) => API.get(`/carts/active/:${userId}`);
+export const getActiveCartFromUser = (userId) => API.get(`/carts/active/${userId}`);
 //Trae todos los carts de todos los usuarios (Con paginado por query)
 export const getAllCarts = () => API.get('/carts/');
 //Trae todo el historial de carts de un usuario (Con paginado por query)
@@ -62,7 +62,7 @@ export const getCartsByUser = () => API.get('/carts/userId');
 //{"productId":"60a0896ee2e38c2fa0b2fe74","quantity": "5"}
 //En caso de ingresarse un productId que ya esté en el cart, se reemplaza la cantidad vieja por la nueva 
 //(diganme si prefieren que se sumen)
-export const addItem = (product, userId) => API.post(`/carts/:${userId}`, product)
+export const addItem = (product, userId) => API.post(`/carts/${userId}`, product)
 //Remueve un producto por completo del cart de un usuario. Ejemplo de body : {"productId": "60a0896ee2e38c2fa0b2fe74"}
 export const removeProductFromCart = (product) => API.patch('/carts/remove/:userId',product);
 //Cambia el estado de un cart de un usuario. Ejemplo de body: {"state": "cancelled"}
