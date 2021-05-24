@@ -17,7 +17,7 @@ API.interceptors.request.use((req)=> {
 export const login = (formData) => API.post('/users/login', formData);
 export const register = (formData) => API.post('/users/register', formData);
 export const googleLogIn = (formData) => API.post('users/google',formData);
-export const changePassword = (passwords, _id) => API.patch(`/users/password/:${_id}`, passwords);
+export const changePassword = (passwords, _id) => API.patch(`/users/password/${_id}`, passwords);
 export const updateUser = (userBody, _id) => API.put(`users/${_id}`);
 
 
@@ -34,12 +34,12 @@ export const getCartsByUser = () => API.get('/carts/userId');
 //(diganme si prefieren que se sumen)
 export const addItem = (product, userId) => API.post(`/carts/${userId}`, product)
 //Remueve un producto por completo del cart de un usuario. Ejemplo de body : {"productId": "60a0896ee2e38c2fa0b2fe74"}
-export const removeProductFromCart = (product, userId) => API.patch(`/carts/remove/:${userId}`,product);
+export const removeProductFromCart = (product, userId) => API.patch(`/carts/remove/${userId}`,product);
 //Cambia el estado de un cart de un usuario. Ejemplo de body: {"state": "cancelled"}
-export const changeCartState = (state, userId) => API.patch(`/carts/:${userId}`, state);
+export const changeCartState = (state, userId) => API.patch(`/carts/${userId}`, state);
 //Decrementa por uno la cantidad de un producto del cart. Ejemplo de body:  {"productId": "60a0896ee2e38c2fa0b2fe74"}
 //No se puede decrementar por debajo de 0
-export const decrementProductUnit = (product, userId) => API.patch(`/carts/decrement/:${userId}`,product);
+export const decrementProductUnit = (product, userId) => API.patch(`/carts/decrement/${userId}`,product);
 //Incrementa por uno la cantidad de un producto del cart. Ejemplo de body:  {"productId": "60a0896ee2e38c2fa0b2fe74"}
 //No se puede aumentar por encima del stock
 export const incrementProductUnit = (product, userId) => API.patch(`/carts/increment/:${userId}`,product)

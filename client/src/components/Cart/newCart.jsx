@@ -12,7 +12,7 @@ const NewCart = () => {
     //      state.userReducer)
      const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
     const userCart = useSelector(
-        (state) => (state.cartReducer.cart && state.cartReducer.cart )?state.cartReducer.cart.cart.items:state.cartReducer
+        (state) => (state.cartReducer.cart && state.cartReducer.cart && user )?state.cartReducer.cart.cart.items:state.cartReducer
     );
 
     const [total, setTotal] = useState({ totalItems: 0, totalPrice: 0 })
@@ -30,12 +30,14 @@ const NewCart = () => {
     const deleteC = (userId, productId) => {
         dispatch(deleteItem(userId, productId))
         swal({
-            title: "Deleted product",
+            title: "Product Removed From Cart",
+            message: "Updating Cart",
             icon: "warning",
-            buttons: false,
+            button: true,
             dangerMode: true,
+        }).then(function () {
+            window.location.reload()
         })
-        window.location.reload()
     }
 
     const dispatch = useDispatch()
