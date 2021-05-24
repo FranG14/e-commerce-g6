@@ -32,19 +32,19 @@ server.post('/:userId', addItem);
 //==========================================================================//
                 //Ruta para cambiar estado del cart
 //==========================================================================//
-server.patch('/:userId', stateChange)
+server.put('/:userId', stateChange)
 //==========================================================================//
                 //Ruta para quitar producto al cart 
 //==========================================================================//
-server.patch('/remove/:userId', removeProductFromCart)
+server.put('/remove/:userId/:productId', removeProductFromCart)
 //==========================================================================//
                 //Ruta para quitar una unidad a un producto del cart
 //==========================================================================//
-server.patch('/decrement/:userId', decrementProductUnit)
+server.put('/decrement/:userId', decrementProductUnit)
 //==========================================================================//
                 //Ruta para aumentar una unidad a un producto del cart
 //==========================================================================//
-server.patch('/increment/:userId', incrementProductUnit)
+server.put('/increment/:userId', incrementProductUnit)
 //==========================================================================//
 
 module.exports = server;

@@ -80,6 +80,12 @@ export const DEL_FROM_CART = "DEL_FROM_CART"
 export const BUY = "BUY"
 export const POST_CART = "POST_CART"
 
+export const GET_CART_FROM_USER = "GET_CART_FROM_USER"
+export const GET_ERROR_ITEM_DELETE = "GET_ERROR_ITEM_DELETE"
+export const DELETE_ITEM = "DELETE_ITEM"
+
+
+
 //REVIEWS
 export const GET_ALL_REVIEWS = "GET_ALL_REIEWS";
 export const ADD_REVIEW = "ADD_REVIEW";

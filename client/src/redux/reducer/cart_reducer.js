@@ -3,7 +3,7 @@ import {
     DEL_FROM_CART,
     BUY,
 
-    ADD_ITEM, ADD_ITEM_SUCCESS, ADD_ITEM_ERROR, GET_ACTIVE_CART_FROM_USER, GET_ACTIVE_CART_FROM_USER_SUCCESS, GET_ACTIVE_CART_FROM_USER_ERROR
+    ADD_ITEM, ADD_ITEM_SUCCESS, ADD_ITEM_ERROR, GET_ACTIVE_CART_FROM_USER, GET_ACTIVE_CART_FROM_USER_SUCCESS, GET_ACTIVE_CART_FROM_USER_ERROR, DELETE_ITEM
 } from "../constants";
 //{name:"test",price:100,brand:"a"},{name:"test2",price:100,brand:"a"}
 const initialState = {
@@ -31,14 +31,11 @@ const cartReducer = (state = initialState, action) => {
       //======REDUCER VIEJO (A DEPRECAR)======// 
       case ADD_TO_CART:
         return { cart: [...state.cart,action.payload] };
-      case DEL_FROM_CART:
-        return { cart: state.cart.filter((producto)=>{
-            if(producto.name===action.payload.name){
-                return false;
-            }else{
-                return true;
-            }
-        })}
+      case DELETE_ITEM:
+			return {
+				...state,
+					cart: state.cart.filter(item => item.id !== action.payload.id)
+				}
       case BUY:
         return {
           cart:action.payload

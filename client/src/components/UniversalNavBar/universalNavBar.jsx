@@ -93,7 +93,7 @@ export default function UniversalNavBar(props) {
       <label class="menu-icon" for="menu-btn"><span class="navicon"></span></label>
 
 
-      <input onKeyPress={handleKeyPress} class="mt-3 mb-3 border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none " type="search" name="search" autoComplete="true" placeholder="Search" autoComplete='on' value={input.name} onChange={(e) => handleChange(e)} />
+      <input onKeyPress={handleKeyPress} class="mt-3 mb-3 w-48 border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none " type="search" name="search" autoComplete="true" placeholder="Search" autoComplete='on' value={input.name} onChange={(e) => handleChange(e)} />
 
 
       <ul class="menu">
@@ -104,7 +104,7 @@ export default function UniversalNavBar(props) {
 
         }
 
-        <li><Link to="/Cart"><img class="mx-auto" width='24px' height="24px" src={carroHome}></img></Link></li>
+        <li><Link to={"/cart/" + user.result._id}><img class="mx-auto" width='24px' height="24px" src={carroHome}></img></Link></li>
 
       </ul>
 

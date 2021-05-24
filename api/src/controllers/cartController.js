@@ -204,10 +204,15 @@ const getCartsByUser = async(req,res)=>{
 //==========================================================================//
 const removeProductFromCart = async(req,res)=>{
     const {userId} = req.params;
-    const {productId} = req.body;
+    const { productId } = req.params;
+    console.log("id ========", userId, productId)
     try{
         let cart = await Cart.findOne({$and:[{userId}, {state:'active'}]});
         let itemIndex = cart.items.findIndex((i) => i.productId.equals(productId));
+        console.log(cart.items[itemIndex])
+        cart.items = cart.items.filter(prop => prop.productId === productId)
+        const updateCart = await cart.save()
+        res.status(200).json(updateCart)
     } catch (error){
         console.log(error);
         return res.status(500).json({message:'There was an error'})
