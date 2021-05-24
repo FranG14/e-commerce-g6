@@ -18,11 +18,9 @@ export default function UserDetail() {
     const history = useHistory();
 
 
-    // const user.result = useSelector(
-
-    //     (state) => state.userReducer.user.list.userFound
-
-    // );
+    const user = useSelector(
+        (state) => state.userReducer.user.list.userFound
+    );
     //console.log("USER DATAA", userData)
     useEffect(() => {
         //Por ahora traigo el user guardado en el localStorage.

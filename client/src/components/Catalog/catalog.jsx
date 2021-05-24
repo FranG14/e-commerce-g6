@@ -29,6 +29,7 @@ function Catalogo() {
       button: true,
       dangerMode: true,
   })
+  window.location.reload()
   }
   return (
     <div className=" mt-20 ">

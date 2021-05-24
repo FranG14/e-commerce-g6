@@ -154,7 +154,7 @@ const ProductPostForm = () => {
     dispatch(addProducts(fd, config));
     setProduct(newProduct);
     swal({
-      title: "Product Edited",
+      title: "Product Created",
       icon: "success",
       button: true,
     }).then(function () {

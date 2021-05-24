@@ -11,8 +11,9 @@ const NewCart = () => {
     // const user = useSelector(state =>
     //      state.userReducer)
      const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
+
     const userCart = useSelector(
-        (state) => (state.cartReducer.cart && state.cartReducer.cart )?state.cartReducer.cart.cart.items:state.cartReducer
+        (state) => (state.cartReducer.cart && state.cartReducer.cart && user )?state.cartReducer.cart.cart.items:state.cartReducer
     );
 
     const [total, setTotal] = useState({ totalItems: 0, totalPrice: 0 })
