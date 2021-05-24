@@ -31,12 +31,14 @@ const NewCart = () => {
     const deleteC = (userId, productId) => {
         dispatch(deleteItem(userId, productId))
         swal({
-            title: "Deleted product",
+            title: "Product Removed From Cart",
+            message: "Updating Cart",
             icon: "warning",
-            buttons: false,
+            button: true,
             dangerMode: true,
+        }).then(function () {
+            window.location.reload()
         })
-        window.location.reload()
     }
 
     const dispatch = useDispatch()

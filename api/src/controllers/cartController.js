@@ -34,7 +34,16 @@ const addItem = async(req, res) => {
         const name = newItem.name;
 
         if(cart){
-            let itemIndex = cart.items.findIndex((i) => i.productId.equals(productId));
+            let itemIndex = -1
+            //let itemIndex = cart.items.findIndex((i) => i.productId.equals(productId));
+
+            for(let i = 0; i<cart.items.length; i++){
+                if(cart.items[i].productId.equals(productId)){
+                    itemIndex = i;
+                    break;
+                }
+            }
+
             if(itemIndex > -1){
                 let productItem = cart.items[itemIndex]
                 productItem.quantity = quantity;
