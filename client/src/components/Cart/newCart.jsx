@@ -7,12 +7,12 @@ import { useParams } from 'react-router';
 import swal from 'sweetalert';
 
 const NewCart = () => {
-
     var { id } = useParams()
-    const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
-
+    // const user = useSelector(state =>
+    //      state.userReducer)
+     const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
     const userCart = useSelector(
-        (state) => state.cartReducer.cart
+        (state) => (state.cartReducer.cart && state.cartReducer.cart )?state.cartReducer.cart.cart.items:state.cartReducer
     );
 
     const [total, setTotal] = useState({ totalItems: 0, totalPrice: 0 })
@@ -35,22 +35,21 @@ const NewCart = () => {
             buttons: false,
             dangerMode: true,
         })
-        //window.location.reload()
+        window.location.reload()
     }
 
-    console.log("!!!!!!!,", userCart)
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(getCartFromUser(id))
         totalItems()
-    }, [])
+    }, [id])
 
     return (
         <div class="bg-gray-200 h-full md:h-screen">
             <UniversalNavBar />
             <div class="grid grid-cols-12 mt-16 pt-4 gap-6">
                 <div class="col-span-12 sm:col-span-12 md:col-span-7 lg:col-span-8 xxl:col-span-8">
-                    {userCart.length > 0 && userCart.map(cart => {
+                    {userCart && userCart.length > 0 && userCart.map(cart => {
                         return (
                             <div class="bg-white py-4 px-4 shadow-xl rounded-lg my-4 mx-4">
                                 <div class="flex justify-between px-4 items-center">

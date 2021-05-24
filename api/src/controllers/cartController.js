@@ -4,6 +4,7 @@ const Product = require ('./../models/Product')
 
 //==========================================================================//
 const getActiveCartFromUser = async(req, res)=> {
+    console.log("entra al")
     const {userId} = req.params;
     let cart = await Cart.findOne({$and:[{userId}, {state:'active'}]});
 
@@ -15,8 +16,7 @@ const getActiveCartFromUser = async(req, res)=> {
         });
         return res.status(201).json({newCart})
     }
-
-    return res.status(200).status({cart})
+    return res.status(200).json({cart})
 }
 //==========================================================================//
 const addItem = async(req, res) => {
@@ -205,14 +205,19 @@ const getCartsByUser = async(req,res)=>{
 const removeProductFromCart = async(req,res)=>{
     const {userId} = req.params;
     const { productId } = req.params;
-    console.log("id ========", userId, productId)
+    let cartFiltered = [];
     try{
         let cart = await Cart.findOne({$and:[{userId}, {state:'active'}]});
         let itemIndex = cart.items.findIndex((i) => i.productId.equals(productId));
-        console.log(cart.items[itemIndex])
-        cart.items = cart.items.filter(prop => prop.productId === productId)
-        const updateCart = await cart.save()
-        res.status(200).json(updateCart)
+
+        cart.items.map((prop,i) => {
+            if(prop.productId != productId){
+                cartFiltered.push(cart.items[i])
+            }
+        })
+        cart.items = cartFiltered;
+        const updateCart = await cart.save();
+        res.status(200).json({cart:updateCart})
     } catch (error){
         console.log(error);
         return res.status(500).json({message:'There was an error'})

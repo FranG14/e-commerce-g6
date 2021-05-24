@@ -14,14 +14,14 @@ const initialState = {
 };
 
 const cartReducer = (state = initialState, action) => {
-    switch (action.type) {
-      case ADD_ITEM:
-        return { ...state, cart: null, isLoading:true, error:null}
+  switch (action.type) {
+    case ADD_ITEM:
+      return { ...state, cart: null, isLoading:true, error:null}
       case ADD_ITEM_SUCCESS:
         return {...state, cart: action.payload, isLoading: false, error:null}
-      case ADD_ITEM_ERROR:
-        return {...state, cart: action.payload, isLoading: false, error:true}
-      case GET_ACTIVE_CART_FROM_USER:
+        case ADD_ITEM_ERROR:
+          return {...state, cart: action.payload, isLoading: false, error:true}
+          case GET_ACTIVE_CART_FROM_USER:
         return {...state, cart: null, isLoading: true, error:null}
       case GET_ACTIVE_CART_FROM_USER_SUCCESS:
         return {...state, cart: action.payload, isLoading: false, error:false}
@@ -32,10 +32,9 @@ const cartReducer = (state = initialState, action) => {
       case ADD_TO_CART:
         return { cart: [...state.cart,action.payload] };
       case DELETE_ITEM:
-			return {
-				...state,
-					cart: state.cart.filter(item => item.id !== action.payload.id)
-				}
+        console.log("entra al delete")
+			return {...state,
+         cart:action.payload, isLoading: false, error:false}
       case BUY:
         return {
           cart:action.payload

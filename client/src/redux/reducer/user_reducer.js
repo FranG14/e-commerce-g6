@@ -2,7 +2,6 @@ import { GET_USER_ID ,EDIT_USER, GET_USERS, DELETE_USER, SEARCH_USER, ADMIN_USER
 
 const initialState = {
 	user: {
-		
 		list: [],
 		category: {},
 		error: false

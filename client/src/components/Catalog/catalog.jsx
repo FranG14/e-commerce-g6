@@ -47,7 +47,6 @@ function Catalogo() {
           <div className="grid sm:grid-cols-3  sm:grid-rows-5  grid-cols-1 justify-center justify-items-center content-center items-center">
             {productsArray?.products ? (
               productsArray.products.map((producto,key) => {
-                console.log("MAPEO", producto.img)
                 return (
                   <Link key = {key}
                     style={{ textDecoration: "none", outline: "none" }}
