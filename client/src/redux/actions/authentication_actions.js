@@ -1,7 +1,8 @@
 import { 
     REGISTER, REGISTER_SUCCESS, REGISTER_ERROR, 
     LOGIN, LOGIN_SUCCESS, LOGIN_ERROR, LOGOUT, 
-    GET_USER_BY_ID, 
+    GET_USER_BY_ID,
+    UPDATE_USER, UPDATE_USER_SUCCESS, UPDATE_USER_ERROR, 
     GOOGLE_LOGIN, GOOGLE_LOGIN_SUCCESS, GOOGLE_LOGIN_ERROR, 
     CHANGE_PASSWORD, CHANGE_PASSWORD_SUCCESS, CHANGE_PASSWORD_ERROR,
 } from '../constants/';
@@ -51,9 +52,9 @@ export const register = (formData, history) => async (dispatch) => {
     })
 }
 //=====================================================================================//
-export const getUserById = () => async(dispatch) => {
+export const getUserById = (_id) => async(dispatch) => {
     try {
-        const { data } = await api.getUserById();
+        const { data } = await api.getUserById(_id);
         dispatch({type: GET_USER_BY_ID, payload: data});
     } catch (error) {
         console.log(error)
@@ -103,3 +104,21 @@ export const changePassword = (passwords, history) => async(dispatch) => {
     })
 }
 //=====================================================================================//
+export const updateUser = (userBody, _id) => async(dispatch) => {
+    dispatch({
+        type: UPDATE_USER
+    })
+    return await api.updateUser(userBody, _id)
+    .then((updated)=>{
+        dispatch({
+            type: UPDATE_USER_SUCCESS,
+            payload: updated.data
+        })
+        localStorage.setItem('profile', JSON.stringify(updated.data))
+    }).catch((error)=>{
+        dispatch({
+            type: UPDATE_USER_ERROR,
+            payload: error.response.data
+        })
+    })
+}

@@ -13,12 +13,12 @@ API.interceptors.request.use((req)=> {
     return req;
 })
 //AUTHENTICATION
-export const getUserById = () => API.get('/users/:id');
+export const getUserById = (_id) => API.get(`/users/:${_id}`);
 export const login = (formData) => API.post('/users/login', formData);
 export const register = (formData) => API.post('/users/register', formData);
 export const googleLogIn = (formData) => API.post('users/google',formData);
-export const changePassword = (passwords) => API.patch('/users/password/:_id', passwords);
-
+export const changePassword = (passwords, _id) => API.patch(`/users/password/:${_id}`, passwords);
+export const updateUser = (userBody, _id) => API.put(`users/${_id}`);
 //CART
 /* Escrito por Germán 22/05
 
