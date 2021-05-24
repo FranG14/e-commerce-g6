@@ -69,15 +69,14 @@ function DetailProduct(props) {
 
     function addProductToCart() {
         //props.addToCart({id:id,img:productsArray.img,brand:productsArray.brand,name:productsArray.name,stock:productsArray.stock,price:productsArray.price})
-        if (user) {
-            swal({
-                title: "Your Product Was Added to Cart!",
-                icon: carro,
-                button: true,
-                dangerMode: true,
-            })
-            dispatch(addItem(addCart, user?.result._id))
-        }
+        if(user){
+        swal({
+            title: "Your Product Was Added to Cart!",
+            icon: carro,
+            button: true,
+            dangerMode: true,
+        })
+        dispatch(addItem(addCart, user?.result._id))
     }
 }
     const averageRating = () => {
