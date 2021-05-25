@@ -20,6 +20,7 @@ function Cart(props) {
     const [quantity, setQuantity] = useState([])
     const [total, setTotal] = useState(0)
     const [mensajes, setMensajes] = useState([])
+    const [payment, setPayment] = useState(0)
 
     const carrito = useSelector(
         (state) => state.cartReducer.cart
@@ -130,10 +131,12 @@ function Cart(props) {
     }
 
     async function enviarDatos() {
-        if (authData == null) {
+        let usuario = JSON.parse(localStorage.getItem('profile'))
+        if (usuario == null) {
             return document.getElementById("redirect").click();
         }
         setMensajes([])
+        /*
         let msj = ""
         for (let i = 0; i < products.length; i++) {
             try {
@@ -167,8 +170,26 @@ function Cart(props) {
                 }
                 //});
             }
-        }
+        }*/
+        document.getElementById("ch").setAttribute("disabled",true)
 
+        fetch(`http://localhost:3001/mercadopago/${usuario.result._id}`)
+            .then(res=>res.json())
+            .then((res)=>{
+                //alert(JSON.stringify(res))
+                if(res.hasOwnProperty("message")){
+                    swal("error","No tienes un carrito creado","error")
+                    document.getElementById("ch").removeAttribute("disabled")
+                    return;
+                }
+                setPayment(res.id)
+                document.getElementById("payment").click()
+                //document.getElementById("ch").removeAttribute("disabled")
+            })
+            .catch(err=>{
+                swal("Error","error","error")
+                document.getElementById("ch").removeAttribute("disabled")
+            })
     }
 
     useEffect(() => {
@@ -180,7 +201,9 @@ function Cart(props) {
     return (
         <div class="bg-gray-100">
             <UniversalNavBar />
+            <Link to={`/payment/${payment}`} id="payment" style={{ display: "none" }}></Link>
             <Link to="/auth" id="redirect" style={{ display: "none" }}></Link>
+
             <body class="bg-gray-100">
                 <div class="container mx-auto mt-10">
                     <div class="flex shadow-md my-10">
@@ -289,12 +312,13 @@ function Cart(props) {
                                     <span>Total cost</span>
                                     <span>{total}</span>
                                 </div>
-                                <button class="bg-green-700 font-semibold hover:bg-green-600 py-3 text-sm text-white uppercase w-full" onClick={enviarDatos}>Checkout</button>
+                                <button class="bg-green-700 font-semibold hover:bg-green-600 py-3 text-sm text-white uppercase w-full" onClick={enviarDatos} id="ch">Checkout</button>
                             </div>
                         </div>
 
                     </div>
                 </div>
+                <script src="https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js"></script>
             </body>
             <Footer />
         </div>

@@ -34,7 +34,29 @@ const addItem = async(req, res) => {
         const name = newItem.name;
 
         if(cart){
-            let itemIndex = cart.items.findIndex((i) => i.productId.equals(productId));
+            //let a=[]
+            //let itemIndex = cart.items.findIndex((i) => i.productId.equals(productId));
+            //let itemIndex = cart.items.findIndex((i) => a.push(i.productId));
+            let itemIndex=-1
+
+            for(let i=0;i<cart.items.length;i++){
+                if(cart.items[i].productId.equals(productId)){
+                    itemIndex=i;
+                    //return res.json({idItem:itemIndex})
+                    break;
+                }
+            }
+
+            if(itemIndex!=-1){
+                cart.items[itemIndex]={productId,name:newItem.name,quantity,price:newItem.price}
+                cart.save()
+                return res.json({test:cart})
+            }
+
+            cart.items.push({productId,name:newItem.name,quantity,price:newItem.price})
+            cart.save()
+
+            return res.json({alv:cart})
             if(itemIndex > -1){
                 let productItem = cart.items[itemIndex]
                 productItem.quantity = quantity;
@@ -152,6 +174,9 @@ const stateChange = async(req, res) => {
     const {userId} = req.params;
     const { state } = req.body;
 
+    //console.log("El user id es: "+userId+" y el state es: "+state)
+    //return res.json({user:userId,state})
+
     if(!req.body?.state) {
         return res.status(400).json({message: 'New State not found'});
     }
@@ -165,6 +190,10 @@ const stateChange = async(req, res) => {
         if(cart){
             cart.state = state; 
             cart = await cart.save()
+            res.setHeader("Access-Control-Allow-Origin","*")
+            res.setHeader("Access-Control-Allow-Headers", '*')
+            res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS")
+            
             res.status(200).json({message:'Cart updated'})           
         } else {
             res.status(400).json({message:'Cart not found'})
