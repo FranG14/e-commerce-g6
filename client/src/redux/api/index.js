@@ -44,6 +44,12 @@ export const decrementProductUnit = (product, userId) => API.put(`/carts/decreme
 //No se puede aumentar por encima del stock
 export const incrementProductUnit = (product, userId) => API.put(`/carts/increment/${userId}`,product)
 
+
+export const canUserReview = (userId, productId) => API.get(
+    `/carts/canuserreview?userId=${userId}&productId=${productId}`
+    )
+
+
 //PRODUCT
 export const getAllProducts = (page) => API.get(`/products?page=${page}`);
 export const searchProducts = (name) => API.get(`/products?keyword=${name}`);
