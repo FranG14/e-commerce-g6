@@ -67,6 +67,7 @@ export const filterByBrand = (filter) => API.get(`/products/brand?=${filter.bran
 export const filterByCategory = (name) => API.get(`/products/category/${name}`);
 
 //REVIEWS
+export const filterReviewById = (id) => API.get(`/reviews/${id}`) 
 export const getAllReviews = (page) => API.get(`/reviews?page=${page}`);
 export const getReviewsById = (id,page) => API.get(`/reviews/${id}?page=${page}`);
 export const addReviews = (body) => API.post(`/reviews`, body);

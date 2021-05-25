@@ -58,8 +58,7 @@ export const filterById = (id) => async (dispatch) => {
   dispatch({
     type: FILTER_BY_ID
   });
-  return await axios
-  .get(`${REACT_APP_API}reviews/${id}`)
+  return await api.filterReviewById(id)
   .then((res) => {
     console.log("REVIEW ACTION",res.data)
     dispatch({
