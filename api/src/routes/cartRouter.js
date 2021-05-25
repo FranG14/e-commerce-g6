@@ -18,6 +18,7 @@ const {
                 //Ruta para obtener todos los carts
 //==========================================================================//
 server.get('/', getAllCarts)
+server.get('/:userId', getCartsByUser)
 //==========================================================================//
                 //Ruta para obtener un cart por id
 //==========================================================================//
@@ -33,6 +34,7 @@ server.post('/:userId', addItem);
 //==========================================================================//
                 //Ruta para cambiar estado del cart
 //==========================================================================//
+server.post('/:userId/changestate', stateChange)
 server.put('/:userId', stateChange)
 //==========================================================================//
                 //Ruta para quitar producto al cart 
