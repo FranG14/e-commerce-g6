@@ -54,6 +54,38 @@ const ProductPostForm = () => {
     }
   };
 
+  const handleMultipleInput = (e) =>{
+    let color = document.getElementById("color").value;
+    let size = document.getElementById("size").value;
+
+    if(color !== ""){
+      setProduct({...product,
+      color:product.color.concat(color)})
+    }
+    if(size !== ""){
+      setProduct({...product,
+      size:product.size.concat(size)})
+    }
+  }
+  
+  const deleteColor = (e) => {
+    let filterColor = [];
+    product.color.map(color =>{
+       if(color !== e.target.innerText){
+        filterColor.push(color);
+       }})
+    setProduct({...product,color: filterColor});
+  }
+
+  const deleteSize = (e) => {
+    let filterSize = [];
+    product.size.map(size =>{
+       if(size !== e.target.innerText){
+        filterSize.push(size);
+       }})
+    setProduct({...product,size: filterSize});
+  }
+
   const deleteCateg = (e) => {
     let filterCategory = []
     selectedName.categoryName.map(cate => {
@@ -172,6 +204,7 @@ const ProductPostForm = () => {
                 Post New Product
               </h1>
             </div>
+            {/* COLOR */}
             <div class="m-7">
               <form onSubmit={handleSubmit}>
                 <div class="mb-6">
@@ -192,7 +225,7 @@ const ProductPostForm = () => {
                     class="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
                   />
                 </div>
-                <div class="mb-6">
+                <div class="mb-6 w-full">
                   <label
                     for="color"
                     class="block mb-2 text-sm text-gray-600 dark:text-gray-400"
@@ -204,11 +237,15 @@ const ProductPostForm = () => {
                     type="text"
                     name="color"
                     placeholder="Color"
-                    value={product.color}
-                    onChange={handleInputChange}
+                    // value={product.color}
                     required
-                    class="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
-                  />
+                    class="w-32 px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
+                    />
+                    <button type = "button" onClick = {handleMultipleInput} className = "ml-4">+</button><br/>
+                    {product.color && product.color.length > 0 &&
+                    product.color.map((color,i) => {
+                      return <p onClick = {deleteColor} className ="inline-block mr-2 mt-4 cursor-pointer rounded round bg-gray-200 mb-2 w-20 text-center" key = {i}>{color}</p>
+                    })}
                 </div>
                 {/* genre */}
                 <div>
@@ -279,15 +316,20 @@ const ProductPostForm = () => {
                     id="size"
                     type="text"
                     name="size"
-                    value={product.size}
-                    onChange={handleInputChange}
+                    // value={product.size}
+                    // onChange={handleInputChange}
                     placeholder="Size"
-                    class="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md 
+                    class="w-32 px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md 
                                     focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 
                                  dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 
                                  dark:focus:ring-gray-900 dark:focus:border-gray-500"
                     required
                   />
+                  <button type = "button" onClick = {handleMultipleInput} className = "ml-4">+</button><br/>
+                    {product.size && product.size.length > 0 &&
+                    product.size.map((size,i) => {
+                      return <p onClick = {deleteSize} className ="inline-block mr-2 mt-4 cursor-pointer rounded round bg-gray-200 mb-2 w-20 text-center" key = {i}>{size}</p>
+                    })}
                 </div>
                 <div class="mb-6">
                   <label

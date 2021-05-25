@@ -34,7 +34,7 @@ export const getCartsByUser = () => API.get('/carts/userId');
 //(diganme si prefieren que se sumen)
 export const addItem = (product, userId) => API.post(`/carts/${userId}`, product)
 //Remueve un producto por completo del cart de un usuario. Ejemplo de body : {"productId": "60a0896ee2e38c2fa0b2fe74"}
-export const removeProductFromCart = (product, userId) => API.patch(`/carts/remove/${userId}`,product);
+export const removeProductFromCart = (userId, product) => API.put(`/carts/remove/${userId}/${product}`);
 //Cambia el estado de un cart de un usuario. Ejemplo de body: {"state": "cancelled"}
 export const changeCartState = (state, userId) => API.patch(`/carts/${userId}`, state);
 //Decrementa por uno la cantidad de un producto del cart. Ejemplo de body:  {"productId": "60a0896ee2e38c2fa0b2fe74"}
