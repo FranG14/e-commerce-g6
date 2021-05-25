@@ -1,3 +1,4 @@
+import axios from 'axios';
 import * as api from '../api/index.js';
 import { 
   ADD_REVIEW, 
@@ -11,7 +12,7 @@ import {
 } from '../constants';
 
 //const { REACT_APP_API } = 'https://e-commerce-g6-back.herokuapp.com/'; // En local comentar esta linea
-//const { REACT_APP_API } = process.env; // En deploy comentar esta linea
+const { REACT_APP_API } = process.env; // En deploy comentar esta linea
 
 export const getAllReviews = (page) => async (dispatch) => {
     dispatch({

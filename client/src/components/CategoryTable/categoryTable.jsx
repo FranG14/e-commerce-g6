@@ -63,14 +63,14 @@ const CategoryTable = () => {
         <div>
             <div className="mt-4 pt-20 mb-4 flex justify-center">
                 <button
-                    class="inline-block px-6 h-11 py-2 text-xs font-medium leading-6 text-center text-white uppercase transition bg-green-500 rounded shadow ripple hover:shadow-lg hover:bg-green-600 focus:outline-none">
+                    class="inline-block px-2 h-11 py-2 text-xs font-medium leading-6 text-center text-white uppercase transition bg-green-500 rounded shadow ripple hover:shadow-lg hover:bg-green-600 focus:outline-none">
                     <a href="/postCategory">
                         Create category
                     </a>
                 </button>
                 <div class="relative mr-6 my-2 ml-2 -mt-0.5">
-                    <input type="search" class="bg-purple-white shadow rounded border-0 p-3" value={input.name} onChange={(e) => handleChange(e)} placeholder="Search by name...   " />
-                    <button className="bg-white" onClick={handleSubmit}>🔍</button>
+                    <input type="search" class="bg-purple-white shadow rounded border-0 p-3 w-40" value={input.name} onChange={(e) => handleChange(e)} placeholder="Search by name...   " />
+                    <button className="bg-gray-200" onClick={handleSubmit}>🔍</button>
                     <div class="absolute pin-r pin-t mt-3 mr-4 text-purple-lighter">
                         <svg version="1.1" class="h-4 text-dark" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                             viewBox="0 0 52.966 52.966" style={{ enableBackground: "new 0 0 52.966 52.966" }} xmlSpace="preserve">
