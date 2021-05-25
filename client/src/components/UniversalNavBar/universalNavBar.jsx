@@ -11,6 +11,7 @@ import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 
 export default function UniversalNavBar(props) {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
+
   const history = useHistory();
   const location = useLocation();
 
@@ -102,17 +103,20 @@ export default function UniversalNavBar(props) {
         <input class="menu-btn" type="checkbox" id="menu-btn" />
 
         <label class="menu-icon" for="menu-btn"><span class="navicon"></span></label>
-        <ul class="menu">
-          <li className=""><Link to="/">Home</Link></li>
-          <li><Link to="/Shop">Shop</Link></li>
-          {
-            (user?.result?.username) ? <li><Link to="/myProfile">{user.result.username}</Link></li> : <li><Link to="/auth">Log In</Link></li>
+<ul class="menu">
+        <li className="-py-2"><Link to="/">Home</Link></li>
+        <li className="-py-2"><Link to="/Shop">Shop</Link></li>
+        {
+          (user?.result?.username) ? <li  className="-py-2"><Link to="/myProfile">{user.result.username}</Link></li> : <li><Link to="/auth">Log In</Link></li>
 
-          }
+        }
 
-          <li><Link to={"/cart/" + user?.result._id}><img class="mx-auto" width='24px' height="24px" src={carroHome}></img></Link></li>
+        {(user?.result?._id) ? 
+        <li><Link to={"/cart/" + user.result._id}><img class="mx-auto" width='24px' height="24px" src={carroHome}></img></Link></li> 
+        : 
+        <li><Link to={"/cart/"}><img class="mx-auto" width='24px' height="24px" src={carroHome}></img></Link></li>}
 
-        </ul>
+      </ul>
         <br />
 
 

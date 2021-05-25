@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import UniversalNavBar from '../UniversalNavBar/universalNavBar'
 import Footer from '../../containers/Footer/footer'
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteItem, getActiveCartFromUser, getCartFromUser, getCartsByUser } from '../../redux/actions/cart_actions';
+import { deleteItem, getActiveCartFromUser, getCartFromUser, getCartsByUser, incrementProductUnit, decrementProductUnit } from '../../redux/actions/cart_actions';
 import { useParams } from 'react-router';
 import swal from 'sweetalert';
 import {Link} from "react-router-dom"
@@ -43,6 +43,20 @@ const NewCart = () => {
         })
     }
 
+    const increment = (user, cart) => { 
+        const productBody = {productId:cart.productId};
+        dispatch(incrementProductUnit(productBody, user.result._id)); // {"productId": cart.productId} , user.result._id
+  	//Actualizar el numerito del medio acá
+	
+	//Vean de ponerle un disable al boton de + si el número es igual al stock 
+	//(Ahora traigo en el esquema de Cart el stock de cada producto)
+    }
+    const decrement = (user, cart) => {
+        const productBody = {productId:cart.productId};
+        dispatch(decrementProductUnit(productBody, user.result._id))  // {"productId": cart.productId} , user.result._id
+        //Acá el disable iría si el número es igual a 1
+    }
+    
 
 
     async function enviarDatos() {
@@ -152,13 +166,13 @@ const NewCart = () => {
                                     </div>
                                     <div class="text-lg py-2">
                                         <div class="flex flex-row space-x-2 w-full items-center rounded-lg">
-                                            <button class="focus:outline-none bg-pink-700 hover:bg-pink-800 text-white font-bold py-1 px-1 rounded-full inline-flex items-center ">
+                                            <button onClick={()=>decrement(user,cart)} class="focus:outline-none bg-pink-700 hover:bg-pink-800 text-white font-bold py-1 px-1 rounded-full inline-flex items-center ">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 12H6" />
                                                 </svg>
                                             </button>
                                             <p> {cart.quantity} </p>
-                                            <button class="focus:outline-none bg-pink-700 hover:bg-pink-800 text-white font-bold py-1 px-1 rounded-full inline-flex items-center ">
+                                            <button onClick={()=>increment(user,cart)} class="focus:outline-none bg-pink-700 hover:bg-pink-800 text-white font-bold py-1 px-1 rounded-full inline-flex items-center ">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                                                 </svg>

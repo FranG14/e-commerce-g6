@@ -1,3 +1,4 @@
+import * as api from '../api/index.js';
 import { 
     GET_ACTIVE_CART_FROM_USER, GET_ACTIVE_CART_FROM_USER_SUCCESS, GET_ACTIVE_CART_FROM_USER_ERROR,
     GET_ALL_CARTS, GET_CARTS_BY_USER,
@@ -7,33 +8,81 @@ import {
     INCREMENT_PRODUCT_UNIT, INCREMENT_PRODUCT_UNIT_SUCCESS, INCREMENT_PRODUCT_UNIT_ERROR,
     ADD_ITEM, ADD_ITEM_SUCCESS, ADD_ITEM_ERROR
 } from '../constants/';
-import * as api from '../api/index.js';
-import axios from 'axios';
-
-export function addToCart(obj) {
-    return {
-        type: "ADD_TO_CART",
-        payload: obj
-    };
+//=============================================//
+///////////////////NOT LOGGED////////////////////
+//=============================================//
+export const getCartNotLogged = () => {
+    const getCart = JSON.parse(localStorage.getItem('cart'))
+    if (!getCart){
+        const newCart = {
+            userId: null,
+            items:[],
+            state: 'active',
+            totalAmount: 0
+        }
+        localStorage.setItem('cart', JSON.stringify(newCart))
+        return newCart;
+    }
+    return getCart;
 }
+//=============================================//
+export const addItemNotLogged = (productBody) => {
+    let cart = getCartNotLogged();
+    
+    let price = productBody.price;
+    let quantity = productBody.quantity;
+    let productId = productBody.productId;
 
-export function delFromCart(obj) {
-    return {
-        type: "DEL_FROM_CART",
-        payload: obj
-    };
+    let productIndex = cart.items.findIndex((i) => i.productId === productId);
+    if(productIndex === -1){
+        cart.items.push(productBody);
+        cart.totalAmount += price*quantity;
+    } else {
+        cart.items[productIndex].quantity += quantity;
+        cart.totalAmount += price*quantity;
+    }
+    localStorage.setItem('cart', JSON.stringify(cart))
 }
-
-export function buy(){
-    return {
-        type: "BUY",
-        payload: []
-    };
+//=============================================//
+export const removeItemNotLogged = (productId) => {
+    let cart = getCartNotLogged();
+    let productIndex = cart.items.findIndex((i) => i.productId === productId);
+    if( productIndex === -1){
+        const price = cart.items[productIndex].price;
+        const quantity = cart.items[productIndex].quantity;
+        
+        const items = cart.items.filter = ((i) => i.productId !== productId);
+        cart.items = items;
+        cart.totalAmount -= price * quantity;
+        localStorage.setItem('cart', JSON.stringify(cart))
+    } 
 }
-
+//=============================================//
+export const incrementProductUnitNotLogged = (productId) => {
+    let cart = getCartNotLogged();
+    let productIndex = cart.items.findIndex((i) => i.productId === productId);
+    if( productIndex === -1){
+        const price = cart.items[productIndex].price;
+        cart.items[productIndex].quantity++;
+        cart.totalAmount+=price;
+        localStorage.setItem('cart', JSON.stringify(cart))
+    }
+}
+//=============================================//
+export const decrementProductUnitNotLogged = (productId) => {
+    let cart = getCartNotLogged();
+    let productIndex = cart.items.findIndex((i) => i.productId === productId);
+    if( productIndex === -1){
+        const price = cart.items[productIndex].price;
+        cart.items[productIndex].quantity--;
+        cart.totalAmount-=price;
+        localStorage.setItem('cart', JSON.stringify(cart))
+    }
+}
+//=============================================//
+/////////////////////LOGGED//////////////////////
 //=============================================//
 export const getCartFromUser = (userId) => async(dispatch) => {
-    console.log("entro a la primera")
     dispatch({
         type: GET_ACTIVE_CART_FROM_USER
     });
@@ -156,3 +205,23 @@ export const incrementProductUnit = (product, userId) => async(dispatch) => {
 //=============================================//
 
 //=============================================//
+    export function addToCart(obj) {
+        return {
+            type: "ADD_TO_CART",
+            payload: obj
+        };
+    }
+    
+    export function delFromCart(obj) {
+        return {
+            type: "DEL_FROM_CART",
+            payload: obj
+        };
+    }
+    
+    export function buy(){
+        return {
+            type: "BUY",
+            payload: []
+        };
+    }

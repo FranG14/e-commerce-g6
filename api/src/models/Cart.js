@@ -8,7 +8,8 @@ const cartSchema = new Schema({
     productId: {type:Schema.Types.ObjectId, ref:'Product'},
     name:{ type: String },
     quantity: { type:Number, required: true, min:[1], default: 1 },
-    price: Float
+    price: Float,
+    stock: Number
   }],
   state:{ type: String, default: 'active' },
   totalAmount:{ type: Float }     
