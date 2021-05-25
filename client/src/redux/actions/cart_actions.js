@@ -123,11 +123,11 @@ export const addItem = (productBody, userId) => async (dispatch) => {
     })
 }
 //=============================================//
-export const deleteItem = (product, userId) => async(dispatch) =>{
+export const deleteItem = (userId, product) => async(dispatch) =>{
     dispatch({
         type: DELETE_ITEM
     })
-    return await api.removeProductFromCart(product,userId)
+    return await api.removeProductFromCart(userId,product)
     .then((cart) => {
         dispatch({
             type: DELETE_ITEM_SUCCESS,
@@ -135,9 +135,10 @@ export const deleteItem = (product, userId) => async(dispatch) =>{
         })
         localStorage.setItem('cart', JSON.stringify(cart.data))
     }).catch((error) => {
+        console.log("ERROR",error)
         dispatch({
             type: DELETE_ITEM_ERROR,
-            payload: error.response.data
+            payload: error
         })
     })
 }

@@ -241,6 +241,7 @@ const getCartsByUser = async(req,res)=>{
 const removeProductFromCart = async(req,res)=>{
     const {userId} = req.params;
     const { productId } = req.params;
+    console.log("ENTRA",userId,productId)
     let cartFiltered = [];
     try{
         let cart = await Cart.findOne({$and:[{userId}, {state:'active'}]});

@@ -67,7 +67,7 @@ export const getUserById = (id) => async(dispatch) => {
 }
 
 export const editUser = (payload) => async(dispatch) => {
-	return await api.editProduct(payload)
+	return await api.editUser(payload)
 	.then((userEdit) => {
 		dispatch({
 			type: EDIT_USER,
