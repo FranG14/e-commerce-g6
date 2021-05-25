@@ -210,6 +210,7 @@ const toggleAdmin = async(req, res) => {
 //==========================================================================//
 const getUserById = async(req, res) => {
     const {_id} = req.params;
+
     const userFound = await User.findOne({_id});
     if(!userFound) return res.status(404).json({});
     return res.status(200).json({userFound});

@@ -71,16 +71,16 @@ function DetailProduct(props) {
         //alert(id)
         fetch(`http://localhost:3001/carts/active/${JSON.parse(localStorage.getItem('profile')).result._id}`)
         //props.addToCart({id:id,img:productsArray.img,brand:productsArray.brand,name:productsArray.name,stock:productsArray.stock,price:productsArray.price})
-        if (user) {
-            swal({
-                title: "Your Product Was Added to Cart!",
-                icon: carro,
-                button: true,
-                dangerMode: true,
-            })
-            dispatch(addItem(addCart, user?.result._id))
-        }
+        if(user){
+        swal({
+            title: "Your Product Was Added to Cart!",
+            icon: carro,
+            button: true,
+            dangerMode: true,
+        })
+        dispatch(addItem(addCart, user?.result._id))
     }
+}
     const averageRating = () => {
         let sum = 0
         if (reviewsFilter && reviewsFilter.length > 0) {

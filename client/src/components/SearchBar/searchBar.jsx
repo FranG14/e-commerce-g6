@@ -4,34 +4,34 @@ import {searchProducts } from '../../redux/actions/products_actions';
 import { useDispatch, useSelector } from "react-redux";
 
 function SearchBar() {
-    const dispatch = useDispatch();
-    let productsArray = useSelector((state) => state.productsReducer.allProducts.products);
-    const [input, setInput] = useState({
-        name: "",
-    })
+    // const dispatch = useDispatch();
+    // let productsArray = useSelector((state) => state.productsReducer.allProducts.products);
+    // const [input, setInput] = useState({
+    //     name: "",
+    // })
 
-    function handleChange(e) {
-        setInput({
-            name: e.target.value
-        })
-    };
+    // function handleChange(e) {
+    //     setInput({
+    //         name: e.target.value
+    //     })
+    // };
 
-    function handleSubmit(e) {
-        e.preventDefault()
+    // function handleSubmit(e) {
+    //     e.preventDefault()
 
-        if (input.name) {
-            dispatch(searchProducts(input.name));
-        } else if (!input.name) {
-            swal({
-                title: "Search Not Valid",
-                icon: "warning",
-                button: true,
-            });
-        }
-    }
+    //     if (input.name) {
+    //         dispatch(searchProducts(input.name));
+    //     } else if (!input.name) {
+    //         swal({
+    //             title: "Search Not Valid",
+    //             icon: "warning",
+    //             button: true,
+    //         });
+    //     }
+    // }
     return (
         <div class="relative text-lg bg-transparent text-gray-800">
-            <form onSubmit={(e) => handleSubmit(e)}>
+            {/* <form onSubmit={(e) => handleSubmit(e)}>
                 <div class="flex items-center border-b border-b-2 border-teal-500 py-2">
                     <input class="bg-white border-none rounded-full h-8 mr-3 px-2 leading-tight focus:outline-none" value={input.name} onChange={(e) => handleChange(e)} type="text" placeholder="Search" />
                     <button type="submit" class="absolute right-0 top-0 mt-3 mr-4">
@@ -40,7 +40,7 @@ function SearchBar() {
                         </svg>
                     </button>
                 </div>
-            </form>
+            </form> */}
         </div>
 
     )

@@ -35,7 +35,7 @@ function FilterBar() {
   }
 
   return (
-    <div className="flex w-80 bg-gray-200 pt-4 pb-4 gap-4 justify-center">
+    <div id ="responsiveFilter" className="flex w-80 bg-gray-200 pt-4 pb-4 gap-4 justify-center">
 
       < div className="group inline-block " >
         <button
