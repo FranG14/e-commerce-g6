@@ -1,8 +1,8 @@
-import React from "react";
-import { Link } from 'react-router-dom';
-import UniversalNavBar from "../../components/UniversalNavBar/universalNavBar";
-import Carousel from "../../containers/Carousel/carousel"
-import GridHome from "./gridHome"
+import React, { useEffect } from "react"
+import { Link } from "react-router-dom" 
+import {buy} from "../../redux/actions/cart_actions"
+import { connect } from "react-redux"
+import UniversalNavBar from "../../components/UniversalNavBar/universalNavBar"
 import Footer from '../Footer/footer';
 import nike2 from '../../assets/nike2.jpg'
 import zapatillas from '../../assets/zapatillas.jpg'
@@ -12,12 +12,39 @@ import image1 from '../../assets/image1.jpg'
 import image2 from '../../assets/image2.jpg'
 import image3 from '../../assets/image3.jpg'
 import image4 from '../../assets/image4.jpg'
-export default function Home() {
 
-  return (
-    <div>
-      // {/*  <UniversalNavBar /> */}
-      // {/*   <Carousel productos={[{ id: 1, url: "https://www.hola.com/imagenes/estar-bien/20180312121453/ropa-contamina-medio-ambiente/0-548-821/ropa-medioambiente-t.jpg?filter=w600&filter=ds75" }, { id: 2, url: "https://percentil.com/blog/wp-content/uploads/2019/10/Segunda-mano-1080x720.jpg" }, { id: 3, url: "https://economiasustentable.com/wp-content/uploads/2020/01/ropa.png" }, { id: 4, url: "https://www.manosunidas.org/sites/default/files/styles/full-news-hightlighted/public/exj_ropa_1.jpg?itok=qYz_7Cg-&timestamp=1590663388" }]} /> */}
+let objHome={bandera:true}
+
+function HomePagoAcreditado(props){
+                
+
+    useEffect(()=>{
+        
+        if(objHome.bandera){
+            objHome.bandera=false
+
+            fetch(`http://localhost:3001/carts/${props.match.params.userId}/changestate?state=completed`,{
+
+                    method:"POST"
+                })
+                .then(res=>res.json())
+                .then(res=>{
+                    //alert(JSON.stringify(res))
+                    props.buy()
+                })
+                .catch(err=>{
+                    alert(err)
+                })
+                
+            
+            
+        }
+        
+    },[])
+
+    return(
+        <div>
+
       <body class="bg-white font-serif">
 
         {/* <header class="flex flex-wrap items-center justify-between px-12 h-32 -mb-32 relative"> */}
@@ -47,7 +74,7 @@ export default function Home() {
             <div class="w-full relative text-center py-12 px-12 md:p-0 md:text-right">
               <h1 class="text-5xl mb-4">Ecommerce Clothes</h1>
               {/* <h2 class="text-2xl mb-4">Ut vel nunc a est auctor lacinia.</h2> */}
-              <p class="leading-loose tracking-wide text-gray-700">Ecommerce Clothes is much more than sports and training clothing. We partner with the best in the industry to develop our apparel. In this way, we offer our followers the sports clothes and styles that best suit their sports needs, without neglecting sustainability.</p>
+              <p class="leading-loose tracking-wide text-gray-700">Sport keeps us fit. It keeps you attentive. It unites us. Through sport we can change lives. Whether it's through inspiring athlete stories. Encouraging you to get going.</p>
               <br />
               <Link to="/Shop">
                 <a class="justify-center inline-block bg-black text-white px-6 py-3 text-sm hover:bg-gray-800 ">Shop!</a>
@@ -113,13 +140,13 @@ export default function Home() {
               </div>
             </div>
             <div class="w-full md:w-1/2 md:pl-4">
-              <h2 class="text-4xl mb-10">Active Wear</h2>
+              <h2 class="text-4xl mb-10">Develop</h2>
               <div class="max-w-lg">
                 {/* <p class="mb-6 text-gray-700">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Iaculis vulputate tellus. Etiam vel placerat lorem, eget ornare nibh. Ut in commodo magna. Quisque vitae fermentum quam. Mauris venenatis id enim at porta. Etiam molestie lorem non odio hendrerit.</p> */}
                 {/* <p class="mb-6 text-gray-700">At vulputate ligula consequat. Morbi sollicitudin mollis erat, in tempus nisi. Quisque vehicula vitae sem in ornare. Vivamus id odio ligula.</p> */}
-                <p class="mb-10 text-gray-700">Sport keeps us fit. It keeps you attentive. It unites us. Through sport we can change lives. Whether it's through inspiring athlete stories. Encouraging you to get going.</p>
+                <p class="mb-10 text-gray-700">Ecommerce Clothes is much more than sports and training clothing. We partner with the best in the industry to develop our apparel. In this way, we offer our followers the sports clothes and styles that best suit their sports needs, without neglecting sustainability.</p>
                 <a href="#" class="inline-block bg-black text-white px-6 py-3 text-sm hover:bg-gray-800">Find out more</a>
-                
+
               </div>
             </div>
           </div>
@@ -134,6 +161,12 @@ export default function Home() {
       </body>
       <Footer />
     </div>
-
-  )
+    )
 }
+let mapToStateProps = (state) =>{
+    return {
+        test: state.userReducer
+    }
+}
+//export default HomePagoAcreditado
+export default connect(mapToStateProps, { buy })(HomePagoAcreditado); 

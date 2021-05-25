@@ -20,6 +20,8 @@ import AdminAction from "./components/AdminAction/adminAction";
 import UserPassword from "./components/UserEdit/userPassword";
 import Reviews from "./components/ProductReviews/reviews";
 import AddReview from "./components/ProductReviews/addReview";
+import MercadoPago from "./containers/MercadoPago/mercadoPago";
+import HomePagoAcreditado from "./containers/HomePagoAcreditado/homePagoAcreditado"
 import NewCart from "./components/Cart/newCart";
 
 
@@ -53,6 +55,8 @@ export default function Routes() {
       <Route exact path="/reviews/add/:id">
         <AddReview />
       </Route>
+      <Route exact path="/payment/:id" component={MercadoPago}/>
+      <Route exact path="/home/:userId" component={HomePagoAcreditado}/>
     {/*>>>>>>>>>>>>>>> ADMIN ROUTES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/}
       <Route exact path="/admin">
         <AdminCatalog />

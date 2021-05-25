@@ -195,10 +195,10 @@ const ProductPostForm = () => {
   };
 
   return (
-    <div class="grid grid-cols-2 gap-2 pt-20 bg-gray-200">
+    <div class="grid grid-cols-2  gap-2 pt-20 bg-gray-200">
       <div class="flex items-center min-h-screen bg-gray-200 dark:bg-gray-900">
         <div class="container mx-auto">
-          <div class="max-w-md mx-auto my-10 bg-white p-5 rounded-md shadow-sm">
+          <div class="max-w-md -mx-2 my-10 bg-white p-5 rounded-md shadow-sm">
             <div class="text-center">
               <h1 class="my-3 text-3xl font-semibold text-gray-700 dark:text-gray-200">
                 Post New Product
@@ -434,7 +434,7 @@ const ProductPostForm = () => {
       <div>
         <div class="flex items-center min-h-screen bg-gray-200 dark:bg-gray-900">
           <div class="container mx-auto">
-            <div class="max-w-md mx-auto my-10 bg-white p-5 rounded-md shadow-</div>sm">
+            <div class="max-w-md px-22 mx-8 my-10 bg-white p-5 rounded-md shadow-</div>sm">
               <div class=" justify-center justify-items-center content-center items-center">
                 <div className="card">
                   <div className="flex justify-center">

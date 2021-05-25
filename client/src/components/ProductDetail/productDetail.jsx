@@ -68,6 +68,8 @@ function DetailProduct(props) {
     })
 
     function addProductToCart() {
+        //alert(id)
+        fetch(`http://localhost:3001/carts/active/${JSON.parse(localStorage.getItem('profile')).result._id}`)
         //props.addToCart({id:id,img:productsArray.img,brand:productsArray.brand,name:productsArray.name,stock:productsArray.stock,price:productsArray.price})
         if(user){
         swal({
@@ -87,15 +89,15 @@ function DetailProduct(props) {
             }
             sum = sum / reviewsFilter.length
             setAverage(sum)
-            console.log("aAAAAAAA",reviewsFilter)
-            console.log("promedio", average)
+         
         }
     }
     useEffect(() => {
         averageRating()
 
     })
-
+    console.log("iamge post",imagePos)
+    console.log(productsArray.img)
     // console.log("+++++", average)
     return (
         <div>

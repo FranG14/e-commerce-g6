@@ -45,7 +45,7 @@ function Catalogo() {
           </div>
         </div>
         <div className="flex-auto">
-          <div className="grid sm:grid-cols-3  sm:grid-rows-5  grid-cols-1 justify-center justify-items-center content-center items-center">
+          <div className="grid sm:grid-cols-3  sm:grid-rows-5 px-4 py-3 grid-cols-1 justify-center justify-items-center content-center items-center">
             {productsArray?.products ? (
               productsArray.products.map((producto,key) => {
                 return (

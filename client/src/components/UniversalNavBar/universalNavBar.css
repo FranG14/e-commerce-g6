@@ -28,6 +28,7 @@ a {
   list-style: none;
   overflow: hidden;
   background-color: #fff;
+
 }
 
 .header li a {
@@ -125,6 +126,7 @@ a {
 .header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {
   top: 0;
 }
+
 
 /* 48em = 768px */
 

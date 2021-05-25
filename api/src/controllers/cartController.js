@@ -159,21 +159,26 @@ const decrementProductUnit = async(req, res) => {
 //==========================================================================//
 const stateChange = async(req, res) => {
     const {userId} = req.params;
-    const { state } = req.body;
+    const { state } = req.query.state;
 
-    if(!req.body?.state) {
-        return res.status(400).json({message: 'New State not found'});
-    }
-    
+    //console.log("El user id es: "+userId+" y el state es: "+state)
+    //return res.json({user:userId,state})
+    //return res.json({stado:req.query.state})
+    //if(!req.query?.state) {
+    //    return res.status(400).json({message: 'New State not found'});
+    //}
+    //res.json({state:req.query.state})
     const statesArray = ['active','completed', 'cancelled']
-    if(!statesArray.includes(state)) return res.status(400).json({message:'State not valid'})
+    if(!statesArray.includes(req.query.state)) return res.status(400).json({message:'State not valid'})
 
     try{
-        let cart = await Cart.findOne({userId});
-
+        //let cart = await Cart.findOne({userId});
+        let cart = await Cart.findOne({$and:[{userId}, {state:'active'}]})
         if(cart){
-            cart.state = state; 
+            //res.status(200).json({message:'entre aqui'})
+            cart.state = req.query.state; 
             cart = await cart.save()
+            
             res.status(200).json({message:'Cart updated'})           
         } else {
             res.status(400).json({message:'Cart not found'})

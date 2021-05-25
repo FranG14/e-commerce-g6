@@ -15,15 +15,30 @@ mercadopago.configure({
 server.get("/:userId", async(req, res, next) => {
 
   const {userId} = req.params;
-  const foundCart = await Cart.find({userId},); 
- 
-  if(!foundCart) return res.status(404).json({message:"Cart Not Found"});
+  //const foundCart = await Cart.find({userId},); 
+  const foundCart = await Cart.find({$and: [{userId: userId}, {state: "active"}]})
+  if(!foundCart||foundCart.length==0) return res.json({message:"Cart Not Found"});
+
+  let items_ml=[]
+ // return res.json({message:foundCart})
+  for(let i=0;i<foundCart[0].items.length;i++){
+    //items_ml.push(foundCart[0].items[i])
+    items_ml.push({title: foundCart[0].items[i].name,
+          description: foundCart[0].items[i].description,
+          unit_price: foundCart[0].items[i].price,
+          quantity: foundCart[0].items[i].quantity,
+          currency_id: "ARS"
+      })
+  }
   
-  const items_ml = foundOrder.items.map ((i) => ({
-    title: i.product.name,
-    unit_price: i.product.price,
-    quantity: i.quantity,
-  }))
+  //return res.json(items_ml)
+  //const items_ml = foundCart[0].items.map ((i) => {
+  //  return {title: i.name,
+  //    description: i.description,
+  //    unit_price: i.price,
+  //    quantity: i.quantity,
+  //    currency_id: "ARS"}
+  //})
 
   //return res.status(200).json(items_ml)
 
@@ -40,11 +55,13 @@ server.get("/:userId", async(req, res, next) => {
       installments: 3  //Cantidad máximo de cuotas
     },
     back_urls: {
-      success: 'http://localhost:3001/mercadopago/pagos',
-      failure: 'http://localhost:3001/mercadopago/pagos',
-      pending: 'http://localhost:3001/mercadopago/pagos',
-    },
+      success: `http://localhost:3000/home/${userId}`,
+      failure: 'http://localhost:3000/',
+      pending: 'http://localhost:3000/',
+    }
   };
+
+ // notification_url: "http://localhost:3001/mercadopago/pagos/"
 
   mercadopago.preferences.create(preference)
 
@@ -61,7 +78,7 @@ server.get("/:userId", async(req, res, next) => {
 }) 
 
 //Ruta que recibe la información del pago
-server.get("/pagos", (req, res) => {
+server.post("/pagos", (req, res) => {
   console.info("EN LA RUTA PAGOS ", req)
   const payment_id= req.query.payment_id
   const payment_status= req.query.status
@@ -107,6 +124,23 @@ server.get("/pagos/:id", (req, res)=>{
   .then(resultado  => {
     console.info('resultado', resultado)
     res.json({"resultado": resultado})
+  })
+  .catch(err => {
+    console.error('No se consulto:', err)
+    res.json({
+      error: err
+    })
+  })
+})
+
+server.get("/cargardatos/:id", (req, res)=>{
+  const mp = new mercadopago(ACCESS_TOKEN)
+  const {id} = req.params
+  console.info("Buscando el id", id)
+  mp.get(`/checkout/preferences/${id}`) //{"external_reference":id})
+  .then(resultado  => {
+    console.info('resultado', resultado)
+    res.json(resultado)
   })
   .catch(err => {
     console.error('No se consulto:', err)
