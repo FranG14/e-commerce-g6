@@ -92,7 +92,7 @@ export default function UniversalNavBar(props) {
       });
     }
   }
-  console.log("PRODUCTOS", productsArray)
+
   return (
     <div className ="">
       <header class="header text-center">

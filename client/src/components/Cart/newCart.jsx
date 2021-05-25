@@ -106,10 +106,6 @@ const NewCart = () => {
             })
     }
 
-
-
-
-
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(getCartFromUser(id))
