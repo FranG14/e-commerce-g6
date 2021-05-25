@@ -78,7 +78,7 @@ export default function UserEdit() {
 
             <UniversalBar />
 
-            <div class="grid min-h-screen place-items-center">
+            <div class="grid mb-6 min-h-screen place-items-center mt-20">
                 <div class="w-11/12 p-12 sm:w-8/12 md:w-6/12 lg:w-5/12 2xl:w-4/12 
             px-6 py-10 sm:px-10 sm:py-6 mt-4
             bg-white rounded-lg shadow-md lg:shadow-lg">
@@ -102,7 +102,7 @@ export default function UserEdit() {
                         </div>
                         <label
                             for="email"
-                            class="block text-xs font-semibold text-gray-600 uppercase"
+                            class="block text-xs font-semibold text-gray-600 mt-2 uppercase"
                         >
                             E-mail
             </label>
@@ -122,7 +122,7 @@ export default function UserEdit() {
                         />
 
 
-                        <h1 class="text-xl font-semibold">Address</h1>
+                        <h1 class="text-xl font-semibold mt-2">Address</h1>
                         <input
 
                             id="streetNumber"

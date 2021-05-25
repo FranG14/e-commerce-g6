@@ -74,10 +74,13 @@ const EditProduct = () => {
   };
   //TERMINAR ESTA WEAAA!
   const deleteCateg = (e) => {
-    console.log({ ...selectedName, categoryName: selectedName.categoryName.find((cate) => cate === 'prueba') })
-
-    setSelectedName({ ...selectedName, categoryName: selectedName.categoryName.filter((cate) => console.log("asd", cate)) });
-    // e.target.remove()
+    let filterCategory = []
+    selectedName.categoryName.map(cate => {
+      if(cate !== e.target.innerText){
+        filterCategory.push(cate);
+      }
+    });
+    setSelectedName({categoryName: filterCategory})
   }
 
   const [selectedFile, setSelectedFile] = useState(null);

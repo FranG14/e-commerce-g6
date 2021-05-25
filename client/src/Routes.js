@@ -12,7 +12,7 @@ import PostCategory from "./components/CrudCategory/categoryPost.jsx";
 import CategoryEdit from './components/CrudCategory/categoryEdit.jsx'
 import AddCategory from "./containers/AllCategories/allCategory.jsx";
 import About from "./containers/About/about";
-import Cart from "./components/Cart/cart"
+// import Cart from "./components/Cart/cart"
 import UserTableEdit from "./components/UserEdit/usersTableEdit";
 import UserEdit from "./components/UserEdit/userEdit";
 import UsersTable from "./components/UsersTable/usersTable";
@@ -22,6 +22,8 @@ import Reviews from "./components/ProductReviews/reviews";
 import AddReview from "./components/ProductReviews/addReview";
 import MercadoPago from "./containers/MercadoPago/mercadoPago";
 import HomePagoAcreditado from "./containers/HomePagoAcreditado/homePagoAcreditado"
+import NewCart from "./components/Cart/newCart";
+
 
 
 export default function Routes() {
@@ -44,9 +46,9 @@ export default function Routes() {
       <Route exact path="/about">
         <About />
       </Route>
-      <Route exact path="/cart">
+      {/* <Route exact path="/cart">
         <Cart/>
-      </Route>
+      </Route> */}
       <Route exact path="/reviews/:id">
         <Reviews />
       </Route>
@@ -86,8 +88,8 @@ export default function Routes() {
       <Route exact path="/Admin/Actions">
         <AdminAction />
       </Route>
-      <Route exact path="/cart">
-        <Cart/>
+      <Route exact path="/cart/:id">
+        <NewCart />
       </Route>
       <Route exact path="/users/">
         <UsersTable/>

@@ -43,30 +43,33 @@ const ProductPostForm = () => {
 
     if (select) {
       let selectValue = select.options[select.selectedIndex].value;
-      let selectedCategoryNames =
-        select.options[select.selectedIndex].innerText;
-      let selectCategoryName = selectedName.categoryName.concat(
-        selectedCategoryNames + " "
-      );
-      setSelectedName({ ...selectedName, categoryName: selectCategoryName });
+      let selectedCategoryNames = select.options[select.selectedIndex].innerText;
+
+      setSelectedName({ ...selectedName,
+         categoryName: selectedName.categoryName.concat(selectedCategoryNames) });
+
       let selectCategory = product.category.concat(selectValue);
       setProduct({ ...product, category: selectCategory });
+
     }
   };
-  //TERMINAR ESTA WEAAA!
+
   const deleteCateg = (e) => {
-    // console.log({...selectedName, categoryName:selectedName.categoryName.find((cate) => cate === 'prueba')})
-    setSelectedName({ ...selectedName, categoryName: selectedName.categoryName.splice(0, e.target.id) });
-    // e.target.remove()
+    let filterCategory = []
+    selectedName.categoryName.map(cate => {
+      if(cate !== e.target.innerText){
+        filterCategory.push(cate);
+      }
+    });
+    setSelectedName({categoryName: filterCategory})
   }
-  console.log(selectedName.categoryName)
   const [selectedFile, setSelectedFile] = useState([]);
   const [imgUrl, setImgUrl] = useState(null);
 
   const handleFileInputChange = (event) => {
     setSelectedFile(event.target.files);
     setImgUrl(URL.createObjectURL(event.target.files[0]));
-    // console.log("IMAGENES",selectedFile)
+
   };
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -160,10 +163,10 @@ const ProductPostForm = () => {
   };
 
   return (
-    <div class="grid grid-cols-2 gap-2 pt-20 bg-gray-200">
+    <div class="grid grid-cols-2  gap-2 pt-20 bg-gray-200">
       <div class="flex items-center min-h-screen bg-gray-200 dark:bg-gray-900">
         <div class="container mx-auto">
-          <div class="max-w-md mx-auto my-10 bg-white p-5 rounded-md shadow-sm">
+          <div class="max-w-md -mx-2 my-10 bg-white p-5 rounded-md shadow-sm">
             <div class="text-center">
               <h1 class="my-3 text-3xl font-semibold text-gray-700 dark:text-gray-200">
                 Post New Product
@@ -389,7 +392,7 @@ const ProductPostForm = () => {
       <div>
         <div class="flex items-center min-h-screen bg-gray-200 dark:bg-gray-900">
           <div class="container mx-auto">
-            <div class="max-w-md mx-auto my-10 bg-white p-5 rounded-md shadow-</div>sm">
+            <div class="max-w-md px-22 mx-8 my-10 bg-white p-5 rounded-md shadow-</div>sm">
               <div class=" justify-center justify-items-center content-center items-center">
                 <div className="card">
                   <div className="flex justify-center">

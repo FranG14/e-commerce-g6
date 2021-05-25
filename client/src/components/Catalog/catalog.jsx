@@ -4,7 +4,7 @@ import { getAllProducts } from "../../redux/actions/products_actions";
 import "./catalog.css";
 import { useDispatch, useSelector } from "react-redux";
 import FilterBar from "../FilterBar/filterBar.jsx";
-
+import swal from 'sweetalert';
 
 function Catalogo() {
   let productsArray = useSelector((state) => state.productsReducer.allProducts);
@@ -13,7 +13,7 @@ function Catalogo() {
 
   useEffect(() => {
     dispatch(getAllProducts(page));
-  }, [page]);
+  }, [page,dispatch]);
 
   const next = () => {
     setPage(page + 1);
@@ -22,9 +22,13 @@ function Catalogo() {
     setPage(page - 1);
   };
   // console.log("ESTE ES EL ARRAY DE CATALOGO", productsArray)
-  // CAMBIAR EL ALERT POR UN SWAL PD: DIEGO NO ESTUVO AQUI
   if(productsArray.keyword === true && productsArray.products.length === 0){
-    alert("producto no encontrado")
+    productsArray.keyword = false
+    swal({
+      title: "Product not found!",
+      button: true,
+      dangerMode: true,
+  })
   }
   return (
     <div className=" mt-20 ">
@@ -40,10 +44,9 @@ function Catalogo() {
           </div>
         </div>
         <div className="flex-auto">
-          <div className="grid sm:grid-cols-3  sm:grid-rows-5  grid-cols-1 justify-center justify-items-center content-center items-center">
+          <div className="grid sm:grid-cols-3  sm:grid-rows-5 px-4 py-3 grid-cols-1 justify-center justify-items-center content-center items-center">
             {productsArray?.products ? (
               productsArray.products.map((producto,key) => {
-                console.log("MAPEO", producto.img)
                 return (
                   <Link key = {key}
                     style={{ textDecoration: "none", outline: "none" }}

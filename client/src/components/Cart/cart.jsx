@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+/*import React, { useEffect, useState } from 'react'
 import { connect, useSelector, useDispatch } from "react-redux";
 import { Link } from 'react-router-dom';
 import { addToCart, delFromCart, buy } from "../../redux/actions/cart_actions"
@@ -170,7 +170,7 @@ function Cart(props) {
                 }
                 //});
             }
-        }*/
+        }*//*
         document.getElementById("ch").setAttribute("disabled",true)
 
         fetch(`http://localhost:3001/mercadopago/${usuario.result._id}`)
@@ -278,7 +278,7 @@ function Cart(props) {
                                 mensajes.map(element => <div>{element}</div>)
                                 :
                                 <div></div>*/
-                            }
+                            /*}
 
 
                             <Link to="/Shop">
@@ -306,7 +306,7 @@ function Cart(props) {
                                 <label for="promo" class="font-semibold inline-block mb-3 text-sm uppercase">Promo Code</label>
                                 <input type="text" id="promo" placeholder="Enter your code" class="p-2 text-sm w-full"></input>
                             </div>
-                            <button class="bg-red-500 hover:bg-red-600 px-5 py-2 text-sm text-white uppercase">Apply</button>*/}
+                            <button class="bg-red-500 hover:bg-red-600 px-5 py-2 text-sm text-white uppercase">Apply</button>*//*}
                             <div class="border-t mt-8">
                                 <div class="flex font-semibold justify-between py-6 text-sm uppercase">
                                     <span>Total cost</span>
@@ -326,3 +326,4 @@ function Cart(props) {
 }
 
 export default connect(mapStateToProps, { addToCart, delFromCart, buy })(Cart);
+*/

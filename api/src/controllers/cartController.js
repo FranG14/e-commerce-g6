@@ -4,6 +4,7 @@ const Product = require ('./../models/Product')
 
 //==========================================================================//
 const getActiveCartFromUser = async(req, res)=> {
+    console.log("entra al")
     const {userId} = req.params;
     let cart = await Cart.findOne({$and:[{userId}, {state:'active'}]});
 
@@ -15,8 +16,7 @@ const getActiveCartFromUser = async(req, res)=> {
         });
         return res.status(201).json({newCart})
     }
-
-    return res.status(200).status({cart})
+    return res.status(200).json({cart})
 }
 //==========================================================================//
 const addItem = async(req, res) => {
@@ -34,32 +34,19 @@ const addItem = async(req, res) => {
         const name = newItem.name;
 
         if(cart){
-            //let a=[]
+            let itemIndex = -1
             //let itemIndex = cart.items.findIndex((i) => i.productId.equals(productId));
-            //let itemIndex = cart.items.findIndex((i) => a.push(i.productId));
-            let itemIndex=-1
 
-            for(let i=0;i<cart.items.length;i++){
+            for(let i = 0; i<cart.items.length; i++){
                 if(cart.items[i].productId.equals(productId)){
-                    itemIndex=i;
-                    //return res.json({idItem:itemIndex})
+                    itemIndex = i;
                     break;
                 }
             }
 
-            if(itemIndex!=-1){
-                cart.items[itemIndex]={productId,name:newItem.name,quantity,price:newItem.price}
-                cart.save()
-                return res.json({test:cart})
-            }
-
-            cart.items.push({productId,name:newItem.name,quantity,price:newItem.price})
-            cart.save()
-
-            return res.json({alv:cart})
             if(itemIndex > -1){
                 let productItem = cart.items[itemIndex]
-                productItem.quantity = quantity;
+                productItem.quantity += quantity;
                 cart.items[itemIndex] = productItem;
             }
             else {
@@ -231,10 +218,20 @@ const getCartsByUser = async(req,res)=>{
 //==========================================================================//
 const removeProductFromCart = async(req,res)=>{
     const {userId} = req.params;
-    const {productId} = req.body;
+    const { productId } = req.params;
+    let cartFiltered = [];
     try{
         let cart = await Cart.findOne({$and:[{userId}, {state:'active'}]});
         let itemIndex = cart.items.findIndex((i) => i.productId.equals(productId));
+
+        cart.items.map((prop,i) => {
+            if(prop.productId != productId){
+                cartFiltered.push(cart.items[i])
+            }
+        })
+        cart.items = cartFiltered;
+        const updateCart = await cart.save();
+        res.status(200).json({cart:updateCart})
     } catch (error){
         console.log(error);
         return res.status(500).json({message:'There was an error'})
