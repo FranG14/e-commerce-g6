@@ -21,6 +21,7 @@ import UserPassword from "./components/UserEdit/userPassword";
 import Reviews from "./components/ProductReviews/reviews";
 import AddReview from "./components/ProductReviews/addReview";
 import NewCart from "./components/Cart/newCart";
+import NewCartNotLogged from './components/Cart/newCartNotLogged';
 
 
 
@@ -86,6 +87,9 @@ export default function Routes() {
       </Route>
       <Route exact path="/cart/:id">
         <NewCart />
+      </Route>
+      <Route exact path="/cart">
+        <NewCartNotLogged />
       </Route>
       <Route exact path="/users/">
         <UsersTable/>

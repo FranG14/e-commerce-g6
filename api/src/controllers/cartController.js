@@ -77,6 +77,7 @@ const addItem = async(req, res) => {
 const incrementProductUnit = async(req, res) => {
     const {userId} = req.params;
     const {productId} = req.body;
+    console.log(req.body)
 
     try{
         let cart = await Cart.findOne({$and:[{userId}, {state:'active'}]});
@@ -94,8 +95,19 @@ const incrementProductUnit = async(req, res) => {
 
         let itemIndex = cart.items.findIndex((i) => i.productId.equals(productId));
 
-        if(itemIndex === -1) return res.status(400).json({message:'Item not found'})
+        if(itemIndex === -1) {
+            
+            return res.status(400).json({message:'Item not found'})
+        }
+        //========================================//
+        let productItem = cart.items[itemIndex]
+        productItem.quantity += 1;
+        cart.items[itemIndex] = productItem
+        cart.totalAmount += price;
         
+        cart = await cart.save();
+        return res.status(201).json({cart})
+        //========================================//
 
         if(itemIndex.quantity < stock) {
             let productItem = cart.items[itemIndex]
@@ -107,6 +119,7 @@ const incrementProductUnit = async(req, res) => {
             return res.status(201).json({cart})
 
         } else {
+            console.log("ERROR")
             return res.status(400).json({message:'Cannot add more than the stock available'})
         }
     } catch(error) {
