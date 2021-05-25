@@ -39,10 +39,16 @@ export const removeProductFromCart = (userId, product) => API.put(`/carts/remove
 export const changeCartState = (state, userId) => API.patch(`/carts/${userId}`, state);
 //Decrementa por uno la cantidad de un producto del cart. Ejemplo de body:  {"productId": "60a0896ee2e38c2fa0b2fe74"}
 //No se puede decrementar por debajo de 0
-export const decrementProductUnit = (product, userId) => API.patch(`/carts/decrement/${userId}`,product);
+export const decrementProductUnit = (product, userId) => API.put(`/carts/decrement/${userId}`,product);
 //Incrementa por uno la cantidad de un producto del cart. Ejemplo de body:  {"productId": "60a0896ee2e38c2fa0b2fe74"}
 //No se puede aumentar por encima del stock
-export const incrementProductUnit = (product, userId) => API.patch(`/carts/increment/:${userId}`,product)
+export const incrementProductUnit = (product, userId) => API.put(`/carts/increment/${userId}`,product)
+
+
+export const canUserReview = (userId, productId) => API.get(
+    `/carts/canuserreview?userId=${userId}&productId=${productId}`
+    )
+
 
 //PRODUCT
 export const getAllProducts = (page) => API.get(`/products?page=${page}`);
@@ -67,6 +73,7 @@ export const filterByBrand = (filter) => API.get(`/products/brand?=${filter.bran
 export const filterByCategory = (name) => API.get(`/products/category/${name}`);
 
 //REVIEWS
+export const filterReviewById = (id) => API.get(`/reviews/${id}`) 
 export const getAllReviews = (page) => API.get(`/reviews?page=${page}`);
 export const getReviewsById = (id,page) => API.get(`/reviews/${id}?page=${page}`);
 export const addReviews = (body) => API.post(`/reviews`, body);

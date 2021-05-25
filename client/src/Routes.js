@@ -23,6 +23,7 @@ import AddReview from "./components/ProductReviews/addReview";
 import MercadoPago from "./containers/MercadoPago/mercadoPago";
 import HomePagoAcreditado from "./containers/HomePagoAcreditado/homePagoAcreditado"
 import NewCart from "./components/Cart/newCart";
+import NewCartNotLogged from './components/Cart/newCartNotLogged';
 
 
 
@@ -90,6 +91,9 @@ export default function Routes() {
       </Route>
       <Route exact path="/cart/:id">
         <NewCart />
+      </Route>
+      <Route exact path="/cart">
+        <NewCartNotLogged />
       </Route>
       <Route exact path="/users/">
         <UsersTable/>
