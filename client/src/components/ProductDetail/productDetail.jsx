@@ -49,7 +49,7 @@ function DetailProduct(props) {
     }, [])
 
     function addProductToCart() {
-        alert(id)
+        //alert(id)
         fetch(`http://localhost:3001/carts/active/${JSON.parse(localStorage.getItem('profile')).result._id}`)
         //props.addToCart({id:id,img:productsArray.img,brand:productsArray.brand,name:productsArray.name,stock:productsArray.stock,price:productsArray.price})
         dispatch(addToCart({ id: id, img: productsArray.img, brand: productsArray.brand, name: productsArray.name, stock: productsArray.stock, price: productsArray.price }))

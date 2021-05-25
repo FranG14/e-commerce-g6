@@ -22,13 +22,14 @@ function HomePagoAcreditado(props){
         
         if(objHome.bandera){
             objHome.bandera=false
-            fetch(`http://localhost:3001/carts/${props.match.params.userId}`,{
-                    body:JSON.stringify({state:"completed"}),
+
+            fetch(`http://localhost:3001/carts/${props.match.params.userId}/changestate?state=completed`,{
+
                     method:"POST"
                 })
                 .then(res=>res.json())
                 .then(res=>{
-                    alert(JSON.stringify(res))
+                    //alert(JSON.stringify(res))
                     props.buy()
                 })
                 .catch(err=>{

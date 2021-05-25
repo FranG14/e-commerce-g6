@@ -29,8 +29,8 @@ function MercadoPago(props){
             
             obj.bandera=false
 
-
-            fetch(`http://localhost:3001/mercadopago/cargardatos/${props.match.params.id}`)
+            setTimeout(function(){
+                fetch(`http://localhost:3001/mercadopago/cargardatos/${props.match.params.id}`)
                 .then(res=>res.json())
                 .then(res=>{
                     let arrP=[]
@@ -52,6 +52,8 @@ function MercadoPago(props){
                     //setProductos(arrP)
                     //setCantidadProductos(arrC)
                 })
+            },500)
+            
         }
     },[])
 
