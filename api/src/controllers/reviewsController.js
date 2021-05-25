@@ -18,6 +18,7 @@ const getReviewsById = async (req, res) => {
     const pageSize = req.query.pageSize || 15;
     const page = req.query.page || 1;
 
+
     const count = await Review.countDocuments();
     const reviews = await Review.find({ productReview: req.params.id }).populate('username')
     .limit(pageSize).skip(pageSize * (page - 1));
@@ -29,6 +30,20 @@ const getReviewsById = async (req, res) => {
 //     return res.status(200).json(review);
 //   });
 };
+
+const filterById = async (req, res) => {
+
+
+const reviews = await Review.find({ productReview: req.params.id }).populate('username')
+
+console.log(reviews[reviews.length-1])
+
+
+res.json({ reviews});
+}
+
+
+
 
 const addReviews = async (req, res) => {
     try {
@@ -52,4 +67,4 @@ const addReviews = async (req, res) => {
     }
 }
 
-module.exports = { getReviews, addReviews, getReviewsById }
+module.exports = { getReviews, addReviews, getReviewsById, filterById }

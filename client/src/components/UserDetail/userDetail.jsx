@@ -18,11 +18,9 @@ export default function UserDetail() {
     const history = useHistory();
 
 
-    // const user.result = useSelector(
-
-    //     (state) => state.userReducer.user.list.userFound
-
-    // );
+    const userData = useSelector(
+        (state) => state.userReducer.user.list.userFound
+    );
     //console.log("USER DATAA", userData)
     useEffect(() => {
         //Por ahora traigo el user guardado en el localStorage.
@@ -51,7 +49,7 @@ export default function UserDetail() {
             <div className="pb-10 bg-gray-200">
                 <UniversalNavBar />
             </div>
-            {user?.result &&
+            {user?.result && userData && 
                 <div className="bg-gray-200 pt-20 pb-10">
                     <div className="max-w-4xl flex items-center mt-4 mb-4 bg-gray-200 flex-wrap mx-auto lg:my-0">
 
@@ -65,24 +63,24 @@ export default function UserDetail() {
 
                                 <h1 className="text-3xl font-bold pt-8 lg:pt-0">  {(user.result) ? user.result.username : ""}'s Profile</h1>
                                 <div className="mx-auto lg:mx-0 w-5/5 pt-3 border-b-2 border-green-500 opacity-25"></div>
-                                <p className="pt-4 text-base font-bold flex items-center justify-center lg:justify-start"><svg class="h-4 fill-current text-green-700 pr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"></svg>👤 Name: {(user.result) ? user.result.firstname : ""}</p>
-                                <p className="pt-4 text-base font-bold flex items-center justify-center lg:justify-start"><svg class="h-4 fill-current text-green-700 pr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"></svg>👤 Surname: {(user.result) ? user.result.lastname : ""}</p>
-                                <p className="pt-4 text-base font-bold flex items-center justify-center lg:justify-start"><svg class="h-4 fill-current text-green-700 pr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"></svg>📧 E-Mail: {(user.result) ? user.result.email : ""}</p>
-                                <p className="pt-4 text-base font-bold flex items-center justify-center lg:justify-start"><svg class="h-4 fill-current text-green-700 pr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"></svg>📌 Street: {(user.result) ? user.result.street : ""} {(user.result) ? user.result.streetNumber : ""}</p>
-                                <p className="pt-4 text-base font-bold flex items-center justify-center lg:justify-start"><svg class="h-4 fill-current text-green-700 pr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"></svg>📍 State: {(user.result) ? user.result.state : ""}</p>
-                                <p className="pt-4 text-base font-bold flex items-center justify-center lg:justify-start"><svg class="h-4 fill-current text-green-700 pr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"></svg>📭 Zip Code: {(user.result) ? user.result.zipcode : ""}</p>
+                                <p className=" text-base font-bold  lg:justify-start"><svg class="h-4 fill-current text-green-700 pr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"></svg>👤 Name: {(userData) ? userData?.firstname : ""}</p>
+                                <p className=" text-base font-bold  lg:justify-start"><svg class="h-4 fill-current text-green-700 pr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"></svg>👤 Surname: {(userData) ? userData?.lastname : ""}</p>
+                                <p className=" text-base font-bold  lg:justify-start"><svg class="h-4 fill-current text-green-700 pr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"></svg>📧 E-Mail: {(userData) ? userData?.email : ""}</p>
+                                <p className=" text-base font-bold  lg:justify-start"><svg class="h-4 fill-current text-green-700 pr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"></svg>📌 Street: {(userData) ? userData?.street : ""} {(userData) ? userData?.streetNumber : ""}</p>
+                                <p className=" text-base font-bold  lg:justify-start"><svg class="h-4 fill-current text-green-700 pr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"></svg>📍 State: {(userData) ? userData?.state : ""}</p>
+                                <p className=" text-base font-bold  lg:justify-start"><svg class="h-4 fill-current text-green-700 pr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"></svg>📭 Zip Code: {(userData) ? userData?.zipcode : ""}</p>
 
-                                <div className="pt-12 pb-8  text-center content-between">
+                                <div className="grid grid-cols-2 grid-row-2 pt-12 pb-8   text-center content-between">
                                     <Link to={"/MyProfile/Edit/" + user.result._id}>
-                                        <button className="mr-5  bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-full">
-                                            Edit your profile 🖍
+                                        <button className="mr-5  bg-green-700 flex justify-center hover:bg-green-900 text-white font-bold py-2 px-6  mt-4 rounded-full">
+                                            Edit profile 🖍
 				                </button>
 
                                     </Link>
                                     {
                                         user.result?.isAdmin &&
                                         <Link to="/Admin/Actions" >
-                                            <button className="ml-10 bg-blue-700 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-full">
+                                            <button className="mr-5  bg-blue-700 hover:bg-blue-900 flex justify-center text-white font-bold py-2 mt-4 px-4 rounded-full">
                                                 Admin Actions
 				                </button>
                                         </Link>
@@ -90,13 +88,13 @@ export default function UserDetail() {
                                     {
                                         user.result?.username &&
                                         <Link to={"/users/password/" + user.result._id}  >
-                                            <button className="ml-10 bg-blue-700 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-full">
+                                            <button className="mr-5  bg-gray-500 hover:bg-gray-700 flex justify-center text-white font-bold py-2 px-4 mt-4 rounded-full">
                                                 Change Password
 				                </button>
                                         </Link>
                                     }
 
-                                    <button className="ml-10 bg-red-700 hover:bg-red-500 text-white font-bold py-2 px-4 rounded-full" onClick={logout}>
+                                    <button className="mr-5  bg-red-700 hover:bg-red-900 text-white  flex justify-center font-bold py-2 mt-4 w-32 rounded-full" onClick={logout}>
                                         Logout
 				                         </button>
                                 </div>

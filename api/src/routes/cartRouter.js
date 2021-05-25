@@ -9,7 +9,8 @@ const {
     stateChange,
     removeProductFromCart,
     incrementProductUnit,
-    decrementProductUnit
+    decrementProductUnit,
+    canUserReview
 } = require('../controllers/cartController')
 
 // ------------------------------ ROUTES Cart ---------------------------- //
@@ -17,6 +18,7 @@ const {
                 //Ruta para obtener todos los carts
 //==========================================================================//
 server.get('/', getAllCarts)
+server.get('/:userId', getCartsByUser)
 //==========================================================================//
                 //Ruta para obtener un cart por id
 //==========================================================================//
@@ -32,6 +34,7 @@ server.post('/:userId', addItem);
 //==========================================================================//
                 //Ruta para cambiar estado del cart
 //==========================================================================//
+server.post('/:userId/changestate', stateChange)
 server.put('/:userId', stateChange)
 //==========================================================================//
                 //Ruta para quitar producto al cart 
@@ -45,6 +48,12 @@ server.put('/decrement/:userId', decrementProductUnit)
                 //Ruta para aumentar una unidad a un producto del cart
 //==========================================================================//
 server.put('/increment/:userId', incrementProductUnit)
+//==========================================================================//
+    //Ruta para chequear que el usuario puede hacer una review del producto
+//==========================================================================//
+server.get('/canuserreview', canUserReview);
+//==========================================================================//
+server.post('/update/:userId')
 //==========================================================================//
 
 module.exports = server;

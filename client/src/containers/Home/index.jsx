@@ -47,7 +47,7 @@ export default function Home() {
             <div class="w-full relative text-center py-12 px-12 md:p-0 md:text-right">
               <h1 class="text-5xl mb-4">Ecommerce Clothes</h1>
               {/* <h2 class="text-2xl mb-4">Ut vel nunc a est auctor lacinia.</h2> */}
-              <p class="leading-loose tracking-wide text-gray-700">Sport keeps us fit. It keeps you attentive. It unites us. Through sport we can change lives. Whether it's through inspiring athlete stories. Encouraging you to get going.</p>
+              <p class="leading-loose tracking-wide text-gray-700">Ecommerce Clothes is much more than sports and training clothing. We partner with the best in the industry to develop our apparel. In this way, we offer our followers the sports clothes and styles that best suit their sports needs, without neglecting sustainability.</p>
               <br />
               <Link to="/Shop">
                 <a class="justify-center inline-block bg-black text-white px-6 py-3 text-sm hover:bg-gray-800 ">Shop!</a>
@@ -113,13 +113,13 @@ export default function Home() {
               </div>
             </div>
             <div class="w-full md:w-1/2 md:pl-4">
-              <h2 class="text-4xl mb-10">Develop</h2>
+              <h2 class="text-4xl mb-10">Active Wear</h2>
               <div class="max-w-lg">
                 {/* <p class="mb-6 text-gray-700">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Iaculis vulputate tellus. Etiam vel placerat lorem, eget ornare nibh. Ut in commodo magna. Quisque vitae fermentum quam. Mauris venenatis id enim at porta. Etiam molestie lorem non odio hendrerit.</p> */}
                 {/* <p class="mb-6 text-gray-700">At vulputate ligula consequat. Morbi sollicitudin mollis erat, in tempus nisi. Quisque vehicula vitae sem in ornare. Vivamus id odio ligula.</p> */}
-                <p class="mb-10 text-gray-700">Ecommerce Clothes is much more than sports and training clothing. We partner with the best in the industry to develop our apparel. In this way, we offer our followers the sports clothes and styles that best suit their sports needs, without neglecting sustainability.</p>
+                <p class="mb-10 text-gray-700">Sport keeps us fit. It keeps you attentive. It unites us. Through sport we can change lives. Whether it's through inspiring athlete stories. Encouraging you to get going.</p>
                 <a href="#" class="inline-block bg-black text-white px-6 py-3 text-sm hover:bg-gray-800">Find out more</a>
-
+                
               </div>
             </div>
           </div>

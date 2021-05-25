@@ -28,6 +28,7 @@ a {
   list-style: none;
   overflow: hidden;
   background-color: #fff;
+
 }
 
 .header li a {
@@ -126,6 +127,7 @@ a {
   top: 0;
 }
 
+
 /* 48em = 768px */
 
 @media (min-width: 48em) {
@@ -142,5 +144,11 @@ a {
   }
   .header .menu-icon {
     display: none;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  #responsiveSearch {
+    margin-left: 120px;
   }
 }

@@ -94,57 +94,57 @@ const EditProduct = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const fd = new FormData();
-    if (product.name == '') return swal({
-      title: "Name Field Cannot Be Empty",
-      icon: "warning",
-      button: true,
-      dangerMode: true,
-    })
-    if (product.color == '') return swal({
-      title: "Color Field Cannot Be Empty",
-      icon: "warning",
-      button: true,
-      dangerMode: true,
-    })
-    if (product.stock == '') return swal({
-      title: "Strock Field Cannot Be Empty",
-      icon: "warning",
-      button: true,
-      dangerMode: true,
-    })
-    if (product.price == '') return swal({
-      title: "Price Field Cannot Be Empty",
-      icon: "warning",
-      button: true,
-      dangerMode: true,
-    })
-    if (product.brand == '') return swal({
-      title: "Brand Field Cannot Be Empty",
-      icon: "warning",
-      button: true,
-      dangerMode: true,
-    })
-    if (product.description == '') return swal({
-      title: "Description Field Cannot Be Empty",
-      icon: "warning",
-      button: true,
-      dangerMode: true,
-    })
-    if (product.category == '') return swal({
-      title: "Category Field Cannot Be Empty",
-      icon: "warning",
-      button: true,
-      dangerMode: true,
-    })
-    if (selectedFile === null) return swal({
-      title: "Image Field Cannot Be Empty",
-      icon: "warning",
-      button: true,
-      dangerMode: true,
-    })
+    // if (product.name == '') return swal({
+    //   title: "Name Field Cannot Be Empty",
+    //   icon: "warning",
+    //   button: true,
+    //   dangerMode: true,
+    // })
+    // if (product.color == '') return swal({
+    //   title: "Color Field Cannot Be Empty",
+    //   icon: "warning",
+    //   button: true,
+    //   dangerMode: true,
+    // })
+    // if (product.stock == '') return swal({
+    //   title: "Strock Field Cannot Be Empty",
+    //   icon: "warning",
+    //   button: true,
+    //   dangerMode: true,
+    // })
+    // if (product.price == '') return swal({
+    //   title: "Price Field Cannot Be Empty",
+    //   icon: "warning",
+    //   button: true,
+    //   dangerMode: true,
+    // })
+    // if (product.brand == '') return swal({
+    //   title: "Brand Field Cannot Be Empty",
+    //   icon: "warning",
+    //   button: true,
+    //   dangerMode: true,
+    // })
+    // if (product.description == '') return swal({
+    //   title: "Description Field Cannot Be Empty",
+    //   icon: "warning",
+    //   button: true,
+    //   dangerMode: true,
+    // })
+    // if (product.category == '') return swal({
+    //   title: "Category Field Cannot Be Empty",
+    //   icon: "warning",
+    //   button: true,
+    //   dangerMode: true,
+    // })
+    // if (selectedFile === null) return swal({
+    //   title: "Image Field Cannot Be Empty",
+    //   icon: "warning",
+    //   button: true,
+    //   dangerMode: true,
+    // })
     //--------------------------------------------------------
     let extension;
-    if (selectedFile.length > 0) {
+    if (selectedFile && selectedFile.length > 0) {
       for (let i = 0; i < selectedFile.length; i++) {
         extension = selectedFile[i].name.split(".");
         fd.append(

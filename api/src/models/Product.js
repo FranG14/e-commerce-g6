@@ -59,15 +59,19 @@ const productSchema = new Schema(
         type: Schema.Types.ObjectId,
         ref: "Review",
       }
-      ],
-    size: {
-      type: Array,
-      //required: "Size is required",
-    },
-    color: {
-      type: Array,
-      required: "Color is required",
-    },
+    ],
+    size: [
+      {
+        type: String,
+        //required: "Size is required",
+      }
+    ],
+    color: [
+      {
+        type: String,
+        required: "Color is required",
+      }
+    ],
   },
   {
     timestamps: true,
