@@ -98,7 +98,7 @@ const TableProduct = () => {
         </thead>
         <tbody>
           {productsArray && productsArray.length > 0 ? productsArray.map((c, id) => {
-            return <tr key={id} class="bg-white lg:hover:bg-gray-100 flex lg:table-row flex-row lg:flex-row flex-wrap lg:flex-no-wrap mb-10 lg:mb-0">
+            return <tr key={id} class="bg-white sm:flex justify-center lg:hover:bg-gray-100 flex lg:table-row flex-row lg:flex-row flex-wrap lg:flex-no-wrap mb-10 lg:mb-0">
               <td class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
                 {c._id}
               </td>
@@ -117,17 +117,19 @@ const TableProduct = () => {
               <td class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static">
                 {c.stock}
               </td>
-              <td class="p-2 border-r flex justify-center">
+              <td class="p-2 flex justify-center text-center">
+              <div className=" text-center sm:flex justify-centertext-center"> 
 
                 {c.img === undefined ? (
                   <div>loading</div>
-                ) : (
-                  <img
+                  ) : (
+                    <img
                     src={`http://localhost:3001/products/image/${c.img}`}
                     alt="https://i.stack.imgur.com/y9DpT.jpg"
-                    style={{ height: "100px", with: "150px" }}
-                  />
-                )}
+                    style={{ height: "100px", width: "100px" /* marginLeft:"116px" */}}
+                    />
+                    )}
+                    </div>
               </td>
               <td class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static">
                 <button class="h-10 px-5 m-2 text-blue-100 transition-colors duration-150 bg-blue-600 rounded-lg focus:shadow-outline hover:bg-blue-700"> <Link to={'/editProduct/' + c._id}>✍</Link> </button>

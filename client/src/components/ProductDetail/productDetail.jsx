@@ -87,15 +87,15 @@ function DetailProduct(props) {
             }
             sum = sum / reviewsFilter.length
             setAverage(sum)
-            console.log("aAAAAAAA",reviewsFilter)
-            console.log("promedio", average)
+         
         }
     }
     useEffect(() => {
         averageRating()
 
     })
-
+    console.log("iamge post",imagePos)
+    console.log(productsArray.img)
     // console.log("+++++", average)
     return (
         <div>

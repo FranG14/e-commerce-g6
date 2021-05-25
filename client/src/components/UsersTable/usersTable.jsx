@@ -78,12 +78,12 @@ const UsersTable = () => {
 
 
     return (
-        <div>
+        <div class="bg-gray-200  ">
             <UniversalNavBar />
-            <div className="mt-20 mb-4 flex justify-center">
+            <div className="mt-16 pt-8 mb-4 flex justify-center">
                 <div class="relative mr-6 my-2 ml-2 -mt-0.5">
                     <input type="search" class="bg-purple-white shadow rounded border-0 p-3" value={input.email} onChange={(e) => handleChange(e)} placeholder="Search by email...   " />
-                    <button className="bg-white" onClick={handleSubmit}>🔍</button>
+                    <button className="bg-gray-200" onClick={handleSubmit}>🔍</button>
                     <div class="absolute pin-r pin-t mt-3 mr-4 text-purple-lighter">
                         <svg version="1.1" class="h-4 text-dark" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                             viewBox="0 0 52.966 52.966" style={{ enableBackground: "new 0 0 52.966 52.966" }} xmlSpace="preserve">

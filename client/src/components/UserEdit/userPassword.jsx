@@ -91,7 +91,7 @@ const UserPassword = () => {
         <div class="  bg-gray-200">
             <UniversalNavBar />
             <form>
-                <div class="flex items-center min-h-screen bg-gray-200 dark:bg-gray-900">
+                <div class="flex items-center px-8 pt-20 pb-4 min-h-screen bg-gray-200 dark:bg-gray-900">
                     <div class="container mx-auto">
                         <div class="max-w-md mx-auto my-10 bg-white p-5 rounded-md shadow-sm">
                             <div class="text-center">
