@@ -5,20 +5,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deleteItem, getActiveCartFromUser, getCartFromUser, getCartsByUser, incrementProductUnit, decrementProductUnit } from '../../redux/actions/cart_actions';
 import { useParams } from 'react-router';
 import swal from 'sweetalert';
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom"
 const NewCart = () => {
     var { id } = useParams()
     const [payment, setPayment] = useState(0)
     // const user = useSelector(state =>
     //      state.userReducer)
-     const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
 
     const userCart = useSelector(
-        (state) => (state.cartReducer.cart && state.cartReducer.cart && user )?state.cartReducer.cart.cart.items:state.cartReducer
-        // (state) => state.cartReducer
+        (state) => (state.cartReducer.cart && state.cartReducer.cart && user) ? state.cartReducer.cart.cart.items : state.cartReducer
+        /*  (state) => state.cartReducer */
     );
 
     const [total, setTotal] = useState({ totalItems: 0, totalPrice: 0 })
+    const [itemQuantity, setitemQuantity] = useState(userCart.quantity)
 
     const totalItems = () => {
         let totalItems = 0
@@ -43,20 +44,23 @@ const NewCart = () => {
         })
     }
 
-    const increment = (user, cart) => { 
-        const productBody = {productId:cart.productId};
+    const increment = (user, cart) => {
+        const productBody = { productId: cart.productId };
         dispatch(incrementProductUnit(productBody, user.result._id)); // {"productId": cart.productId} , user.result._id
-  	//Actualizar el numerito del medio acá
-	
-	//Vean de ponerle un disable al boton de + si el número es igual al stock 
-	//(Ahora traigo en el esquema de Cart el stock de cada producto)
+        //Actualizar el numerito del medio acá
+        setitemQuantity(itemQuantity + 1)
+        totalItems()
+        //Vean de ponerle un disable al boton de + si el número es igual al stock 
+        //(Ahora traigo en el esquema de Cart el stock de cada producto)
     }
     const decrement = (user, cart) => {
-        const productBody = {productId:cart.productId};
+        const productBody = { productId: cart.productId };
         dispatch(decrementProductUnit(productBody, user.result._id))  // {"productId": cart.productId} , user.result._id
         //Acá el disable iría si el número es igual a 1
+        setitemQuantity(itemQuantity - 1)
+        totalItems()
     }
-    
+
 
 
     async function enviarDatos() {
@@ -99,14 +103,14 @@ const NewCart = () => {
                 //});
             }
         }*/
-        document.getElementById("ch").setAttribute("disabled",true)
+        document.getElementById("ch").setAttribute("disabled", true)
 
         fetch(`http://localhost:3001/mercadopago/${usuario.result._id}`)
-            .then(res=>res.json())
-            .then((res)=>{
+            .then(res => res.json())
+            .then((res) => {
                 //alert(JSON.stringify(res))
-                if(res.hasOwnProperty("message")){
-                    swal("error","No tienes un carrito creado","error")
+                if (res.hasOwnProperty("message")) {
+                    swal("error", "No tienes un carrito creado", "error")
                     document.getElementById("ch").removeAttribute("disabled")
                     return;
                 }
@@ -114,8 +118,8 @@ const NewCart = () => {
                 document.getElementById("payment").click()
                 //document.getElementById("ch").removeAttribute("disabled")
             })
-            .catch(err=>{
-                swal("Error","error","error")
+            .catch(err => {
+                swal("Error", "error", "error")
                 document.getElementById("ch").removeAttribute("disabled")
             })
     }
@@ -129,7 +133,7 @@ const NewCart = () => {
         dispatch(getCartFromUser(id))
         totalItems()
     }, [id])
-
+    console.log(userCart)
     return (
         <div class="bg-gray-200 h-full md:h-screen">
             <UniversalNavBar />
@@ -170,13 +174,13 @@ const NewCart = () => {
                                     </div>
                                     <div class="text-lg py-2">
                                         <div class="flex flex-row space-x-2 w-full items-center rounded-lg">
-                                            <button onClick={()=>decrement(user,cart)} class="focus:outline-none bg-pink-700 hover:bg-pink-800 text-white font-bold py-1 px-1 rounded-full inline-flex items-center ">
+                                            <button onClick={() => decrement(user, cart)} disabled={cart.quantity === 1} class="focus:outline-none bg-pink-700 hover:bg-pink-800 text-white font-bold py-1 px-1 rounded-full inline-flex items-center ">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 12H6" />
                                                 </svg>
                                             </button>
                                             <p> {cart.quantity} </p>
-                                            <button onClick={()=>increment(user,cart)} class="focus:outline-none bg-pink-700 hover:bg-pink-800 text-white font-bold py-1 px-1 rounded-full inline-flex items-center ">
+                                            <button onClick={() => increment(user, cart)} disabled={cart.quantity === cart.stock} class="focus:outline-none bg-pink-700 hover:bg-pink-800 text-white font-bold py-1 px-1 rounded-full inline-flex items-center ">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                                                 </svg>

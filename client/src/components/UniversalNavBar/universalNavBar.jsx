@@ -3,11 +3,11 @@ import decode from "jwt-decode";
 import { Link, useLocation, useHistory, Route, Switch } from "react-router-dom";
 import "./universalNavBar.css";
 import { useDispatch, useSelector } from "react-redux";
-import home from "../../assets/home.png";
-import swal from "sweetalert";
-import carroHome from "../../assets/carroHome.png";
-import { searchProducts } from "../../redux/actions/products_actions";
-import { ReactSearchAutocomplete } from "react-search-autocomplete";
+import home from '../../assets/home.png'
+import swal from 'sweetalert';
+import carroHome from '../../assets/carroHome.png'
+import { searchProducts } from '../../redux/actions/products_actions'
+
 
 export default function UniversalNavBar(props) {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));

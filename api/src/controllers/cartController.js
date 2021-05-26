@@ -107,6 +107,7 @@ const incrementProductUnit = async(req, res) => {
         cart.totalAmount += price;
         
         cart = await cart.save();
+        console.log(cart)
         return res.status(201).json({cart})
         //========================================//
 
