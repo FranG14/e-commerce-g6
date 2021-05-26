@@ -44,14 +44,14 @@ export const addItemNotLogged = (productBody) => {
     localStorage.setItem('cart', JSON.stringify(cart))
 }
 //=============================================//
-export const removeItemNotLogged = (productId) => {
+export const deleteItemNotLogged = (product) => {
     let cart = getCartNotLogged();
-    let productIndex = cart.items.findIndex((i) => i.productId === productId);
+    let productIndex = cart.items.findIndex((i) => i.productId === product.productId);
     if( productIndex === -1){
         const price = cart.items[productIndex].price;
         const quantity = cart.items[productIndex].quantity;
         
-        const items = cart.items.filter = ((i) => i.productId !== productId);
+        const items = cart.items.filter = ((i) => i.productId !== product.productId);
         cart.items = items;
         cart.totalAmount -= price * quantity;
         localStorage.setItem('cart', JSON.stringify(cart))
@@ -105,41 +105,49 @@ export const getCartFromUser = (userId) => async(dispatch) => {
 //=============================================//
 export const addItem = (productBody, userId) => async (dispatch) => {
     // console.log("DENTRO DEL ACTION",productBody)
-    dispatch({
-        type: ADD_ITEM
-    })
-    return await api.addItem(productBody, userId)
-    .then((cart)=>{
+    if(!userId){
+        addItemNotLogged(productBody)
+    } else {
         dispatch({
-            type:ADD_ITEM_SUCCESS,
-            payload: cart.data
+            type: ADD_ITEM
         })
-        localStorage.setItem('cart', JSON.stringify(cart.data))
-    }).catch((error)=>{
-        dispatch({
-            type: ADD_ITEM_ERROR,
-            payload: error.response.data
+        return await api.addItem(productBody, userId)
+        .then((cart)=>{
+            dispatch({
+                type:ADD_ITEM_SUCCESS,
+                payload: cart.data
+            })
+            localStorage.setItem('cart', JSON.stringify(cart.data))
+        }).catch((error)=>{
+            dispatch({
+                type: ADD_ITEM_ERROR,
+                payload: error.response.data
+            })
         })
-    })
+    }
 }
 //=============================================//
 export const deleteItem = (product, userId) => async(dispatch) =>{
-    dispatch({
-        type: DELETE_ITEM
-    })
-    return await api.removeProductFromCart(product,userId)
-    .then((cart) => {
+    if(!userId){
+        deleteItemNotLogged(product)
+    } else {
         dispatch({
-            type: DELETE_ITEM_SUCCESS,
-            payload: cart.data
+            type: DELETE_ITEM
         })
-        localStorage.setItem('cart', JSON.stringify(cart.data))
-    }).catch((error) => {
-        dispatch({
-            type: DELETE_ITEM_ERROR,
-            payload: error.response.data
+        return await api.removeProductFromCart(product,userId)
+        .then((cart) => {
+            dispatch({
+                type: DELETE_ITEM_SUCCESS,
+                payload: cart.data
+            })
+            localStorage.setItem('cart', JSON.stringify(cart.data))
+        }).catch((error) => {
+            dispatch({
+                type: DELETE_ITEM_ERROR,
+                payload: error.response.data
+            })
         })
-    })
+    }
 }
 //=============================================//
 export const changeCartState = (state, userId) => async(dispatch) => {

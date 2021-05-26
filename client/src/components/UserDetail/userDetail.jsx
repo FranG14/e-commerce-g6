@@ -19,9 +19,9 @@ export default function UserDetail() {
 
 
     const userData = useSelector(
-        (state) => state.userReducer.user.list.userFound
+        (state) => state.userReducer?.user?.list?.userFound
     );
-    console.log("USER DATAA", userData)
+    
     useEffect(() => {
         //Por ahora traigo el user guardado en el localStorage.
         //Después traigo un Usuario por params

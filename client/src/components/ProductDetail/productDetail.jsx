@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { detailProduct } from '../../redux/actions/products_actions'
 import { useDispatch, useSelector, connect } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
-import { addItem, addToCart } from '../../redux/actions/cart_actions'
+import { addItem, addToCart, getCartFromUser } from '../../redux/actions/cart_actions'
 import UniversalNavBar from "../UniversalNavBar/universalNavBar";
 import Footer from '../../containers/Footer/footer';
 import swal from 'sweetalert';
@@ -69,17 +69,18 @@ function DetailProduct(props) {
 
     function addProductToCart() {
         //alert(id)
-        fetch(`http://localhost:3001/carts/active/${JSON.parse(localStorage.getItem('profile')).result._id}`)
+        //fetch(`http://localhost:3001/carts/active/${JSON.parse(localStorage.getItem('profile')).result._id}`)
         //props.addToCart({id:id,img:productsArray.img,brand:productsArray.brand,name:productsArray.name,stock:productsArray.stock,price:productsArray.price})
-        if (user) {
-            swal({
-                title: "Your Product Was Added to Cart!",
-                icon: carro,
-                button: true,
-                dangerMode: true,
+        //Germán: Cambié esto para poder agregar al carrito cuando no está logueado
+        dispatch(getCartFromUser(user?._id ||undefined))
+        swal({
+            title: "Your Product Was Added to Cart!",
+            icon: carro,
+            button: true,
+            dangerMode: true,
             })
-            dispatch(addItem(addCart, user?.result._id))
-        }
+        dispatch(addItem(addCart, user?.result._id || undefined))
+        
     }
     const averageRating = () => {
         let sum = 0

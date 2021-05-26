@@ -15,14 +15,19 @@ export const login = (formData, history) => async (dispatch) => {
         type: LOGIN
     });
     return await api.login(formData)
-    .then((u)=>{
+    .then(async(u)=>{
         localStorage.setItem('profile', JSON.stringify(u.data))
+        //Agregando el cart del local storage al usuario logueado
+        let localStorageCart = JSON.parse(localStorage.getItem('cart'))
+        await api.updateCart(localStorageCart, u.data?._id)
+        localStorage.removeItem('cart')
+
         dispatch({
             type: LOGIN_SUCCESS,
             payload: u.data
         })
     })
-    .then(history.push('/'))
+    //.then(history.push('/'))
     .catch ((error) => {
         dispatch({
             type:LOGIN_ERROR,
@@ -36,14 +41,19 @@ export const register = (formData, history) => async (dispatch) => {
         type: REGISTER
     });
     return await api.register(formData)
-    .then((u)=>{
+    .then(async(u)=>{
         localStorage.setItem('profile', JSON.stringify(u.data))
+        //Agregando el cart del local storage al usuario registrado
+        let localStorageCart = JSON.parse(localStorage.getItem('cart'))
+        await api.updateCart(localStorageCart, u.data?._id)
+        localStorage.removeItem('cart')
+
         dispatch({
             type: REGISTER_SUCCESS,
             payload: u.data
         })
     })
-    .then(history.push('/'))
+    //.then(history.push('/'))
     .catch((error)=> {
         dispatch({
             type:REGISTER_ERROR,
@@ -72,14 +82,19 @@ export const googleLogIn = (formData, history) => async(dispatch) => {
         type: GOOGLE_LOGIN
     });
     return await api.googleLogIn(formData)
-    .then((u)=>{
+    .then(async(u)=>{
         localStorage.setItem('profile', JSON.stringify(u.data))
+        //Agregando el cart del local storage al usuario registrado
+        let localStorageCart = JSON.parse(localStorage.getItem('cart'))
+        await api.updateCart(localStorageCart, u.data?._id)
+        localStorage.removeItem('cart')
+
         dispatch({
             type: GOOGLE_LOGIN_SUCCESS,
             payload: u.data
         })
     })
-    .then(history.push('/'))
+    //.then(history.push('/'))
     .catch((error)=>{
         dispatch({
             type:GOOGLE_LOGIN_ERROR,

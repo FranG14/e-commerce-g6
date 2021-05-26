@@ -51,7 +51,6 @@ const addItem = async(req, res) => {
                 cart.items[itemIndex] = productItem;
             }
             else {
-                console.log("Not found")
                 cart.items.push({productId, name, quantity, price, stock})
             }
 
@@ -160,18 +159,18 @@ const decrementProductUnit = async(req, res) => {
         return res.status(201).json({cart})
         //========================================//
 
-        if(itemIndex.quantity > 0 ) {
-            let productItem = cart.items[itemIndex]
-            productItem.quantity -= 1;
-            cart.items[itemIndex] = productItem
-            cart.totalAmount -= price;
+        // if(itemIndex.quantity > 0 ) {
+        //     let productItem = cart.items[itemIndex]
+        //     productItem.quantity -= 1;
+        //     cart.items[itemIndex] = productItem
+        //     cart.totalAmount -= price;
             
-            cart = await cart.save();
-            return res.status(201).json({cart})
+        //     cart = await cart.save();
+        //     return res.status(201).json({cart})
 
-        } else {
-            return res.status(400).json({message:'Cannot decrement into negative numbers'})
-        }
+        // } else {
+        //     return res.status(400).json({message:'Cannot decrement into negative numbers'})
+        // }
     } catch(error) {
         console.log(error);
         return res.status(500).json({message:'There was an error'})
@@ -282,15 +281,54 @@ const canUserReview = async(req,res) => {
 const updateCart = async(req,res) => {
     const { userId } = req.params;
     const { productBody } = req.body;
+
+    let notLoggedProductArray = productBody.items.map(async(i) => {
+        let newItem = await Product.findOne({_id: i.productId})
+
+        const price = newItem.price;
+        const name = newItem.name;
+        const stock = newItem.stock;
+        const quantity = i.quantity;
+        return ({productId, name, quantity, price, stock})
+
+    })
+
     try{
         let cart = await Cart.findOne({$and:[{userId}, {state:'active'}]});
 
         if(cart){
+            cart.items = [...cart.items, ...notLoggedProductArray]
+            //ESTO ES HORRIBLE. REFACTOREARRRRRRR
+            //Compruebo si hay items repetidos entre los que vienen del carro previo
+            //y aquellos que están en el localStorage. Si hay items repetidos se suman las cantidades y se elimina uno de los dos.
+            for(let i=0; i<cart.items.length; i++){
+                for(let j=0; j<cart.items.length; j++){
+                    if(cart.items[i].productId === cart.items[j].productId && j !== i){
+                        cart.items[i].quantity += cart.items[j].quantity;
+                        cart.items = cart.items.filter((i)=> i._id === cart.items[j]._id)
+                    }
+                }
+            }
+            //Ahora voy a tener que volver a calcular el totalAmount del cart
+            
+            let newTotalAmount = 0
+            for(let i=0; i<cart.items.length; i++){
+                newTotalAmount += cart.items[i].price * cart.items[i].quantity
+            }
+            cart.totalAmount = newTotalAmount;
+            cart = await cart.save()
             return res.status(200).json(cart)
+        } else {
+            const newCart = await Cart.create({
+                userId,
+                items: notLoggedProductArray,
+                totalAmount: newTotalAmount
+            });
+            return res.status(201).json({newCart})
         }
     } catch(error){
         console.log(error)
-        //return
+        return res.status(500).json({message:'There was and error'})
     }
 
 }
@@ -307,5 +345,7 @@ module.exports = {
     removeProductFromCart,
     incrementProductUnit,
     decrementProductUnit,
-    canUserReview
+    canUserReview,
+    updateCart
+    
 }
