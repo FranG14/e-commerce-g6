@@ -19,7 +19,7 @@ export const login = (formData, history) => async (dispatch) => {
         localStorage.setItem('profile', JSON.stringify(u.data))
         //Agregando el cart del local storage al usuario logueado
         let localStorageCart = JSON.parse(localStorage.getItem('cart'))
-        await api.updateCart(localStorageCart, u.data?._id)
+        api.updateCart(localStorageCart, u.data?._id)
         localStorage.removeItem('cart')
 
         dispatch({
