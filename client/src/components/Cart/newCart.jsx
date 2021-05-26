@@ -59,7 +59,7 @@ const NewCart = () => {
             button: true,
             dangerMode: true,
         }).then(function () {
-            window.location.reload()
+            // window.location.reload()
         })
     }
 
@@ -142,7 +142,7 @@ const NewCart = () => {
     }
 
 
-    console.log("CONSOLE DE USERcART",totalAmount)
+    console.log("CONSOLE DE USERcART",totalQuantity)
     return (
         <div class="bg-gray-200 h-full md:h-screen">
             <UniversalNavBar />

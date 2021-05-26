@@ -103,7 +103,7 @@ export default function UniversalNavBar(props) {
         </Link>
 
         <input class="menu-btn" type="checkbox" id="menu-btn" />
-        <Route
+        {/* <Route
           path="/shop"
           render={({ match }) => {
             // Do whatever you want with the match...
@@ -120,7 +120,7 @@ export default function UniversalNavBar(props) {
               />
             );
           }}
-        />
+        /> */}
 
         <label class="menu-icon" for="menu-btn">
           <span class="navicon"></span>

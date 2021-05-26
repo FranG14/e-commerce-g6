@@ -35,15 +35,15 @@ export const getCartsByUser = () => API.get('/carts/userId');
 export const addItem = (product, userId) => API.post(`/carts/${userId}`, product)
 //Remueve un producto por completo del cart de un usuario. Ejemplo de body : {"productId": "60a0896ee2e38c2fa0b2fe74"}
 export const removeProductFromCart = (userId, product) => API.put(`/carts/remove/${userId}/${product}`);
-//Cambia el estado de un cart de un usuario. Ejemplo de body: {"state": "cancelled"}
-export const changeCartState = (state, userId) => API.patch(`/carts/${userId}`, state);
+//Cambia el estado de un cart por su id. Ejemplo de body: {"state": "cancelled"}
+export const changeCartState = (state, cartId) => API.patch(`/carts/${cartId}`, state);
 //Decrementa por uno la cantidad de un producto del cart. Ejemplo de body:  {"productId": "60a0896ee2e38c2fa0b2fe74"}
-//No se puede decrementar por debajo de 0
 export const decrementProductUnit = (product, userId) => API.put(`/carts/decrement/${userId}`,product);
 //Incrementa por uno la cantidad de un producto del cart. Ejemplo de body:  {"productId": "60a0896ee2e38c2fa0b2fe74"}
-//No se puede aumentar por encima del stock
 export const incrementProductUnit = (product, userId) => API.put(`/carts/increment/${userId}`,product)
 
+// A DEPRECAR, no la usen
+export const updateCart = (userId,cartBody) => API.post(`/carts/update/${userId}`, cartBody);
 
 export const canUserReview = (userId, productId) => API.get(
     `/carts/canuserreview?userId=${userId}&productId=${productId}`
