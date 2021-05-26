@@ -44,10 +44,12 @@ export const register = (formData, history) => async (dispatch) => {
     return await api.register(formData)
     .then(async(u)=>{
         localStorage.setItem('profile', JSON.stringify(u.data))
-        //Agregando el cart del local storage al usuario registrado
-        //let localStorageCart = JSON.parse(localStorage.getItem('cart'))
-        //await api.updateCart(localStorageCart, u.data?._id)
-        //localStorage.removeItem('cart')
+        //Agregando el cart del local storage al usuario logueado
+        let localStorageCart = await JSON.parse(localStorage.getItem('cart'))
+        //Acá se agregan los items del local storage no logueado uno por uno
+        if(localStorageCart){
+            localStorageCart.items?.map(async(i)=> api.addItem({productId: i.productId, quantity: i.quantity}, u.data?.result?._id))
+        }  
         dispatch({
             type: REGISTER_SUCCESS,
             payload: u.data
@@ -84,11 +86,12 @@ export const googleLogIn = (formData, history) => async(dispatch) => {
     return await api.googleLogIn(formData)
     .then(async(u)=>{
         localStorage.setItem('profile', JSON.stringify(u.data))
-        //Agregando el cart del local storage al usuario registrado
-        let localStorageCart = JSON.parse(localStorage.getItem('cart'))
-        await api.updateCart(localStorageCart, u.data?._id)
-        localStorage.removeItem('cart')
-
+        //Agregando el cart del local storage al usuario logueado
+        let localStorageCart = await JSON.parse(localStorage.getItem('cart'))
+        //Acá se agregan los items del local storage no logueado uno por uno
+        if(localStorageCart){
+            localStorageCart.items?.map(async(i)=> api.addItem({productId: i.productId, quantity: i.quantity}, u.data?.result?._id))
+        }  
         dispatch({
             type: GOOGLE_LOGIN_SUCCESS,
             payload: u.data

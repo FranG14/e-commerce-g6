@@ -200,11 +200,11 @@ const stateChange = async(req, res) => {
     //}
     //res.json({state:req.query.state})
     const statesArray = ['Active','Paid', 'Cancelled', 'On it`s Way', 'Delivered']
-    if(!statesArray.includes(req.query.state)) return res.status(400).json({message:'State not valid'})
+    if(!statesArray.includes(state)) return res.status(400).json({message:'State not valid'})
 
     try{
         //let cart = await Cart.findOne({userId});
-        let cart = await Cart.findOne({_id:cartId}) //{$and:[{userId}, {state:'active'}]}
+        let cart = await Cart.findOne({_id:cartId}) //Antes se buscaba el cart activo de un usuario con {$and:[{userId}, {state:'active'}]}
         if(cart){
             //res.status(200).json({message:'entre aqui'})
             cart.state = req.query.state; 
@@ -292,11 +292,6 @@ const canUserReview = async(req,res) => {
     }
     return res.status(200).json(result)
 }
-//==========================================================================//
-
-
-
-
 //==========================================================================//
 module.exports = {
     addItem,
