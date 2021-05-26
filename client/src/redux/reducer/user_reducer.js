@@ -13,8 +13,6 @@ const userReducer = (state = initialState, action) => {
 
 	switch (action.type) {
 		case GET_USER_ID:
-			
-			console.log(action);
 			return {
 				...state,
 				user: {
@@ -31,7 +29,6 @@ const userReducer = (state = initialState, action) => {
 				}
 			}
 		case EDIT_USER:
-			console.log(action.payload)	
 			return {
 				...state,
 				user: {
@@ -72,7 +69,6 @@ const userReducer = (state = initialState, action) => {
 				}
 			}
 		case ADMIN_USER:
-			console.log(action.payload)	
 			return {
 				...state,
 				user: {

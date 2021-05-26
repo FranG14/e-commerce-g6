@@ -94,57 +94,57 @@ const EditProduct = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const fd = new FormData();
-    if (product.name == '') return swal({
-      title: "Name Field Cannot Be Empty",
-      icon: "warning",
-      button: true,
-      dangerMode: true,
-    })
-    if (product.color == '') return swal({
-      title: "Color Field Cannot Be Empty",
-      icon: "warning",
-      button: true,
-      dangerMode: true,
-    })
-    if (product.stock == '') return swal({
-      title: "Strock Field Cannot Be Empty",
-      icon: "warning",
-      button: true,
-      dangerMode: true,
-    })
-    if (product.price == '') return swal({
-      title: "Price Field Cannot Be Empty",
-      icon: "warning",
-      button: true,
-      dangerMode: true,
-    })
-    if (product.brand == '') return swal({
-      title: "Brand Field Cannot Be Empty",
-      icon: "warning",
-      button: true,
-      dangerMode: true,
-    })
-    if (product.description == '') return swal({
-      title: "Description Field Cannot Be Empty",
-      icon: "warning",
-      button: true,
-      dangerMode: true,
-    })
-    if (product.category == '') return swal({
-      title: "Category Field Cannot Be Empty",
-      icon: "warning",
-      button: true,
-      dangerMode: true,
-    })
-    if (selectedFile === null) return swal({
-      title: "Image Field Cannot Be Empty",
-      icon: "warning",
-      button: true,
-      dangerMode: true,
-    })
+    // if (product.name == '') return swal({
+    //   title: "Name Field Cannot Be Empty",
+    //   icon: "warning",
+    //   button: true,
+    //   dangerMode: true,
+    // })
+    // if (product.color == '') return swal({
+    //   title: "Color Field Cannot Be Empty",
+    //   icon: "warning",
+    //   button: true,
+    //   dangerMode: true,
+    // })
+    // if (product.stock == '') return swal({
+    //   title: "Strock Field Cannot Be Empty",
+    //   icon: "warning",
+    //   button: true,
+    //   dangerMode: true,
+    // })
+    // if (product.price == '') return swal({
+    //   title: "Price Field Cannot Be Empty",
+    //   icon: "warning",
+    //   button: true,
+    //   dangerMode: true,
+    // })
+    // if (product.brand == '') return swal({
+    //   title: "Brand Field Cannot Be Empty",
+    //   icon: "warning",
+    //   button: true,
+    //   dangerMode: true,
+    // })
+    // if (product.description == '') return swal({
+    //   title: "Description Field Cannot Be Empty",
+    //   icon: "warning",
+    //   button: true,
+    //   dangerMode: true,
+    // })
+    // if (product.category == '') return swal({
+    //   title: "Category Field Cannot Be Empty",
+    //   icon: "warning",
+    //   button: true,
+    //   dangerMode: true,
+    // })
+    // if (selectedFile === null) return swal({
+    //   title: "Image Field Cannot Be Empty",
+    //   icon: "warning",
+    //   button: true,
+    //   dangerMode: true,
+    // })
     //--------------------------------------------------------
     let extension;
-    if (selectedFile.length > 0) {
+    if (selectedFile && selectedFile.length > 0) {
       for (let i = 0; i < selectedFile.length; i++) {
         extension = selectedFile[i].name.split(".");
         fd.append(
@@ -160,15 +160,16 @@ const EditProduct = () => {
       },
     };
     fd.append("id", product.id);
-    fd.append("name", product.name);
-    fd.append("genre", product.genre);
-    fd.append("brand", product.brand);
-    fd.append("categories", product.category);
-    fd.append("description", product.description);
-    fd.append("price", product.price);
-    fd.append("size", product.size);
-    fd.append("color", product.color);
-    fd.append("stock", product.stock);
+    if(product.name)fd.append("name", product.name);
+    
+    if(product.gente)fd.append("genre", product.genre);
+    if(product.brand)fd.append("brand", product.brand);
+    if(product.category)fd.append("categories", product.category);
+    if(product.description)fd.append("description", product.description);
+    if(product.price)fd.append("price", product.price);
+    if(product.size)fd.append("size", product.size);
+    if(product.color)fd.append("color", product.color);
+    if(product.stock)fd.append("stock", product.stock);
 
     const payload = { id: product.id, data: fd }
 

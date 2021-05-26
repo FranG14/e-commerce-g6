@@ -88,6 +88,7 @@ export const getCartFromUser = (userId) => async(dispatch) => {
     });
     return await api.getActiveCartFromUser(userId)
     .then((active)=>{
+        console.log("ACTION",active.data)
         dispatch({
             type: GET_ACTIVE_CART_FROM_USER_SUCCESS,
             payload: active.data

@@ -4,8 +4,8 @@ const Product = require ('./../models/Product')
 
 //==========================================================================//
 const getActiveCartFromUser = async(req, res)=> {
-    console.log("entra al")
     const {userId} = req.params;
+    // console.log("entra al",userId)
     let cart = await Cart.findOne({$and:[{userId}, {state:'active'}]});
 
     if(!cart){
@@ -16,7 +16,13 @@ const getActiveCartFromUser = async(req, res)=> {
         });
         return res.status(201).json({newCart})
     }
-    return res.status(200).json({cart})
+    if(cart.items.length === 0 && cart.totalAmount > 0){
+        cart.totalAmount = 0;
+        cart = await cart.save();
+    }
+    let totalQuantity = 0
+    cart.items?.map(prop => {totalQuantity += prop.quantity})
+    return res.status(200).json({cart,totalQuantity:totalQuantity})
 }
 //==========================================================================//
 const addItem = async(req, res) => {
@@ -77,7 +83,7 @@ const addItem = async(req, res) => {
 const incrementProductUnit = async(req, res) => {
     const {userId} = req.params;
     const {productId} = req.body;
-    console.log(req.body)
+    // console.log(req.body)
 
     try{
         let cart = await Cart.findOne({$and:[{userId}, {state:'active'}]});
@@ -85,7 +91,7 @@ const incrementProductUnit = async(req, res) => {
         if(!cart) return res.status(404).json({message:'Cart not found'})
         
         let itemFound = await Product.findOne({_id: productId})
-
+    
         if(!itemFound) return res.status(404).json({
             message: 'Product not found'
         })
@@ -102,11 +108,15 @@ const incrementProductUnit = async(req, res) => {
         //========================================//
         let productItem = cart.items[itemIndex]
         productItem.quantity += 1;
+        let totalQuantity = 0
+        cart.items?.map(prop => {totalQuantity += prop.quantity})
+
         cart.items[itemIndex] = productItem
         cart.totalAmount += price;
-        
+
+        cart.totalQuantity = totalQuantity
         cart = await cart.save();
-        return res.status(201).json({cart})
+        return res.status(201).json({cart,totalQuantity:totalQuantity})
         //========================================//
 
         // if(itemIndex.quantity < stock) {
@@ -131,32 +141,34 @@ const incrementProductUnit = async(req, res) => {
 const decrementProductUnit = async(req, res) => {
     const {userId} = req.params;
     const {productId} = req.body;
-
     try{
         let cart = await Cart.findOne({$and:[{userId}, {state:'active'}]});
-        
         if(!cart) return res.status(404).json({message:'Cart not found'})
         
         let itemFound = await Product.findOne({_id: productId})
-
+        
         if(!itemFound) return res.status(404).json({
             message: 'Product not found'
         })
-
+        
         const price = itemFound.price;
         
-
+        
         let itemIndex = cart.items.findIndex((i) => i.productId.equals(productId));
-
+        
         if(itemIndex === -1) return res.status(400).json({message:'Item not found'})
         //========================================//
         let productItem = cart.items[itemIndex]
         productItem.quantity -= 1;
+
         cart.items[itemIndex] = productItem
+
         cart.totalAmount -= price;
-        
+        let totalQuantity = 0
+        cart.items?.map(prop => {totalQuantity += prop.quantity})
+
         cart = await cart.save();
-        return res.status(201).json({cart})
+        return res.status(201).json({cart,totalQuantity:totalQuantity})
         //========================================//
 
         // if(itemIndex.quantity > 0 ) {
@@ -240,10 +252,13 @@ const getCartsByUser = async(req,res)=>{
 const removeProductFromCart = async(req,res)=>{
     const {userId} = req.params;
     const { productId } = req.params;
+    console.log("ENTRA",userId,productId)
     let cartFiltered = [];
     try{
         let cart = await Cart.findOne({$and:[{userId}, {state:'active'}]});
         let itemIndex = cart.items.findIndex((i) => i.productId.equals(productId));
+        
+        cart.totalAmount =  cart.totalAmount - cart.items[itemIndex].price
 
         cart.items.map((prop,i) => {
             if(prop.productId != productId){
@@ -251,6 +266,7 @@ const removeProductFromCart = async(req,res)=>{
             }
         })
         cart.items = cartFiltered;
+        // console.log("CONTRO",cart)
         const updateCart = await cart.save();
         res.status(200).json({cart:updateCart})
     } catch (error){
