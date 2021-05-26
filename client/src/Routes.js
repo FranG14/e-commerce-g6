@@ -1,15 +1,15 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import UserDetail from './components/UserDetail/userDetail'
+import UserDetail from "./components/UserDetail/userDetail";
 import AdminPost from "./containers/Admin/adminPost";
 import AdminEdit from "./components/CrudProduct/editProduct";
-import AuthForm from './components/LogIn-Register/authform.jsx';
+import AuthForm from "./components/LogIn-Register/authform.jsx";
 import AdminCatalog from "./containers/Admin/adminCatalog";
 import CompleteCatalog from "./containers/CompleteCatalog/completeCatalog";
 import Home from "./containers/Home/index.jsx";
-import  DetailProduct  from "./components/ProductDetail/productDetail";
+import DetailProduct from "./components/ProductDetail/productDetail";
 import PostCategory from "./components/CrudCategory/categoryPost.jsx";
-import CategoryEdit from './components/CrudCategory/categoryEdit.jsx'
+import CategoryEdit from "./components/CrudCategory/categoryEdit.jsx";
 import AddCategory from "./containers/AllCategories/allCategory.jsx";
 import About from "./containers/About/about";
 // import Cart from "./components/Cart/cart"
@@ -21,16 +21,14 @@ import UserPassword from "./components/UserEdit/userPassword";
 import Reviews from "./components/ProductReviews/reviews";
 import AddReview from "./components/ProductReviews/addReview";
 import MercadoPago from "./containers/MercadoPago/mercadoPago";
-import HomePagoAcreditado from "./containers/HomePagoAcreditado/homePagoAcreditado"
+import HomePagoAcreditado from "./containers/HomePagoAcreditado/homePagoAcreditado";
 import NewCart from "./components/Cart/newCart";
-import NewCartNotLogged from './components/Cart/newCartNotLogged';
-
-
+import NewCartNotLogged from "./components/Cart/newCartNotLogged";
 
 export default function Routes() {
   return (
     <Switch>
-    {/*>>>>>>>>>>>>>>> USER ROUTES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/}
+      {/*>>>>>>>>>>>>>>> USER ROUTES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/}
 
       <Route exact path="/">
         <Home />
@@ -56,47 +54,52 @@ export default function Routes() {
       <Route exact path="/reviews/add/:id">
         <AddReview />
       </Route>
-      <Route exact path="/payment/:id" component={MercadoPago}/>
-      <Route exact path="/home/:userId" component={HomePagoAcreditado}/>
-    {/*>>>>>>>>>>>>>>> ADMIN ROUTES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/}
+      <Route exact path="/payment/:id" component={MercadoPago} />
+      <Route exact path="/home/:userId" component={HomePagoAcreditado} />
+      {/*>>>>>>>>>>>>>>> ADMIN ROUTES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/}
       <Route exact path="/admin">
         <AdminCatalog />
       </Route>
-      <Route exact path ="/editProduct/:id">
-        <AdminEdit/>
+      <Route exact path="/editProduct/:id">
+        <AdminEdit />
       </Route>
       <Route exact path="/post">
         <AdminPost />
       </Route>
       <Route exact path="/auth">
         <AuthForm />
-      </Route>      
+      </Route>
       <Route exact path="/categories">
         <AddCategory />
       </Route>
       <Route exact path="/postCategory">
         <PostCategory />
-      </Route>      
+      </Route>
       <Route exact path="/editCategory/:id">
-        <CategoryEdit/>
+        <CategoryEdit />
       </Route>
       <Route exact path="/myProfile/Edit/:id">
-        <UserEdit/>
+        <UserEdit />
       </Route>
       <Route exact path="/myProfile/Edit/:id">
-        <UserEdit/>
+        <UserEdit />
       </Route>
       <Route exact path="/Admin/Actions">
         <AdminAction />
       </Route>
-      <Route exact path="/cart/:id">
+      {/* <Route exact path="/cart/:id">
         <NewCart />
-      </Route>
+      </Route> */}
+      <Route
+        exact
+        path="/cart/:id"
+        render={({ match }) => <NewCart id={match.params.id} />}
+      />
       <Route exact path="/cart">
         <NewCartNotLogged />
       </Route>
       <Route exact path="/users/">
-        <UsersTable/>
+        <UsersTable />
       </Route>
       <Route exact path="/users/edit/:id">
         <UserTableEdit />
