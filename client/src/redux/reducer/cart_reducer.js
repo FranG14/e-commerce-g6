@@ -42,7 +42,7 @@ const cartReducer = (state = initialState, action) => {
     case CHANGE_CART_STATE_ERROR:
       return { ...state, isLoading: false, error: action.payload }
     case INCREMENT_PRODUCT_UNIT_SUCCESS:
-      console.log("entra", action.payload)
+      // console.log("entra", action.payload)
       return { ...state, cart: action.payload }
     case DECREMENT_PRODUCT_UNIT_SUCCESS:
       return {...state,cart:action.payload}
