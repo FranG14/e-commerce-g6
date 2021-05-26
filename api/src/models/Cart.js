@@ -11,7 +11,7 @@ const cartSchema = new Schema({
     price: Float,
     stock: Number
   }],
-  state:{ type: String, default: 'active' },
+  state:{ type: String, default: 'Active' },
   totalAmount:{ type: Float }     
 
 })

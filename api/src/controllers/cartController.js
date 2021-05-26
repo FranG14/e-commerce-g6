@@ -5,9 +5,7 @@ const Product = require ('./../models/Product')
 //==========================================================================//
 const getActiveCartFromUser = async(req, res)=> {
     const {userId} = req.params;
-    // console.log("entra al",userId)
     let cart = await Cart.findOne({$and:[{userId}, {state:'active'}]});
-
     if(!cart){
         const newCart = await Cart.create({
             userId,
@@ -191,8 +189,8 @@ const decrementProductUnit = async(req, res) => {
 
 //==========================================================================//
 const stateChange = async(req, res) => {
-    const {userId} = req.params;
-    const { state } = req.query.state;
+    const {cartId} = req.params;
+    const { state } = req.query;
 
     //console.log("El user id es: "+userId+" y el state es: "+state)
     //return res.json({user:userId,state})
@@ -201,12 +199,12 @@ const stateChange = async(req, res) => {
     //    return res.status(400).json({message: 'New State not found'});
     //}
     //res.json({state:req.query.state})
-    const statesArray = ['active','completed', 'cancelled']
+    const statesArray = ['Active','Paid', 'Cancelled', 'On it`s Way', 'Delivered']
     if(!statesArray.includes(req.query.state)) return res.status(400).json({message:'State not valid'})
 
     try{
         //let cart = await Cart.findOne({userId});
-        let cart = await Cart.findOne({$and:[{userId}, {state:'active'}]})
+        let cart = await Cart.findOne({_id:cartId}) //{$and:[{userId}, {state:'active'}]}
         if(cart){
             //res.status(200).json({message:'entre aqui'})
             cart.state = req.query.state; 
@@ -294,60 +292,7 @@ const canUserReview = async(req,res) => {
     return res.status(200).json(result)
 }
 //==========================================================================//
-const updateCart = async(req,res) => {
-    const { userId } = req.params;
-    const { productBody } = req.body;
 
-    let notLoggedProductArray = productBody.items.map(async(i) => {
-        let newItem = await Product.findOne({_id: i.productId})
-
-        const price = newItem.price;
-        const name = newItem.name;
-        const stock = newItem.stock;
-        const quantity = i.quantity;
-        return ({productId, name, quantity, price, stock})
-
-    })
-
-    try{
-        let cart = await Cart.findOne({$and:[{userId}, {state:'active'}]});
-
-        if(cart){
-            cart.items = [...cart.items, ...notLoggedProductArray]
-            //ESTO ES HORRIBLE. REFACTOREARRRRRRR
-            //Compruebo si hay items repetidos entre los que vienen del carro previo
-            //y aquellos que están en el localStorage. Si hay items repetidos se suman las cantidades y se elimina uno de los dos.
-            for(let i=0; i<cart.items.length; i++){
-                for(let j=0; j<cart.items.length; j++){
-                    if(cart.items[i].productId === cart.items[j].productId && j !== i){
-                        cart.items[i].quantity += cart.items[j].quantity;
-                        cart.items = cart.items.filter((i)=> i._id === cart.items[j]._id)
-                    }
-                }
-            }
-            //Ahora voy a tener que volver a calcular el totalAmount del cart
-            
-            let newTotalAmount = 0
-            for(let i=0; i<cart.items.length; i++){
-                newTotalAmount += cart.items[i].price * cart.items[i].quantity
-            }
-            cart.totalAmount = newTotalAmount;
-            cart = await cart.save()
-            return res.status(200).json(cart)
-        } else {
-            const newCart = await Cart.create({
-                userId,
-                items: notLoggedProductArray,
-                totalAmount: newTotalAmount
-            });
-            return res.status(201).json({newCart})
-        }
-    } catch(error){
-        console.log(error)
-        return res.status(500).json({message:'There was and error'})
-    }
-
-}
 
 
 
@@ -362,6 +307,4 @@ module.exports = {
     incrementProductUnit,
     decrementProductUnit,
     canUserReview,
-    updateCart
-    
 }

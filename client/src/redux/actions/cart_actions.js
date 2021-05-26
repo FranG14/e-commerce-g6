@@ -88,17 +88,16 @@ export const getCartFromUser = (userId) => async(dispatch) => {
     });
     return await api.getActiveCartFromUser(userId)
     .then((active)=>{
-        console.log("ACTION",active.data)
         dispatch({
             type: GET_ACTIVE_CART_FROM_USER_SUCCESS,
-            payload: active.data
+            payload: active?.data
         })
         localStorage.setItem('cart', JSON.stringify(active.data))
     })
     .catch((error)=> {
         dispatch({
             type: GET_ACTIVE_CART_FROM_USER_ERROR,
-            payload: error.response.data,
+            payload: error?.response?.data,
         })
     })
 }

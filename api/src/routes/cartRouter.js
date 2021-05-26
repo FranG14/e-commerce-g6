@@ -11,7 +11,6 @@ const {
     incrementProductUnit,
     decrementProductUnit,
     canUserReview,
-    updateCart
 } = require('../controllers/cartController')
 
 // ------------------------------ ROUTES Cart ---------------------------- //
@@ -54,9 +53,7 @@ server.put('/increment/:userId', incrementProductUnit)
 //==========================================================================//
 server.get('/canuserreview', canUserReview);
 //==========================================================================//
-                //Ruta para agregar los productos del localStorage
-//==========================================================================//
-server.post('/update/:userId', updateCart)
+
 //==========================================================================//
 
 module.exports = server;
