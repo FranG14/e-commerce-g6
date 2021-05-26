@@ -7,7 +7,7 @@ import home from '../../assets/home.png'
 import swal from 'sweetalert';
 import carroHome from '../../assets/carroHome.png'
 import { searchProducts } from '../../redux/actions/products_actions'
-import { ReactSearchAutocomplete } from 'react-search-autocomplete'
+
 
 export default function UniversalNavBar(props) {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));

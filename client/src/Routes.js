@@ -24,6 +24,7 @@ import MercadoPago from "./containers/MercadoPago/mercadoPago";
 import HomePagoAcreditado from "./containers/HomePagoAcreditado/homePagoAcreditado"
 import NewCart from "./components/Cart/newCart";
 import NewCartNotLogged from './components/Cart/newCartNotLogged';
+import OrdersTable from "./components/OrderTable/orderTable";
 
 
 
@@ -103,6 +104,9 @@ export default function Routes() {
       </Route>
       <Route exact path="/users/password/:id">
         <UserPassword />
+      </Route>
+      <Route exact path="/orders">
+        <OrdersTable/>
       </Route>
     </Switch>
   );
