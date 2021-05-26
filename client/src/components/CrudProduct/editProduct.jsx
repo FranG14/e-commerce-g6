@@ -160,15 +160,16 @@ const EditProduct = () => {
       },
     };
     fd.append("id", product.id);
-    fd.append("name", product.name);
-    fd.append("genre", product.genre);
-    fd.append("brand", product.brand);
-    fd.append("categories", product.category);
-    fd.append("description", product.description);
-    fd.append("price", product.price);
-    fd.append("size", product.size);
-    fd.append("color", product.color);
-    fd.append("stock", product.stock);
+    if(product.name)fd.append("name", product.name);
+    
+    if(product.gente)fd.append("genre", product.genre);
+    if(product.brand)fd.append("brand", product.brand);
+    if(product.category)fd.append("categories", product.category);
+    if(product.description)fd.append("description", product.description);
+    if(product.price)fd.append("price", product.price);
+    if(product.size)fd.append("size", product.size);
+    if(product.color)fd.append("color", product.color);
+    if(product.stock)fd.append("stock", product.stock);
 
     const payload = { id: product.id, data: fd }
 

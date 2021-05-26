@@ -208,14 +208,14 @@ function DetailProduct(props) {
                   ${productsArray.price}
                 </span>
                 {productsArray.stock >= 1 ? (
-                  <Link to={`/cart/${id}`}>
+                  // <a to={`/cart/${id}`}>
                     <button
                       class="flex ml-4 text-white bg-red-500 border-0 py-2 px-3 focus:outline-none hover:bg-red-600 rounded"
                       onClick={addProductToCart}
                     >
                       Add to Cart
                     </button>
-                  </Link>
+                  // {/* </a> */}
                 ) : (
                   ""
                 )}

@@ -158,6 +158,7 @@ const updateProducts = asyncHandler(async (req, res) => {
     genre,
     stock,
     size,
+    img,
     color,
   } = req.body;
   const categoryArray = categories.split(",")

@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deleteItem, getActiveCartFromUser, getCartFromUser, getCartsByUser, incrementProductUnit, decrementProductUnit } from '../../redux/actions/cart_actions';
 import { useParams } from 'react-router';
 import swal from 'sweetalert';
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+
 const NewCart = () => {
     var { id } = useParams()
     const [payment, setPayment] = useState(0)
@@ -13,24 +14,42 @@ const NewCart = () => {
     //      state.userReducer)
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
 
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(getCartFromUser(user?.result?._id))
+        totalItems()
+    }, [id])
+
     const userCart = useSelector(
-        (state) => (state.cartReducer.cart && state.cartReducer.cart && user) ? state.cartReducer.cart.cart.items : state.cartReducer
-        /*  (state) => state.cartReducer */
+        (state) => (state.cartReducer.cart  && state.cartReducer.cart && state.cartReducer.cart.cart && user )?state.cartReducer.cart.cart.items:state.cartReducer
+        // (state) => state.cartReducer
     );
 
-    const [total, setTotal] = useState({ totalItems: 0, totalPrice: 0 })
-    const [itemQuantity, setitemQuantity] = useState(userCart.quantity)
+    const totalQuantity = useSelector(
+        (state) => (state.cartReducer.cart  && state.cartReducer.cart.totalQuantity && user )?state.cartReducer.cart.totalQuantity:0
 
+    );
+
+    const totalAmount = useSelector(
+        (state) => (state.cartReducer.cart  && state.cartReducer.cart.cart && user )?state.cartReducer.cart.cart.totalAmount:0
+    );
+ 
+    const [total, setTotal] = useState({ totalItems: 0, totalPrice: 0 })
+    
     const totalItems = () => {
         let totalItems = 0
         let totalPrice = 0
         for (var i = 0; i < userCart.length; i++) {
-            totalItems = totalItems + userCart[i].quantity
-            totalPrice = totalPrice + userCart[i].price
+            // console.log(userCart[i].price)
+            totalItems += userCart[i].quantity
+            totalPrice += userCart[i].price
         }
         setTotal({ ...total, totalItems: totalItems, totalPrice: totalPrice })
-    }
+        // console.log("asd",totalAmount)
 
+    }
+    const [itemQuantity, setitemQuantity] = useState(totalQuantity)
+    const [totalPrice, setTotalprice] = useState(totalAmount)
     const deleteC = (userId, productId) => {
         dispatch(deleteItem(userId, productId))
         swal({
@@ -46,22 +65,20 @@ const NewCart = () => {
 
     const increment = (user, cart) => {
         const productBody = { productId: cart.productId };
+        setitemQuantity(itemQuantity + 1)
         dispatch(incrementProductUnit(productBody, user.result._id)); // {"productId": cart.productId} , user.result._id
         //Actualizar el numerito del medio acá
-        setitemQuantity(itemQuantity + 1)
         totalItems()
         //Vean de ponerle un disable al boton de + si el número es igual al stock 
         //(Ahora traigo en el esquema de Cart el stock de cada producto)
     }
     const decrement = (user, cart) => {
         const productBody = { productId: cart.productId };
+        setitemQuantity(itemQuantity - 1)
         dispatch(decrementProductUnit(productBody, user.result._id))  // {"productId": cart.productId} , user.result._id
         //Acá el disable iría si el número es igual a 1
-        setitemQuantity(itemQuantity - 1)
         totalItems()
     }
-
-
 
     async function enviarDatos() {
         let usuario = JSON.parse(localStorage.getItem('profile'))
@@ -125,15 +142,7 @@ const NewCart = () => {
     }
 
 
-
-
-
-    const dispatch = useDispatch()
-    useEffect(() => {
-        dispatch(getCartFromUser(id))
-        totalItems()
-    }, [id])
-    console.log(userCart)
+    console.log("CONSOLE DE USERcART",totalAmount)
     return (
         <div class="bg-gray-200 h-full md:h-screen">
             <UniversalNavBar />
@@ -196,7 +205,7 @@ const NewCart = () => {
                         <div class="flex justify-center items-center text-center">
                             <div class="text-xl font-semibold">
                                 <p>Total Item</p>
-                                <p class="text-5xl">{total.totalItems}</p>
+                                <p class="text-5xl">{totalQuantity}</p>
                             </div>
                         </div>
                         {/* <!-- End Total Item --> */}
@@ -207,7 +216,7 @@ const NewCart = () => {
                         <div class="flex justify-center items-center text-center">
                             <div class="text-xl font-semibold">
                                 <p>Total Price</p>
-                                <p class="text-5xl">${total.totalPrice}</p>
+                                <p class="text-5xl">${totalAmount}</p>
                             </div>
                         </div>
                         {/* <!-- End Total PRice --> */}
