@@ -25,6 +25,7 @@ import HomePagoAcreditado from "./containers/HomePagoAcreditado/homePagoAcredita
 import NewCart from "./components/Cart/newCart";
 import NewCartNotLogged from './components/Cart/newCartNotLogged';
 import OrdersTable from "./components/OrderTable/orderTable";
+import NewUserForm from "./components/LogIn-Register/newUserForm";
 
 
 
@@ -32,7 +33,10 @@ export default function Routes() {
   return (
     <Switch>
       {/*>>>>>>>>>>>>>>> USER ROUTES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/}
-
+      
+      <Route exact path="/newUser">
+        <NewUserForm />
+      </Route>
       <Route exact path="/">
         <Home />
       </Route>
