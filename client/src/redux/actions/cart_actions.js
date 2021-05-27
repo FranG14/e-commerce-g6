@@ -44,14 +44,14 @@ export const addItemNotLogged = (productBody) => {
     localStorage.setItem('cart', JSON.stringify(cart))
 }
 //=============================================//
-export const deleteItemNotLogged = (product) => {
+export const removeItemNotLogged = (productId) => {
     let cart = getCartNotLogged();
-    let productIndex = cart.items.findIndex((i) => i.productId === product.productId);
+    let productIndex = cart.items.findIndex((i) => i.productId === productId);
     if( productIndex === -1){
         const price = cart.items[productIndex].price;
         const quantity = cart.items[productIndex].quantity;
         
-        const items = cart.items.filter = ((i) => i.productId !== product.productId);
+        const items = cart.items.filter = ((i) => i.productId !== productId);
         cart.items = items;
         cart.totalAmount -= price * quantity;
         localStorage.setItem('cart', JSON.stringify(cart))
@@ -88,16 +88,17 @@ export const getCartFromUser = (userId) => async(dispatch) => {
     });
     return await api.getActiveCartFromUser(userId)
     .then((active)=>{
+        console.log("ACTION",active.data)
         dispatch({
             type: GET_ACTIVE_CART_FROM_USER_SUCCESS,
-            payload: active?.data
+            payload: active.data
         })
         localStorage.setItem('cart', JSON.stringify(active.data))
     })
     .catch((error)=> {
         dispatch({
             type: GET_ACTIVE_CART_FROM_USER_ERROR,
-            payload: error?.response?.data,
+            payload: error.response.data,
         })
     })
 }
@@ -105,49 +106,42 @@ export const getCartFromUser = (userId) => async(dispatch) => {
 //=============================================//
 export const addItem = (productBody, userId) => async (dispatch) => {
     // console.log("DENTRO DEL ACTION",productBody)
-    if(!userId){
-        addItemNotLogged(productBody)
-    } else {
+    dispatch({
+        type: ADD_ITEM
+    })
+    return await api.addItem(productBody, userId)
+    .then((cart)=>{
         dispatch({
-            type: ADD_ITEM
+            type:ADD_ITEM_SUCCESS,
+            payload: cart.data
         })
-        return await api.addItem(productBody, userId)
-        .then((cart)=>{
-            dispatch({
-                type:ADD_ITEM_SUCCESS,
-                payload: cart.data
-            })
-            localStorage.setItem('cart', JSON.stringify(cart.data))
-        }).catch((error)=>{
-            dispatch({
-                type: ADD_ITEM_ERROR,
-                payload: error.response.data
-            })
+        localStorage.setItem('cart', JSON.stringify(cart.data))
+    }).catch((error)=>{
+        dispatch({
+            type: ADD_ITEM_ERROR,
+            payload: error.response.data
         })
-    }
+    })
 }
 //=============================================//
-export const deleteItem = (product, userId) => async(dispatch) =>{
-    if(!userId){
-        deleteItemNotLogged(product)
-    } else {
+export const deleteItem = (userId, product) => async(dispatch) =>{
+    dispatch({
+        type: DELETE_ITEM
+    })
+    return await api.removeProductFromCart(userId,product)
+    .then((cart) => {
         dispatch({
-            type: DELETE_ITEM
+            type: DELETE_ITEM_SUCCESS,
+            payload: cart.data
         })
-        return await api.removeProductFromCart(product,userId)
-        .then((cart) => {
-            dispatch({
-                type: DELETE_ITEM_SUCCESS,
-                payload: cart.data
-            })
-            localStorage.setItem('cart', JSON.stringify(cart.data))
-        }).catch((error) => {
-            dispatch({
-                type: DELETE_ITEM_ERROR,
-                payload: error.response.data
-            })
+        localStorage.setItem('cart', JSON.stringify(cart.data))
+    }).catch((error) => {
+        console.log("ERROR",error)
+        dispatch({
+            type: DELETE_ITEM_ERROR,
+            payload: error
         })
-    }
+    })
 }
 //=============================================//
 export const changeCartState = (state, userId) => async(dispatch) => {
