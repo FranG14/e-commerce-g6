@@ -1,5 +1,5 @@
 const server = require('express').Router();
-
+const Cart = require('./../models/Cart');
 
 const {
     getActiveCartFromUser,
@@ -10,7 +10,7 @@ const {
     removeProductFromCart,
     incrementProductUnit,
     decrementProductUnit,
-    canUserReview,
+    canUserReview
 } = require('../controllers/cartController')
 
 // ------------------------------ ROUTES Cart ---------------------------- //
@@ -34,7 +34,7 @@ server.post('/:userId', addItem);
 //==========================================================================//
                 //Ruta para cambiar estado del cart
 //==========================================================================//
-server.post('/:cartId/changestate', stateChange)
+server.post('/:userId/changestate', stateChange)
 server.put('/:userId', stateChange)
 //==========================================================================//
                 //Ruta para quitar producto al cart 
@@ -53,7 +53,7 @@ server.put('/increment/:userId', incrementProductUnit)
 //==========================================================================//
 server.get('/canuserreview', canUserReview);
 //==========================================================================//
-
+server.post('/update/:userId')
 //==========================================================================//
 
 module.exports = server;
