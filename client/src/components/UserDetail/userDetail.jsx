@@ -19,7 +19,7 @@ export default function UserDetail() {
 
 
     const userData = useSelector(
-        (state) => state.userReducer?.user?.list?.userFound
+        (state) => state.userReducer.user.list.userFound
     );
     //console.log("USER DATAA", userData)
     useEffect(() => {
